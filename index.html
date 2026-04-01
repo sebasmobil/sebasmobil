@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sebasmobil v1.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f4ff;
+    --bg-pull: #dde5ff;
+    --surface: #ffffff;
+    --surface2: #f5f7ff;
+    --border: rgba(80,120,255,0.15);
+    --text: #1a1f3c;
+    --text2: #4a5080;
+    --accent: #4f6ef7;
+    --accent2: #7c3aed;
+    --accent3: #06b6d4;
+    --neon1: rgba(79,110,247,0.5);
+    --neon2: rgba(124,58,237,0.5);
+    --bar: rgba(240,244,255,0.96);
+    --bar-border: rgba(79,110,247,0.2);
+    --card-bg: #ffffff;
+  }
+  [data-theme="dark"] {
+    --bg: #080c1a;
+    --bg-pull: #05080f;
+    --surface: #111827;
+    --surface2: #1a2035;
+    --border: rgba(79,110,247,0.2);
+    --text: #e8eeff;
+    --text2: #8892b0;
+    --accent: #6c8fff;
+    --accent2: #a78bfa;
+    --accent3: #22d3ee;
+    --neon1: rgba(79,110,247,0.6);
+    --neon2: rgba(124,58,237,0.6);
+    --bar: rgba(8,12,26,0.97);
+    --bar-border: rgba(79,110,247,0.25);
+    --card-bg: #111827;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg-pull);
+    overscroll-behavior: none;
+  }
+  body {
+    font-family: 'Exo 2', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(79,110,247,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(124,58,237,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 60% 40%, rgba(6,182,212,0.05) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ══════════════════════════
+     TOP BAR (logo + greeting + theme)
+     ══════════════════════════ */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--bar);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--bar-border);
+    display: flex; align-items: center;
+    padding: 0 14px;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(79,110,247,0.1);
+    gap: 10px;
+  }
+  .top-bar-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 14px;
+    color: var(--accent); letter-spacing: -0.5px;
+    white-space: nowrap;
+  }
+  .top-bar-logo span { color: var(--text2); font-weight: 400; font-size: 11px; margin-left: 3px; }
+  .top-bar-spacer { flex: 1; }
+  .top-bar-greeting {
+    font-size: 12px; font-weight: 700;
+    color: var(--text2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+  }
+  .theme-toggle {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 10px;
+    cursor: pointer; font-size: 14px;
+    transition: all 0.25s; color: var(--text);
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover { border-color: var(--accent); box-shadow: 0 0 10px var(--neon1); }
+
+  /* ══════════════════════════
+     MAIN
+     ══════════════════════════ */
+  main { padding-top: 64px; padding-bottom: 68px; position: relative; z-index: 1; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ══════════════════════════
+     CATEGORY HEADER
+     ══════════════════════════ */
+  .category-section { padding: 16px 14px 4px; }
+  .category-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text2);
+    margin-bottom: 12px; padding-left: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .category-title::before {
+    content: ''; display: inline-block; width: 3px; height: 13px;
+    border-radius: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent2));
+  }
+
+  /* ══════════════════════════
+     HOME CARDS
+     ══════════════════════════ */
+  .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 20px; }
+  .app-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 18px; padding: 14px 13px;
+    cursor: pointer; position: relative; overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    animation: cardIn 0.5s ease both;
+  }
+  .app-card::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 18px; padding: 1px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .app-card::after {
+    content: ''; position: absolute; inset: 0; border-radius: 18px;
+    box-shadow: 0 0 20px var(--neon1), 0 0 40px var(--neon2);
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
+  }
+  .app-card:hover { transform: translateY(-3px) scale(1.01); border-color: transparent; }
+  .app-card:hover::before { opacity: 1; }
+  .app-card:hover::after  { opacity: 0.4; }
+
+  @keyframes glowPulse {
+    0%,100% { box-shadow: 0 0 7px rgba(79,110,247,0.18), 0 2px 10px rgba(0,0,0,0.05); }
+    50%      { box-shadow: 0 0 16px rgba(79,110,247,0.32), 0 0 28px rgba(124,58,237,0.18), 0 2px 10px rgba(0,0,0,0.05); }
+  }
+  .glow-card { animation: glowPulse 4s ease-in-out infinite; }
+
+  @keyframes cardIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  .app-card:nth-child(1){animation-delay:0.05s} .app-card:nth-child(2){animation-delay:0.10s}
+  .app-card:nth-child(3){animation-delay:0.15s} .app-card:nth-child(4){animation-delay:0.20s}
+
+  .card-icon { width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:9px; }
+  .card-icon-edu { background: linear-gradient(135deg,rgba(79,110,247,0.2),rgba(124,58,237,0.2)); }
+  .card-icon-ent { background: linear-gradient(135deg,rgba(6,182,212,0.2),rgba(16,185,129,0.2)); }
+  .card-name { font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.2; }
+  .card-desc { font-size:10px;color:var(--text2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden; }
+  .card-tag { display:inline-block;font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:2px 7px;border-radius:6px;margin-top:8px; }
+  .card-tag-edu { background:rgba(79,110,247,0.12);color:var(--accent); }
+  .card-tag-ent { background:rgba(6,182,212,0.12);color:var(--accent3); }
+  .card-tag-dev { background:rgba(245,158,11,0.15);color:#f59e0b; }
+
+  /* ══════════════════════════
+     APPS PAGE — 3-per-row square tiles
+     ══════════════════════════ */
+  .apps-category-section { padding: 14px 14px 6px; }
+  .apps-category-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text2);
+    margin-bottom: 8px; padding-left: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .apps-category-label::before {
+    content: ''; display: inline-block; width: 3px; height: 11px;
+    border-radius: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent2));
+  }
+  .apps-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .drag-hint { text-align:center;font-size:10px;color:var(--text2);padding:1px 0 8px;opacity:0.6; }
+
+  /* tile */
+  .app-tile {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; aspect-ratio: 1/1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 7px;
+    cursor: grab; text-decoration: none; color: var(--text);
+    position: relative; overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    user-select: none;
+    animation: tileGlow 4s ease-in-out infinite;
+  }
+  @keyframes tileGlow {
+    0%,100% { box-shadow: 0 0 7px rgba(79,110,247,0.18), 0 2px 8px rgba(0,0,0,0.05); }
+    50%      { box-shadow: 0 0 16px rgba(79,110,247,0.32), 0 0 28px rgba(124,58,237,0.18), 0 2px 8px rgba(0,0,0,0.05); }
+  }
+  .app-tile::after {
+    content: ''; position: absolute; inset: 0; border-radius: 16px;
+    box-shadow: 0 0 18px var(--neon1), 0 0 32px var(--neon2);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+  .app-tile:hover  { transform: scale(1.05); border-color: var(--accent); }
+  .app-tile:hover::after { opacity: 0.38; }
+  .app-tile.dragging  { opacity: 0.4; transform: scale(0.93); cursor: grabbing; }
+  .app-tile.drag-over { border-color: var(--accent); box-shadow: 0 0 18px var(--neon1); }
+
+  .tile-icon {
+    width: 44px; height: 44px; border-radius: 13px;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+  }
+  .tile-icon-edu { background: linear-gradient(135deg,rgba(79,110,247,0.18),rgba(124,58,237,0.18)); }
+  .tile-icon-ent { background: linear-gradient(135deg,rgba(6,182,212,0.18),rgba(16,185,129,0.18)); }
+  .tile-name { font-size: 10px; font-weight: 700; text-align: center; color: var(--text); line-height: 1.2; padding: 0 5px; }
+  .tile-badge {
+    position: absolute; top: 7px; right: 7px;
+    background: rgba(245,158,11,0.2); color: #f59e0b;
+    font-size: 7px; font-weight: 700; padding: 2px 5px;
+    border-radius: 5px; letter-spacing: 0.4px;
+  }
+
+  /* ══════════════════════════
+     ABOUT PAGE
+     ══════════════════════════ */
+  .about-page { padding: 16px 14px 8px; }
+  .about-header {
+    text-align: center; padding: 20px 10px 16px;
+  }
+  .about-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px; font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 6px;
+  }
+  .about-version {
+    font-size: 11px; color: var(--text2); font-weight: 500; margin-bottom: 14px;
+  }
+  .about-tagline {
+    font-size: 13px; line-height: 1.7; color: var(--text2);
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 14px 16px; margin-bottom: 16px;
+    text-align: left;
+  }
+  .about-tagline strong { color: var(--accent); font-weight: 700; }
+
+  .about-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+  }
+  .about-card-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--text2); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .about-card-title::before {
+    content: ''; width: 3px; height: 12px; border-radius: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2)); display: inline-block;
+  }
+  .about-pill-row { display: flex; flex-wrap: wrap; gap: 7px; }
+  .about-pill {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 600; padding: 5px 11px;
+    border-radius: 20px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text2);
+  }
+  .about-pill span { font-size: 13px; }
+
+  .about-license {
+    background: linear-gradient(135deg, rgba(79,110,247,0.07), rgba(124,58,237,0.07));
+    border: 1px solid rgba(79,110,247,0.2);
+    border-radius: 14px; padding: 14px 16px; margin-bottom: 12px;
+    font-size: 12px; line-height: 1.7; color: var(--text2);
+  }
+  .about-license strong { color: var(--text); }
+  .about-license a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+  .about-contact {
+    display: flex; gap: 10px; margin-bottom: 16px;
+  }
+  .about-contact a {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 11px 10px; border-radius: 13px;
+    border: 1px solid var(--border); background: var(--surface2);
+    color: var(--text2); text-decoration: none;
+    font-size: 11px; font-weight: 600;
+    transition: all 0.25s;
+  }
+  .about-contact a:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px var(--neon1); }
+  .about-contact svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ══════════════════════════
+     DETAIL MODAL
+     ══════════════════════════ */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+    z-index: 200; display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-sheet {
+    width: 100%; max-width: 480px;
+    background: var(--surface); border-radius: 24px 24px 0 0;
+    padding: 22px 18px 36px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    max-height: 85vh; overflow-y: auto; position: relative;
+  }
+  .modal-overlay.open .modal-sheet { transform: translateY(0); }
+  .modal-handle { width:38px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px; }
+  .modal-icon { width:60px;height:60px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:12px; }
+  .modal-title { font-size:21px;font-weight:900;color:var(--text);margin-bottom:5px; }
+  .modal-subtitle { font-size:12.5px;color:var(--text2);margin-bottom:14px;line-height:1.65; }
+  .modal-warning {
+    background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);
+    border-radius:12px;padding:11px 13px;font-size:12px;color:#f59e0b;
+    margin-bottom:14px;line-height:1.5;display:flex;gap:8px;align-items:flex-start;
+  }
+  .modal-actions { display:flex; }
+  .btn-primary {
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 20px;border-radius:14px;width:100%;
+    font-family:'Exo 2',sans-serif;font-size:14px;font-weight:700;
+    cursor:pointer;border:none;text-decoration:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:white;box-shadow:0 4px 20px var(--neon1);transition:all 0.25s;
+  }
+  .btn-primary:hover { transform:translateY(-2px);box-shadow:0 8px 30px var(--neon1); }
+  .modal-close {
+    position:absolute;top:18px;right:18px;
+    background:var(--surface2);border:1px solid var(--border);
+    border-radius:50%;width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:15px;color:var(--text2);transition:all 0.2s;
+  }
+  .modal-close:hover { color:var(--text);border-color:var(--accent); }
+
+  /* ══════════════════════════
+     BOTTOM BAR
+     ══════════════════════════ */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: var(--bar);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--bar-border);
+    display: flex; align-items: center; justify-content: space-around;
+    z-index: 100;
+    box-shadow: 0 -2px 20px rgba(79,110,247,0.08);
+    padding: 0 4px 4px;
+  }
+  .bar-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px; cursor: pointer; padding: 6px 12px; border-radius: 14px;
+    border: none; background: transparent; color: var(--text2);
+    transition: all 0.25s; flex: 1;
+    font-family: 'Exo 2', sans-serif;
+  }
+  .bar-btn svg { width: 20px; height: 20px; }
+  .bar-btn span { font-size: 9px; font-weight: 600; letter-spacing: 0.3px; }
+  .bar-btn.active { color: var(--accent); background: rgba(79,110,247,0.1); }
+  .bar-btn:hover  { color: var(--accent); }
+  .bar-divider { width:1px; height:26px; background:var(--border); flex-shrink:0; }
+
+  /* contact mini */
+  .bar-contact {
+    display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 0 10px;
+  }
+  .bar-contact-label {
+    font-size: 8px; font-weight: 700; letter-spacing: 1.4px;
+    text-transform: uppercase; color: var(--text2);
+  }
+  .bar-contact-icons { display: flex; align-items: center; gap: 14px; }
+  .bar-contact-icons a { color: var(--text2); display: flex; align-items: center; transition: color 0.2s; }
+  .bar-contact-icons a:hover { color: var(--accent); }
+  .bar-contact-icons svg { width: 17px; height: 17px; }
+
+  /* ══════════════════════════
+     WHAT'S NEW MODAL
+     ══════════════════════════ */
+  /* ── WHAT'S NEW: full-screen scroll page ── */
+  .news-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* use dvh so iOS Safari bottom bar is included */
+    height: 100dvh;
+    background: var(--bg);
+    z-index: 300;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .news-overlay.open { opacity:1; pointer-events:all; }
+  .news-hero {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    padding: 14px 18px 12px;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .news-hero-title { font-size: 20px; font-weight: 900; color: white; margin-bottom: 2px; }
+  .news-hero-sub   { font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 500; }
+  .news-content { padding: 8px 0 0; }
+  .news-item {
+    display: flex; gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .news-item:last-child { border-bottom: none; }
+  .news-item-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    flex-shrink: 0; margin-top: 7px;
+    box-shadow: 0 0 8px var(--neon1);
+  }
+  .news-item-text { font-size: 14px; color: var(--text); line-height: 1.6; }
+  .news-item-tag {
+    display: inline-block; background: rgba(79,110,247,0.12); color: var(--accent);
+    font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 5px; margin-left: 6px; vertical-align: middle;
+  }
+  .news-item-tag.beta { background: rgba(245,158,11,0.15); color: #f59e0b; }
+  .news-action-bar {
+    padding: 20px 20px 40px;
+    display: flex; flex-direction: column; gap: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .news-checkbox { display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .news-check-box {
+    width: 18px; height: 18px; border-radius: 5px;
+    border: 1.5px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .news-check-box.checked { background: var(--accent); }
+  .news-check-box.checked::after { content:'\2713'; color:white; font-size:12px; font-weight:700; }
+  .news-checkbox-label { font-size: 12px; color: var(--text2); line-height: 1.4; }
+
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border);border-radius:2px; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR: logo | spacer | greeting | theme -->
+<div class="top-bar">
+  <div class="top-bar-logo">sebasmobil <span>v1.0</span></div>
+  <div class="top-bar-spacer"></div>
+  <div class="top-bar-greeting" id="greetingText">Günaydın! ☀️</div>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+</div>
+
+<!-- MAIN -->
+<main>
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="category-section">
+      <div class="category-title">🎓 Eğitim</div>
+      <div class="cards-grid" id="home-edu-grid"></div>
+    </div>
+    <div class="category-section">
+      <div class="category-title">🎵 Eğlence</div>
+      <div class="cards-grid" id="home-ent-grid"></div>
+    </div>
+  </div>
+
+  <!-- APPS -->
+  <div class="page" id="page-apps">
+    <div class="apps-category-section">
+      <div class="apps-category-label">🎓 Eğitim</div>
+      <div class="drag-hint">✥ Sürükleyerek sıralayabilirsiniz</div>
+      <div class="apps-grid" id="apps-edu-grid"></div>
+    </div>
+    <div class="apps-category-section">
+      <div class="apps-category-label">🎵 Eğlence</div>
+      <div class="apps-grid" id="apps-ent-grid"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="page" id="page-about">
+    <div class="about-page">
+      <div class="about-header">
+        <div class="about-logo">sebasmobil</div>
+        <div class="about-version">v1.0 — Tüm uygulamalar ücretsiz, reklamsız ve süresizdir.</div>
+        <div class="about-tagline">
+          <strong>sebasmobil</strong>, eğitimde teknolojiyi sade ve erişilebilir kılmak için yola çıktı.
+          Karmaşık sistemlere, abonelik ücretlerine ve reklam bombardımanına inanmıyoruz.
+          Her uygulamamız tek bir ilkeyle tasarlandı: <strong>öğretmene zaman kazan, öğrenciye değer kat.</strong>
+          Çevrimdışı çalışır, verini saklamaz, seni takip etmez. Sadece işini yapar.
+        </div>
+      </div>
+
+      <div class="about-card">
+        <div class="about-card-title">📱 Uygulamalar</div>
+        <div class="about-pill-row">
+          <div class="about-pill"><span>👩‍🏫</span> S-Öğretmen</div>
+          <div class="about-pill"><span>📝</span> S-Sınav</div>
+          <div class="about-pill"><span>🎯</span> S-Seçici</div>
+          <div class="about-pill"><span>📦</span> S-Dağıtım</div>
+          <div class="about-pill"><span>🎵</span> S-Müzik</div>
+        </div>
+      </div>
+
+      <div class="about-license">
+        <strong>📄 Lisans</strong><br><br>
+        Bu proje ve bünyesindeki tüm uygulamalar <strong>GNU GPL v3.0</strong> lisansı ile lisanslanmıştır.
+        Kaynak kodu özgürce incelenebilir, değiştirilebilir ve paylaşılabilir — aynı lisans koşullarıyla.<br><br>
+        <strong>© sebasmobil</strong> — Tüm haklar saklıdır.<br>
+        <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">gnu.org/licenses/gpl-3.0</a>
+      </div>
+
+      <div class="about-contact">
+        <a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          @sebasmobil
+        </a>
+        <a href="mailto:sebasmobil@proton.me?subject=sebasmobil%20İletişim">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+          sebasmobil@proton.me
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <button class="bar-btn active" id="barHome" onclick="switchPage('home','barHome')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <span>Ana Sayfa</span>
+  </button>
+  <button class="bar-btn" id="barApps" onclick="switchPage('apps','barApps')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="2" width="9" height="9" rx="2"/><rect x="13" y="2" width="9" height="9" rx="2"/>
+      <rect x="2" y="13" width="9" height="9" rx="2"/><rect x="13" y="13" width="9" height="9" rx="2"/>
+    </svg>
+    <span>Uygulamalar</span>
+  </button>
+  <button class="bar-btn" id="barAbout" onclick="switchPage('about','barAbout')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <span>Hakkında</span>
+  </button>
+  <div class="bar-divider"></div>
+  <div class="bar-contact">
+    <div class="bar-contact-label">İletişim</div>
+    <div class="bar-contact-icons">
+      <a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener" title="@sebasmobil">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="mailto:sebasmobil@proton.me?subject=sebasmobil%20İletişim" title="sebasmobil@proton.me">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- WHAT'S NEW: full-screen scroll page -->
+<div class="news-overlay" id="newsOverlay">
+  <div class="news-hero">
+    <div class="news-hero-title">Yenilikler</div>
+    <div class="news-hero-sub">sebasmobil v1.0 — Sürüm Notları</div>
+  </div>
+  <div class="news-content">
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text"><strong>S-Öğretmen</strong> uygulaması eklendi — sosyal kulüp, sınıf rehberliği, ders programı ve not çizelgesi görüntüleme <span class="news-item-tag">YENİ</span></div></div>
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text"><strong>S-Sınav</strong> uygulaması eklendi — fotoğraf tabanlı yazılı sınav hazırlık aracı <span class="news-item-tag">YENİ</span></div></div>
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text"><strong>S-Seçici</strong> uygulaması eklendi — sınıfta rastgele öğrenci seçici <span class="news-item-tag">YENİ</span></div></div>
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text"><strong>S-Dağıtım</strong> uygulaması geliştirme aşamasında eklendi — öğretmen/sınıf ders programı oluşturma aracı <span class="news-item-tag beta">BETA</span></div></div>
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text"><strong>S-Müzik</strong> eğlence kategorisine eklendi <span class="news-item-tag">YENİ</span></div></div>
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text">Karanlık / Aydınlık tema, cihaz temasını otomatik takip ediyor</div></div>
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text">Uygulama sıralaması kaydediliyor — sürükleyerek yeniden sıralayabilirsiniz</div></div>
+    <div class="news-item"><div class="news-item-dot"></div><div class="news-item-text">Tüm uygulamalar <strong>GNU GPL v3.0</strong> lisansıyla yayınlandı — özgür, açık kaynak <span class="news-item-tag">LİSANS</span></div></div>
+  </div>
+  <!-- action bar fixed to bottom -->
+  <div class="news-action-bar">
+    <label class="news-checkbox" onclick="toggleNewsCheck()">
+      <div class="news-check-box" id="newsCheckBox"></div>
+      <span class="news-checkbox-label">Bir daha gösterme</span>
+    </label>
+    <button class="btn-primary" onclick="closeNews()">Anlaşıldı →</button>
+  </div>
+</div>
+
+<script>
+const APP_VERSION = 'v1.0';
+
+const apps = {
+  edu: [
+    {
+      id: 'sogretmen', name: 'S-Öğretmen', icon: '👩‍🏫', cat: 'edu', dev: false,
+      url: 'http://sebasmobil.github.io/s-ogretmen/',
+      short: 'Öğretmen paneli: sosyal kulüp, rehberlik, ders programı',
+      desc: 'Öğretmenlerin sosyal kulüp görevlerini, sınıf rehberliğini, ders programlarını, not çizelgelerini, yazılı analizlerini ve yıllık planlarını tek ekranda görüntülemesini sağlayan pratik bir gösterim aracıdır. Veri girişi değil, anlık görüntüleme odaklıdır.'
+    },
+    {
+      id: 'ssinav', name: 'S-Sınav', icon: '📝', cat: 'edu', dev: false,
+      url: 'https://sebasmobil.github.io/s-sinav/',
+      short: 'Fotoğraflarla yazılı sınava hazırlık',
+      desc: 'Öğrencilerin fotoğraf tabanlı sorularla yazılı sınavlara hazırlanmasına yardımcı olur. Ders materyallerinin fotoğraflarını yükleyerek pratik bir soru-cevap ortamı oluşturur. Görsel içeriklerle öğrenmeyi destekler, internet bağlantısı gerektirmez.'
+    },
+    {
+      id: 'ssecici', name: 'S-Seçici', icon: '🎯', cat: 'edu', dev: false,
+      url: 'https://sebasmobil.github.io/ogrenci-secici/',
+      short: 'Rastgele öğrenci seçici aracı',
+      desc: 'Sınıfta öğrencileri adil ve eğlenceli bir şekilde rastgele seçin. Animasyonlu ve interaktif arayüzü ile dersi canlandırır. Sınıf listesi kaydedilebilir, her oturumda hazır gelir.'
+    },
+    {
+      id: 'sdagitim', name: 'S-Dağıtım', icon: '📦', cat: 'edu', dev: true,
+      url: 'https://sebasmobil.github.io/s-dagitim/',
+      short: 'Öğretmen & sınıf ders programı oluşturucu',
+      desc: 'Öğretmenlerin ve sınıfların haftalık ders programlarının oluşturulmasını ve düzenlenmesini sağlar. Sınıf bazlı program görünümü, öğretmen bazlı program görünümü ve çakışma kontrolü sunar. Şu an geliştirme aşamasındadır.'
+    }
+  ],
+  ent: [
+    {
+      id: 'smuzik', name: 'S-Müzik', icon: '🎵', cat: 'ent', dev: false,
+      url: 'https://sebasmobil.github.io/s-muzik/',
+      short: 'Eğlenceli müzik deneyimi',
+      desc: 'Müzik keşfedin, çalma listeleri oluşturun ve müzikle eğlenin. Sezgisel arayüzü ile dinleme deneyiminizi zenginleştirir.'
+    }
+  ]
+};
+
+// ── Storage ──
+function saveOrder(cat,ids){ try{localStorage.setItem('order_'+cat,JSON.stringify(ids))}catch(e){} }
+function loadOrder(cat){ try{const d=localStorage.getItem('order_'+cat);return d?JSON.parse(d):null}catch(e){return null} }
+function applyOrder(arr,cat){
+  const saved=loadOrder(cat); if(!saved) return arr;
+  const map={}; arr.forEach(a=>map[a.id]=a);
+  const res=saved.filter(id=>map[id]).map(id=>map[id]);
+  arr.forEach(a=>{if(!saved.includes(a.id))res.push(a)});
+  return res;
+}
+
+// ── Theme ──
+function getSystemTheme(){ return window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('themeToggle').textContent = t==='dark'?'☀️':'🌙';
+  // fix overscroll bg
+  document.documentElement.style.background = t==='dark'?'#05080f':'#dde5ff';
+  document.body.style.background = t==='dark'?'#080c1a':'#f0f4ff';
+}
+function toggleTheme(){
+  const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  try{localStorage.setItem('theme',next)}catch(e){}
+  applyTheme(next);
+}
+(function(){
+  let saved; try{saved=localStorage.getItem('theme')}catch(e){}
+  applyTheme(saved||getSystemTheme());
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{
+    let manual; try{manual=localStorage.getItem('theme')}catch(e){}
+    if(!manual) applyTheme(e.matches?'dark':'light');
+  });
+})();
+
+// ── Greeting (Turkey time = UTC+3) ──
+function updateGreeting(){
+  // Get Turkey local time
+  const now = new Date();
+  const trOffset = 3 * 60; // UTC+3 in minutes
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  const trTime = new Date(utc + trOffset * 60000);
+  const h = trTime.getHours();
+
+  let msg;
+  if      (h >= 5  && h < 12) msg = 'Günaydın! ☀️';
+  else if (h >= 12 && h < 14) msg = 'Tünaydın! 🌤️';
+  else if (h >= 14 && h < 18) msg = 'İyi günler! 🌤️';
+  else if (h >= 18 && h < 22) msg = 'İyi akşamlar! 🌆';
+  else                         msg = 'İyi geceler! 🌙';
+  document.getElementById('greetingText').textContent = msg;
+}
+updateGreeting(); setInterval(updateGreeting, 60000);
+
+// ── Home cards ──
+function renderHomeCards(){
+  ['edu','ent'].forEach(cat=>{
+    const grid=document.getElementById('home-'+cat+'-grid');
+    grid.innerHTML='';
+    applyOrder(apps[cat],cat).forEach(app=>grid.appendChild(createHomeCard(app)));
+  });
+}
+function createHomeCard(app){
+  const div=document.createElement('div');
+  div.className='app-card glow-card';
+  div.onclick=()=>openModal(app);
+  const tc=app.dev?'card-tag-dev':(app.cat==='edu'?'card-tag-edu':'card-tag-ent');
+  const tt=app.dev?'Geliştiriliyor':(app.cat==='edu'?'Eğitim':'Eğlence');
+  const ic=app.cat==='edu'?'card-icon-edu':'card-icon-ent';
+  div.innerHTML=`<div class="card-icon ${ic}">${app.icon}</div><div class="card-name">${app.name}</div><div class="card-desc">${app.short}</div><span class="card-tag ${tc}">${tt}</span>`;
+  return div;
+}
+
+// ── Modal ──
+function openModal(app){
+  const ic=app.cat==='edu'?'card-icon-edu':'card-icon-ent';
+  const warn=app.dev?`<div class="modal-warning">⚠️ <span>Bu uygulama henüz geliştirme aşamasındadır. Şu an için düzgün kullanım mümkün olmayabilir; yalnızca geliştirme sürecine yönelik erişim sağlanmaktadır.</span></div>`:'';
+  document.getElementById('modalContent').innerHTML=`
+    <div class="modal-icon ${ic}">${app.icon}</div>
+    <div class="modal-title">${app.name}</div>
+    <div class="modal-subtitle">${app.desc}</div>
+    ${warn}
+    <div class="modal-actions">
+      <a href="${app.url}" target="_blank" rel="noopener" class="btn-primary">🚀 Uygulamaya Git</a>
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modalOverlay'))
+    document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ── Apps page tiles ──
+function renderAppsPage(){
+  renderTileGrid('apps-edu-grid',apps.edu,'edu');
+  renderTileGrid('apps-ent-grid',apps.ent,'ent');
+}
+function renderTileGrid(gridId,appList,cat){
+  const grid=document.getElementById(gridId);
+  grid.innerHTML='';
+  applyOrder(appList,cat).forEach(app=>{
+    const a=document.createElement('a');
+    a.className='app-tile';
+    a.href=app.url; a.target='_blank'; a.rel='noopener';
+    a.draggable=true; a.dataset.id=app.id; a.dataset.cat=cat;
+    const ic=cat==='edu'?'tile-icon-edu':'tile-icon-ent';
+    a.innerHTML=`${app.dev?'<span class="tile-badge">BETA</span>':''}<div class="tile-icon ${ic}">${app.icon}</div><div class="tile-name">${app.name}</div>`;
+    setupDrag(a,cat);
+    grid.appendChild(a);
+  });
+}
+
+// ── Drag & Drop ──
+let dragSrc=null, isDragging=false;
+function setupDrag(el,cat){
+  el.addEventListener('dragstart',e=>{ dragSrc=el; isDragging=true; el.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+  el.addEventListener('dragend',()=>{ el.classList.remove('dragging'); document.querySelectorAll('.app-tile').forEach(i=>i.classList.remove('drag-over')); setTimeout(()=>isDragging=false,50); });
+  el.addEventListener('dragover',e=>{ e.preventDefault(); if(dragSrc&&dragSrc!==el&&dragSrc.dataset.cat===el.dataset.cat) el.classList.add('drag-over'); });
+  el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
+  el.addEventListener('drop',e=>{
+    e.preventDefault(); e.stopPropagation(); el.classList.remove('drag-over');
+    if(!dragSrc||dragSrc===el||dragSrc.dataset.cat!==el.dataset.cat) return;
+    const grid=el.parentNode, items=[...grid.querySelectorAll('.app-tile')];
+    if(items.indexOf(dragSrc)<items.indexOf(el)) grid.insertBefore(dragSrc,el.nextSibling);
+    else grid.insertBefore(dragSrc,el);
+    saveOrder(cat,[...grid.querySelectorAll('.app-tile')].map(i=>i.dataset.id));
+  });
+  el.addEventListener('click',e=>{ if(isDragging) e.preventDefault(); });
+}
+
+// ── Page switch ──
+function switchPage(page,barId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bar-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById(barId).classList.add('active');
+}
+
+// ── What's new ──
+let newsChecked=false;
+function toggleNewsCheck(){
+  newsChecked=!newsChecked;
+  document.getElementById('newsCheckBox').classList.toggle('checked',newsChecked);
+}
+function closeNews(){
+  if(newsChecked){try{localStorage.setItem('news_seen_'+APP_VERSION,'1')}catch(e){}}
+  document.getElementById('newsOverlay').classList.remove('open');
+  document.getElementById('newsOverlay').scrollTop=0;
+  document.documentElement.style.overflow='';
+  document.body.style.overflow='';
+}
+function checkNews(){
+  let seen=false; try{seen=!!localStorage.getItem('news_seen_'+APP_VERSION)}catch(e){}
+  if(!seen) setTimeout(()=>openNews(),600);
+}
+function openNews(){
+  var el = document.getElementById('newsOverlay');
+  el.classList.add('open');
+  document.documentElement.style.overflow='hidden';
+  document.body.style.overflow='hidden';
+}
+/* Re-lock on orientation change while overlay is open */
+window.addEventListener('orientationchange', function(){
+  if(document.getElementById('newsOverlay').classList.contains('open')){
+    document.documentElement.style.overflow='hidden';
+    document.body.style.overflow='hidden';
+  }
+});
+window.addEventListener('resize', function(){
+  if(document.getElementById('newsOverlay').classList.contains('open')){
+    document.documentElement.style.overflow='hidden';
+    document.body.style.overflow='hidden';
+  }
+});
+
+// ── Init ──
+renderHomeCards();
+renderAppsPage();
+checkNews();
+</script>
+</body>
+</html>
