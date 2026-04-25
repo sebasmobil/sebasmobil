@@ -321,8 +321,8 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 .filter-btn.f-edu.active   { background: var(--accent2); color: #fff; border-color: var(--accent2); box-shadow: 0 4px 16px var(--glow2); }
 .filter-btn.f-ent.active   { background: var(--accent3); color: #0d1120; border-color: var(--accent3); }
-.filter-btn.f-game.active  { background: var(--red); color: #fff; border-color: var(--red); }
-.filter-btn.f-other.active { background: var(--amber); color: #0d1120; border-color: var(--amber); }
+.filter-btn.f-game.active  { background: var(--accent); color: #fff; border-color: var(--accent); }
+.filter-btn.f-other.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
 
 /* ── CATEGORY SECTIONS ── */
 .cat-block {
@@ -397,14 +397,14 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 .card-icon svg { width: 22px; height: 22px; }
 .icon-edu svg   { color: var(--accent); }
 .icon-ent svg   { color: var(--accent3); }
-.icon-game svg  { color: var(--red); }
-.icon-other svg { color: var(--amber); }
+.icon-game svg  { color: var(--accent); }
+.icon-other svg { color: var(--accent2); }
 
 .info-icon svg { width: 18px; height: 18px; color: var(--text2); }
 .icon-edu   { background: linear-gradient(135deg,rgba(91,142,255,.2),rgba(157,110,255,.15)); }
 .icon-ent   { background: linear-gradient(135deg,rgba(0,229,160,.2),rgba(0,181,125,.1)); }
-.icon-game  { background: linear-gradient(135deg,rgba(255,107,107,.2),rgba(255,140,80,.1)); }
-.icon-other { background: linear-gradient(135deg,rgba(255,184,63,.2),rgba(255,140,40,.1)); }
+.icon-game  { background: linear-gradient(135deg,var(--glow1),var(--glow2)); }
+.icon-other { background: linear-gradient(135deg,var(--glow2),var(--glow1)); }
 
 .badge {
   font-family: 'DM Mono', monospace;
@@ -414,8 +414,8 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 }
 .b-edu   { background: rgba(91,142,255,.12); color: var(--accent); border: 1px solid rgba(91,142,255,.2); }
 .b-ent   { background: rgba(0,229,160,.12);  color: var(--accent3); border: 1px solid rgba(0,229,160,.2); }
-.b-game  { background: rgba(255,107,107,.12);color: var(--red); border: 1px solid rgba(255,107,107,.2); }
-.b-other { background: rgba(255,184,63,.12); color: var(--amber); border: 1px solid rgba(255,184,63,.2); }
+.b-game  { background: var(--glow1); color: var(--accent); border: 1px solid var(--glow1); }
+.b-other { background: var(--glow2); color: var(--accent2); border: 1px solid var(--glow2); }
 .b-beta  { background: rgba(255,184,63,.12); color: var(--amber); border: 1px solid rgba(255,184,63,.2); }
 
 .card-name {
@@ -786,7 +786,7 @@ footer {
 <!-- GAME -->
 <div class="cat-block" id="sec-game">
   <div class="cat-header">
-    <span class="cat-title" style="color:var(--red)">Oyunlar</span>
+    <span class="cat-title" style="color:var(--accent)">Oyunlar</span>
     <div class="cat-rule"></div>
     <span class="cat-count">7 uygulama</span>
   </div>
@@ -839,7 +839,7 @@ footer {
 <!-- OTHER -->
 <div class="cat-block" id="sec-other">
   <div class="cat-header">
-    <span class="cat-title" style="color:var(--amber)">Diğer</span>
+    <span class="cat-title" style="color:var(--accent2)">Diğer</span>
     <div class="cat-rule"></div>
     <span class="cat-count">1 uygulama</span>
   </div>
@@ -889,7 +889,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.04 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.05 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
