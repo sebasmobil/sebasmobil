@@ -2,7 +2,7 @@
 <html lang="tr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" id="themeColorMeta" content="#080b12">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -114,12 +114,14 @@ body::before {
 /* ── HEADER ── */
 header {
   position: sticky; top: 0; z-index: 200;
-  height: 48px;
+  height: calc(48px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
   background: var(--header-bg);
   backdrop-filter: blur(24px) saturate(160%);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
-  padding: 0 clamp(16px,4vw,60px);
+  padding-left: clamp(16px,4vw,60px);
+  padding-right: clamp(16px,4vw,60px);
   gap: 12px;
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
@@ -887,7 +889,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.03 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.04 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
