@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" id="themeColorMeta" content="#080b12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>sebasmobil — Ücretsiz Web Uygulamaları</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
@@ -884,7 +887,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.02 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.03 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
@@ -965,6 +968,9 @@ function toggleTheme() {
   const next = isDark ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
+  // iOS status bar rengini anlık güncelle
+  const color = next === 'dark' ? '#080b12' : '#e2e5f5';
+  document.getElementById('themeColorMeta').setAttribute('content', color);
   try { localStorage.setItem('sbm_theme', next); } catch(e){}
 }
 
@@ -1026,6 +1032,9 @@ document.addEventListener('click', e => {
   try { t = localStorage.getItem('sbm_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch(e){}
   document.documentElement.setAttribute('data-theme', t);
   document.getElementById('themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
+  // Sayfa açılışında iOS status bar rengini doğru ayarla
+  const color = t === 'dark' ? '#080b12' : '#e2e5f5';
+  document.getElementById('themeColorMeta').setAttribute('content', color);
 
   let c = 'blue';
   try { c = localStorage.getItem('sbm_color') || 'blue'; } catch(e){}
