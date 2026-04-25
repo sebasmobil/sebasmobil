@@ -353,8 +353,18 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 /* ── CARD GRID ── */
 .apps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 12px;
+}
+
+@media (min-width: 600px) {
+  .apps-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+}
+@media (min-width: 900px) {
+  .apps-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+@media (orientation: landscape) and (max-width: 900px) {
+  .apps-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .app-card {
@@ -390,11 +400,13 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 
 .card-icon {
-  width: 44px; height: 44px; border-radius: 11px;
+  width: 44px; height: 44px; min-width: 44px; min-height: 44px;
+  border-radius: 11px;
   display: flex; align-items: center; justify-content: center;
   font-size: 20px;
+  flex-shrink: 0;
 }
-.card-icon svg { width: 22px; height: 22px; }
+.card-icon svg { width: 22px; height: 22px; min-width: 22px; min-height: 22px; }
 .icon-edu svg   { color: var(--accent); }
 .icon-ent svg   { color: var(--accent2); }
 .icon-game svg  { color: var(--accent); }
@@ -889,7 +901,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.06 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.07 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
