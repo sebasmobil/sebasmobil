@@ -429,12 +429,14 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 .icon-ent svg   { color: var(--accent2); }
 .icon-game svg  { color: var(--accent); }
 .icon-other svg { color: var(--accent2); }
+.icon-health svg { color: var(--accent3); }
 
 .info-icon svg { width: 18px; height: 18px; color: var(--text2); }
 .icon-edu   { background: linear-gradient(135deg,var(--glow1),var(--glow2)); }
 .icon-ent   { background: linear-gradient(135deg,var(--glow2),var(--glow1)); }
 .icon-game  { background: linear-gradient(135deg,var(--glow1),var(--glow2)); }
 .icon-other { background: linear-gradient(135deg,var(--glow2),var(--glow1)); }
+.icon-health { background: linear-gradient(135deg,rgba(0,229,160,0.12),rgba(0,229,160,0.06)); }
 
 .badge {
   font-family: 'DM Mono', monospace;
@@ -446,6 +448,7 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 .b-ent   { background: var(--glow2); color: var(--accent2); border: 1px solid var(--glow2); }
 .b-game  { background: var(--glow1); color: var(--accent);  border: 1px solid var(--glow1); }
 .b-other { background: var(--glow2); color: var(--accent2); border: 1px solid var(--glow2); }
+.b-health { background: rgba(0,229,160,0.1); color: var(--accent3); border: 1px solid rgba(0,229,160,0.2); }
 .b-beta  { background: var(--glow1); color: var(--accent2); border: 1px solid var(--glow1); }
 
 .card-name {
@@ -733,7 +736,7 @@ footer {
     Ücretsiz, reklamsız, çevrimdışı çalışır.
   </p>
   <div class="hero-stats">
-    <div class="stat-chip"><strong>15+</strong> Uygulama</div>
+    <div class="stat-chip"><strong>17+</strong> Uygulama</div>
     <div class="stat-chip"><strong>0₺</strong> Ücretsiz</div>
     <div class="stat-chip"><strong>∞</strong> Süresiz</div>
     <div class="stat-chip">🔓 GNU AGPL v3.0</div>
@@ -746,6 +749,7 @@ footer {
   <button class="filter-btn f-edu"   onclick="fc('edu',this)">📚 Eğitim</button>
   <button class="filter-btn f-ent"   onclick="fc('ent',this)">🎵 Eğlence</button>
   <button class="filter-btn f-game"  onclick="fc('game',this)">🕹️ Oyunlar</button>
+  <button class="filter-btn f-health" onclick="fc('health',this)">🩺 Sağlık</button>
   <button class="filter-btn f-other" onclick="fc('other',this)">🔧 Diğer</button>
 </div>
 
@@ -866,6 +870,29 @@ footer {
   </div>
 </div>
 
+<!-- HEALTH -->
+<div class="cat-block" id="sec-health">
+  <div class="cat-header">
+    <span class="cat-title" style="color:#00e5a0">Sağlık</span>
+    <div class="cat-rule"></div>
+    <span class="cat-count">2 uygulama</span>
+  </div>
+  <div class="apps-grid">
+    <div class="app-card" onclick="openModal('alerjitakip')">
+      <div class="card-top"><div class="card-icon icon-health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="badge b-health">Sağlık</span></div>
+      <div class="card-name">Alerji Takip</div>
+      <div class="card-short">Alerjilerinizi ve tetikleyicilerinizi takip edin</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
+    </div>
+    <div class="app-card" onclick="openModal('diyettakip')">
+      <div class="card-top"><div class="card-icon icon-health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><span class="badge b-health">Sağlık</span></div>
+      <div class="card-name">Diyet Takip</div>
+      <div class="card-short">Günlük kalori ve öğün takibinizi yapın</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- OTHER -->
 <div class="cat-block" id="sec-other">
   <div class="cat-header">
@@ -966,6 +993,8 @@ const apps = {
   kelimeavcisi: {e:'🔤',  n:'Kelime Avcısı',   u:'https://sebasmobil.github.io/oyun/kelime-avcisi.html',         b:false,d:'Harfleri birleştirerek gizli kelimeleri bulun. Sözcük dağarcığını geliştiren eğlenceli bir kelime oyunu.'},
   numarayakala: {e:'🎯',  n:'Numara Yakala',   u:'https://sebasmobil.github.io/oyun/numara.html',                b:false,d:'Beliren sayıları hızlıca yakalayın. Refleks ve dikkat becerilerinizi test eden hızlı tempolu bir oyun.'},
   ringcut:      {e:'🎵',  n:'Zil Sesi',        u:'https://sebasmobil.github.io/diger/ringcut.html',               b:false,d:'Ses dosyalarının istediğiniz bölümünü keserek zil sesi olarak kaydedebilirsiniz. MP3 ve diğer ses formatlarını destekler.'},
+  alerjitakip:  {e:'🛡️', n:'Alerji Takip',    u:'https://sebasmobil.github.io/diger/alerji-takip.html',          b:false,d:'Alerjilerinizi, tetikleyicilerinizi ve belirtilerinizi kolayca kayıt altına alın. Günlük takip ile hangi durumların reaksiyona yol açtığını analiz edin.'},
+  diyettakip:   {e:'🥗',  n:'Diyet Takip',     u:'https://sebasmobil.github.io/diger/diyet.html',                 b:false,d:'Günlük kalori alımınızı ve öğünlerinizi takip edin. Beslenme alışkanlıklarınızı düzenlemek için pratik bir günlük tutma aracı.'},
 };
 
 function openModal(id) {
