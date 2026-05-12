@@ -768,16 +768,16 @@ footer {
     <span class="cat-count">4 uygulama</span>
   </div>
   <div class="apps-grid">
+    <div class="app-card" onclick="openModal('skatilim')">
+      <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></div><span class="badge b-edu">Eğitim</span></div>
+      <div class="card-name">S-Katılım</div>
+      <div class="card-short">Sınıfta rastgele öğrenci seçici aracı</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
+    </div>
     <div class="app-card" onclick="openModal('sogretmen')">
       <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="badge b-edu">Eğitim</span></div>
       <div class="card-name">S-Öğretmen</div>
       <div class="card-short">Sosyal kulüp, rehberlik, ders programı ve not çizelgesi yönetimi</div>
-      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
-    <div class="app-card" onclick="openModal('ssinav')">
-      <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><span class="badge b-edu">Eğitim</span></div>
-      <div class="card-name">S-Sınav</div>
-      <div class="card-short">Fotoğraflarla yazılı sınav kağıdı hazırlama aracı</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     </div>
     <div class="app-card" onclick="openModal('splanolus')">
@@ -786,10 +786,10 @@ footer {
       <div class="card-short">Excel planını S-Öğretmen formatına dönüştür</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     </div>
-    <div class="app-card" onclick="openModal('skatilim')">
-      <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></div><span class="badge b-edu">Eğitim</span></div>
-      <div class="card-name">S-Katılım</div>
-      <div class="card-short">Sınıfta rastgele öğrenci seçici aracı</div>
+    <div class="app-card" onclick="openModal('ssinav')">
+      <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><span class="badge b-edu">Eğitim</span></div>
+      <div class="card-name">S-Sınav</div>
+      <div class="card-short">Fotoğraflarla yazılı sınav kağıdı hazırlama aracı</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     </div>
   </div>
@@ -826,54 +826,47 @@ footer {
     <span class="cat-count">8 uygulama</span>
   </div>
   <div class="apps-grid">
-    <div class="app-card" onclick="openModal('sudoku')">
-      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></div><span class="badge b-game">Oyun</span></div>
-      <div class="card-name">Sudoku</div>
-      <div class="card-short">Farklı zorluk seviyelerinde klasik Sudoku bulmacası</div>
-      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
-    <div class="app-card" onclick="openModal('satranc')">
-      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 16l-1.5 3h11L16 16"/><rect x="7" y="13" width="10" height="3" rx="1"/><path d="M12 3a2 2 0 0 0-2 2c0 .8.4 1.5 1 1.9V9h-2v2h6V9h-2V6.9c.6-.4 1-1.1 1-1.9a2 2 0 0 0-2-2z"/></svg></div><span class="badge b-game">Oyun</span></div>
-      <div class="card-name">Satranç</div>
-      <div class="card-short">Strateji tahtası: mobilde satranç keyfi</div>
-      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
-    <div class="app-card" onclick="openModal('matematik')">
-      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="7" x2="9" y2="7"/><line x1="15" y1="17" x2="19" y2="17"/><line x1="5" y1="17" x2="9" y2="17"/><line x1="15" y1="7" x2="19" y2="7"/></svg></div><span class="badge b-game">Oyun</span></div>
-      <div class="card-name">Matematik</div>
-      <div class="card-short">Eğlenceli dört işlem oyunu, her yaş için</div>
-      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
-    <div class="app-card" onclick="openModal('yilan')">
-      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c0-3 2-5 5-5h8c2 0 3 1.5 3 3s-1 3-3 3H8c-3 0-5 2-5 4s2 4 5 4h1"/><circle cx="20" cy="18" r="2"/><circle cx="5" cy="7" r="1" fill="currentColor" stroke="none"/></svg></div><span class="badge b-game">Oyun</span></div>
-      <div class="card-name">Yılan</div>
-      <div class="card-short">Efsanevi yılan oyununun modern versiyonu</div>
-      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
+    
     <div class="app-card" onclick="openModal('hafiza')">
       <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="9" height="12" rx="2"/><rect x="13" y="4" width="9" height="12" rx="2"/><path d="M6 20h12"/><path d="M12 16v4"/></svg></div><span class="badge b-game">Oyun</span></div>
       <div class="card-name">Hafıza Kartı</div>
       <div class="card-short">Eşleştirme tabanlı klasik hafıza kart oyunu</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
     <div class="app-card" onclick="openModal('kelimeavcisi')">
       <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div><span class="badge b-game">Oyun</span></div>
       <div class="card-name">Kelime Avcısı</div>
       <div class="card-short">Harfleri birleştir, gizli kelimeleri bul</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
+    <div class="app-card" onclick="openModal('matematik')">
+      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="7" x2="9" y2="7"/><line x1="15" y1="17" x2="19" y2="17"/><line x1="5" y1="17" x2="9" y2="17"/><line x1="15" y1="7" x2="19" y2="7"/></svg></div><span class="badge b-game">Oyun</span></div>
+      <div class="card-name">Matematik</div>
+      <div class="card-short">Eğlenceli dört işlem oyunu, her yaş için</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     <div class="app-card" onclick="openModal('numarayakala')">
       <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/></svg></div><span class="badge b-game">Oyun</span></div>
       <div class="card-name">Numara Yakala</div>
       <div class="card-short">Refleks ve dikkat: beliren sayıları yakala</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
+    <div class="app-card" onclick="openModal('satranc')">
+      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 16l-1.5 3h11L16 16"/><rect x="7" y="13" width="10" height="3" rx="1"/><path d="M12 3a2 2 0 0 0-2 2c0 .8.4 1.5 1 1.9V9h-2v2h6V9h-2V6.9c.6-.4 1-1.1 1-1.9a2 2 0 0 0-2-2z"/></svg></div><span class="badge b-game">Oyun</span></div>
+      <div class="card-name">Satranç</div>
+      <div class="card-short">Strateji tahtası: mobilde satranç keyfi</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     <div class="app-card" onclick="openModal('sayiavcisi')">
       <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><path d="M8 12H2"/><path d="M22 12h-6"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M5 5l2.5 2.5"/><path d="M16.5 16.5L19 19"/><path d="M19 5l-2.5 2.5"/><path d="M7.5 16.5L5 19"/></svg></div><span class="badge b-game">Oyun</span></div>
       <div class="card-name">Sayı Avcısı</div>
       <div class="card-short">Sayıyı tahmin et, aşağı mı yukarı mı bul</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
+    <div class="app-card" onclick="openModal('sudoku')">
+      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></div><span class="badge b-game">Oyun</span></div>
+      <div class="card-name">Sudoku</div>
+      <div class="card-short">Farklı zorluk seviyelerinde klasik Sudoku bulmacası</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
+    <div class="app-card" onclick="openModal('yilan')">
+      <div class="card-top"><div class="card-icon icon-game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c0-3 2-5 5-5h8c2 0 3 1.5 3 3s-1 3-3 3H8c-3 0-5 2-5 4s2 4 5 4h1"/><circle cx="20" cy="18" r="2"/><circle cx="5" cy="7" r="1" fill="currentColor" stroke="none"/></svg></div><span class="badge b-game">Oyun</span></div>
+      <div class="card-name">Yılan</div>
+      <div class="card-short">Efsanevi yılan oyununun modern versiyonu</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
   </div>
 </div>
 
@@ -908,18 +901,17 @@ footer {
     <span class="cat-count">2 uygulama</span>
   </div>
   <div class="apps-grid">
-    <div class="app-card" onclick="openModal('ringcut')">
-      <div class="card-top"><div class="card-icon icon-other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/><path d="M14 2l4 4-4 4"/></svg></div><span class="badge b-other">Araç</span></div>
-      <div class="card-name">Zil Sesi</div>
-      <div class="card-short">MP3 dosyasını kes, zil sesi olarak kaydet</div>
-      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
+    
     <div class="app-card" onclick="openModal('notlarim')">
       <div class="card-top"><div class="card-icon icon-other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><span class="badge b-other">Araç</span></div>
       <div class="card-name">Notlarım</div>
       <div class="card-short">Kartlar, linkler ve resimli notlar — cihazında saklanır</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
-    </div>
+    <div class="app-card" onclick="openModal('ringcut')">
+      <div class="card-top"><div class="card-icon icon-other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/><path d="M14 2l4 4-4 4"/></svg></div><span class="badge b-other">Araç</span></div>
+      <div class="card-name">Zil Sesi</div>
+      <div class="card-short">MP3 dosyasını kes, zil sesi olarak kaydet</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
   </div>
 </div>
 
@@ -959,7 +951,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.08 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.09 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
