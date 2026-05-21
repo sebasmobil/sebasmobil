@@ -882,13 +882,19 @@ footer {
   <div class="cat-header">
     <span class="cat-title" style="color:#00e5a0">Sağlık</span>
     <div class="cat-rule"></div>
-    <span class="cat-count">2 uygulama</span>
+    <span class="cat-count">3 uygulama</span>
   </div>
   <div class="apps-grid">
     <div class="app-card" onclick="openModal('alerjitakip')">
       <div class="card-top"><div class="card-icon icon-health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="badge b-health">Sağlık</span></div>
       <div class="card-name">Alerji Takip</div>
       <div class="card-short">Alerjilerinizi ve tetikleyicilerinizi takip edin</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
+    </div>
+    <div class="app-card" onclick="openModal('bebektakip')">
+      <div class="card-top"><div class="card-icon icon-health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6"/><path d="M12 9v6"/><circle cx="12" cy="12" r="10"/><path d="M9 3.6C10 3.2 11 3 12 3s2 .2 3 .6"/><path d="M18.4 6A9.8 9.8 0 0 1 21 12"/><path d="M15 20.4c-1 .4-2 .6-3 .6s-2-.2-3-.6"/><path d="M5.6 18A9.8 9.8 0 0 1 3 12c0-2.3.8-4.4 2.1-6.1"/></svg></div><span class="badge b-health">Sağlık</span></div>
+      <div class="card-name">Bebek Takip</div>
+      <div class="card-short">Bebek gelişimi, gıda, diş, hastane ve günlük takip</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     </div>
     <div class="app-card" onclick="openModal('diyettakip')">
@@ -959,7 +965,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.10 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.11 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
@@ -1008,6 +1014,7 @@ const apps = {
   ringcut:      {e:'🎵',  n:'Zil Sesi',        u:'https://sebasmobil.github.io/diger/ringcut.html',               b:false,d:'Ses dosyalarının istediğiniz bölümünü keserek zil sesi olarak kaydedebilirsiniz. MP3 ve diğer ses formatlarını destekler.'},
   notlarim:     {e:'📝',  n:'Notlarım',         u:'https://sebasmobil.github.io/diger/notlarim.html',               b:false,d:'Mağaza kartları, linkler, resimli notlar ve daha fazlası. Tüm veriler yalnızca cihazınızda saklanır, sunucuya hiçbir şey gönderilmez.'},
   alerjitakip:  {e:'🛡️', n:'Alerji Takip',    u:'https://sebasmobil.github.io/diger/alerji-takip.html',          b:false,d:'Alerjilerinizi, tetikleyicilerinizi ve belirtilerinizi kolayca kayıt altına alın. Günlük takip ile hangi durumların reaksiyona yol açtığını analiz edin.'},
+  bebektakip:   {e:'👶',  n:'Bebek Takip',     u:'https://sebasmobil.github.io/diger/bebek-takip.html',            b:false,d:'Bebeğinizin gelişimini, gıda alışkanlıklarını, diş çıkarma sürecini, hastane ziyaretlerini ve günlük rutinlerini tek uygulamadan takip edin.'},
   diyettakip:   {e:'🥗',  n:'Diyet Takip',     u:'https://sebasmobil.github.io/diger/diyet.html',                 b:false,d:'Günlük kalori alımınızı ve öğünlerinizi takip edin. Beslenme alışkanlıklarınızı düzenlemek için pratik bir günlük tutma aracı.'},
 };
 
