@@ -633,6 +633,28 @@ footer {
 }
 .m-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 36px var(--glow1); }
 
+.m-lock { margin-top: 4px; }
+.m-lock-msg {
+  background: rgba(255,90,90,.08);
+  border: 1px solid rgba(255,90,90,.25);
+  border-radius: 10px; padding: 14px;
+  font-size: 13px; line-height: 1.7; color: var(--red);
+  margin-bottom: 14px;
+}
+.m-lock-input {
+  width: 100%; padding: 13px 14px;
+  border-radius: 10px;
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--text); font-family: 'DM Mono', monospace;
+  font-size: 13px; margin-bottom: 12px;
+  outline: none; transition: border-color .2s;
+}
+.m-lock-input:focus { border-color: var(--accent); }
+.m-lock-err {
+  margin-top: 10px; font-size: 12px; color: var(--red);
+  text-align: center; font-family: 'DM Mono', monospace;
+}
+
 /* ── RESPONSIVE ── */
 @media(max-width:540px){
   nav { display: none; }
@@ -971,7 +993,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.12 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.13 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
@@ -998,16 +1020,23 @@ footer {
     <div id="mDesc" class="m-desc"></div>
     <div id="mWarn" class="m-warn" style="display:none"></div>
     <a id="mBtn" class="m-btn" href="#" target="_blank" rel="noopener">Uygulamaya Git ↗</a>
+    <div id="mLock" class="m-lock" style="display:none">
+      <div class="m-lock-msg">🔒 Bu uygulama genel kullanıma kapatıldı. Lütfen geliştiriciye ulaşıp uygulama kodu alınız.</div>
+      <input id="mLockInput" class="m-lock-input" type="text" placeholder="Erişim kodunu girin" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button id="mLockBtn" class="m-btn" onclick="submitLockCode()">Kodu Doğrula</button>
+      <div id="mLockErr" class="m-lock-err" style="display:none"></div>
+    </div>
   </div>
 </div>
 
 <script>
+const ACCESS_HASHES = ["1b197b48a063eb556cd9fd0b7fcb0c0e9e6a487e78a507ecac401ecd35f7b9c5", "bc9c719c9d8bcecfeb2425dd2418d19747f1a173f6f577b43c382d9827af84f6", "f5256be3b85421f50bb5c9aa1f2bacd9629c106b3215f77b0f12edbcceb58c87", "7863c72bf5a249b162cb190188d0c843efad155a998f90ede481d545b40b4c37", "9397e52b6a362a884071d89f2fc10f96c0574a6547b5097acb8b1c46c293b675", "241e57343ff487ba24439c07f3f86a14e27718b014e8a4e85c9a4eba35f291f7", "64b415b798fb2d2138625ac273bad19d09cdf8a83a705eb88eb84709c20fe4cd", "4001a07dd9f8b9b68327587ed6b6a257ad7440a2c46f46b2cfbb3ce129ce5e55", "b815ab1d19e7587b11bdccd74857a976616b7b46d0873fcce34a7ad1f3816fba", "224b11d4d5947ca7c45e1b15cbb46c55d742cd6f9be178abcfde7321be16106d", "71e823ad2716310c682bffef9fe4a7845ef4209a5014520881f90eff4334d391", "1f01492a1fc0c41e13d1dd760a1fb044cd49e9a03059a143676bfcf872b1bbfd", "073885a19ddd74a42eabc16a437a866af9f4aca2a062566e1a562ead24bfc9f4", "a43ae7297e9a2cef33da7a6c644a09fbecfb136358627db7a2e1a9751ac5d157", "d4c42a033801155745c8abfc5d7b91012f95786dcd5139ee5c6c86c21b3e2f09", "f67d23a25d7e06f230ba8d18239f8f9fc035afef6a7ef02e4b13b09079dcbe22", "288db0494159c16e7f45abb25ff25a5100f2e039c8b58334ce6231a726884f6e", "e6a914a7e03293a02de623ce9ccbea5723bfb47c2c549648b0dc2d2748f62cec", "d2d7609f635972d81b06778e6290744a80d54ba36b7daeb114a58b09c9d2190e", "57394481c742909e685778b62147cfacb491e068f42940ba6a7e23ccbd74a15f", "69e5ae79d18f87fec03b4c6f811eb6a37def44de86c2ccc8d8b219be75b66824", "57429c331d520eab13693ecfab1adb45aa446bf3edd8140af39ad0d3019d174b", "a1345f8b5f1e0eb63bd7d6a0d38642b859b9325bae6c3c076706e64b026468d3", "d67d16ef00a802355572bdcc65c5556c08e1bc33578c1e7c101d165ad5e72d30", "9b5838f6404a697597df650fb2ba989a0d871d3713e94ff9536f787cd36b5f5e", "75976bece4765c3c44dacfa87fd4d8c13dc72b2e066d5e4abe981bbec10dfe87", "5dfff1ce4c170496d3863d875089b91d2af5930b949276d2ebc975685da27d5b", "d362fe33b92fa6f69dcca3ae55a187b2117f432f08b1fe569069b751bf7c238d", "a44872cd45dfe4aa865053287098d4433cfe2cd9a5d2bbbaf81aaed2ea76b860", "8a9910a1dabeac0b4253769e4d4bc04d4a3e32e3b0448b11fa6258775bad4fab", "8114e9df14dc53ba578b55fc12865992229e2bdc601a9de06e1e30ed16103e38", "9f9f669a6d264845a3ea25fd2013311b35fa3424f0b881c4d41361e87958c0cc", "64dde546aa86b0607579653c806e6afc88f086c04505dd0b10eb624316065617", "6b9aadd112cc393c10a1adec7105a15d44cdbea4c808efbbe38d5969e27f359a", "2b6aa516825adc3e2d78b0a26ded9a90ab7423fbaad47a9f170c0e30e51c37fc", "11e1e8ca4e0048ee1563189350dc717582a89888c0410fac1e0498035ce3673c", "add22c1caa40b25fcba40cad4fd238a7b8baf86db72488bfd295b3fd05839244", "389fc0106e79d9bea3926b446743c6c855aab3ddd13c72e374b5f9dd98004c52", "824a436175b8e0b25ebbf70f12d8997f4f6418ee31b23f43c4955b7fde80e18b", "fc3dd9c0a2211321c62ebf4d53750c082d091a71568626cd15c0ec52d3ea088d", "24d4f95d43139d0ea3f72e2cb944953fb28bad5394b96d246a02627988144889", "c0283b4c28c83d8dbc98084ddd05c0bb5d692ac09bf65dc1ccc0676af77a0330", "e79123d98fb3c35d92efaa7f4f93854b6a12d778a3d052899cf32929e13d7d79", "2a07b25ae9ecfa3506a37be8f80c18d0121c16f112db2b77b9e9ed1ee6f391b6", "5b423be88cd326c3a92102840e3a30489ea1c57d55ef2cfea419a2b5ba71aa48", "4a81f960e70faa5551aee9bc3ae64ef852bfb84fe1a3215f7c8f248aa9d09342", "849c955d440c9839703bccf0a887fa3fc8f5b081283d81da16e8a0b3c4967f27", "b9022a450ca3260c783fc92afaa69fb83dc4eef17db58de327cca2b7de8fdfb4", "9aa38fca578c6cd43ff84682d1dd26fc5b61a1bf09ce8bb2e858ae4fcb040670", "bb6d60fd486ebcb90cae796da8df49a2c1118b9da25e64a42fc907384d55e9ee", "59669fd97f1345f4b029cc6c1f7da6a221d4af91c1c84813c0d28318faf67e0b", "2fb4622b61122164e86d2119d559b878f1a024d9f84ff09a6fb48e613d99954f", "3175cf1e91ce6fd67bf79f6498d164ae10e92e280e517dd82dd2a491bcb176de", "9e2ab96383b909c681bf48207b630986a7668c99b30bcf0da156f9b6f85ed5a6", "0192a3fc2e164246cdc28f5fce6eb8d0f239d734734fc486aceb043f242f478a", "cc7d4a7a167f435ff6944ba851a51bfbabeaf129628ed6cd83e60d45b776d0d2", "283b01a8774453e1fe5bdd6714cb29c0161a18d704b61a69a397d6372da81714", "6bf043b0defaf35f58b8af14d8bb32dc7dcfa9e952b528f65531a8f3bf44b555", "4eaa0e71643decd006dea92a541c34c5b895c613d3408e288cf14e7e9ce75d80", "4b07b0db053bc9d2d4a8e51c3e97bffd7a1ff132bb0960ba83fb24be13aef6a2", "01b93bef9329ee09f783cfda961487da3af6f3c5ddf48d569d6287000c68614f", "08f79cd47cb27c03cd7a9ce9b7852a6442031e85dae49a2cd232dd5ef0bb51b4", "197691010db0b1d3d41a1ea764e8a3d12ea64a9b3de87da4c36c165d36db4a40", "015de83b545fda4898e8d36c31470fd2036d621fe7699f8bdd8a1135d83a915a", "cedbaa8c71dfd13061fdb69ca12b5a2c6f9f054a1e749bf772adbd54ded33ee1", "63dfc592d46f74aac1a441d0dd3af65ded0c2d61af56ce730e902fc9347f5a44", "6325a54d5113ff725552529ae4274e2226ec4c905e6f73c42f6b7253d2870bc7", "b0e7b06b6865dff8903dbedbb99d2610b66ecf20fb338857d3a8b101efe0cf17", "b34cdd3fb757c6ff425e5d7681c31894cfde2e43920285399632acd49551b632", "1c5ce6d24c5c8301a83e6de4e52d9670322f14852abd19e50aa5e87684c2cddd", "7e6aa74c38e2b817456db5cfdbbc757e1d66ba478c1d6efb95ba95cc95e525fc", "85cd75559c6fa31ae9a96e84ebd696be4698993606e9b5d5bb02b3aa6580b66d", "ca5fc413536c3d5628595e0410081bb86f1e220ce9355f1eba77e56a6563583d", "c5d7ca1713abfcdff7ca9b02ce576405e4caf2045bb13921796effa1885d40ff", "c838952fa4ba5f52e9779cce687197cd849599b020c94cb77411956fcef18f3c", "2ae44e438a58423a5e31567825fcdcc44cde7f66cec0aa0ecb39afca917ad558", "59518c4b5b10774ba58d3bf8f6563ffa6e21b432f0de6a58f01b71ed3ceffbb7", "af1957202479d630127e0c94f9c3dee6da0dff98f4c68ef3a6daf33cbd868a8e", "cf5b3177582f68bcf8b9b5e0cc925d96b3c1743afd21ed08d658592f4ffc24c8", "22cc7d46bfb4bf9dcbddc448051ec439b4955c023db69090a5be7832e692c706", "0afef11b97b11b9b102c034b6897eb61ce402447837a44ccc613785e1f914a55", "e7183f142ef2aec30b81633cde2ec495a3e7b7cd58f3445208d2647ef8e39940", "75d0c9e34172248f6e5f5d1fa5370225c305e4fdbf7efc85f74a6f4bd3eca263", "1fdc558b000b2496d3db1a0bf483324ce2e9bf46a5e29dfe80c687c78a6afe89", "dda67257fe06085ed57e9b478dce118803954890b0c7cbafb24af0788a6d3e5b", "dda8c3ece4a1dd2b64664e81ab0d6a0b2a48d57aea8901a47eaf16c417d348a0", "64ed1623f3d8ba23d74aa2e066cfbe36c7a205e96972a30f29bb94535dcea700", "bd7fc3990267bbbe49ba6725bea683f640e3688615ba5c5bfaa95adc1f2f232b", "d1859d5b5bf3e79ef433a95f4533634b13acbf4aa95c1bc00a0027abb915c372", "dc3ed96ad1be7402e21724f9087ea4791f6627203e88b7621bcd9b2b21e10062", "5305223d2f4d0620702d16408be37e2b44e747bc54fd4fee9c8334dc2a201495", "0338549ce60ea18af2f4f295080615c964d6ac29f2127962c664245a21a82610", "eaa64dff47efa1050491353ae66295d4b317afd366013e71b73d7a85724ffbce", "d6e2657ce0a1bdc7e01c142032abee2a9c2db775c0fde4fd3659a88a9012da90", "f75833e065b70da8ec234cb72ed0713aac9c4e4b032e4ed014a4a71a498843d1", "04ebb02a2f2f2337aac94f00fc15dd9a19ce1d09b51d04d3b647c5d9b2d38ebb", "f8ae2eb03644fe3b5b54017d520be26bbc6768424658dd61938c030e8632762a", "ba4c52127029179170cfa54e9742715b7ebf1df7a0864ec9e5eb552e6c2d05a3", "cfa183a9e6c3a21e5e1fc0c12a79417593b7f141331b76616273318354a21603", "ffe9063be804743c72570f3d576ba2c8f9e92f469e86557bd85cd788eac8aa88", "39beb21135d2a3a6be71d7bb494edc7f0c22a21a80649511c32a807eb1453449"];
 const apps = {
-  sogretmen:    {e:'👩‍🏫',n:'S-Öğretmen',    u:'http://sebasmobil.github.io/s-ogretmen/',                     b:false,d:'Öğretmenlerin sosyal kulüp görevlerini, sınıf rehberliğini, ders programlarını, not çizelgelerini, yazılı analizlerini ve yıllık planlarını tek ekranda yönetmesini sağlayan gelişmiş bir veri girişi uygulamasıdır.'},
-  ssinav:       {e:'📝',  n:'S-Sınav',        u:'https://sebasmobil.github.io/s-sinav/',                        b:false,d:'Öğretmenlerin fotoğraf tabanlı sorularla yazılı sınav kağıtları hazırlamasını sağlar. İnternet bağlantısı gerektirmez, görsel içeriklerle zengin sınav hazırlığına olanak tanır.'},
-  solcekler:    {e:'✅',  n:'S-Ölçekler',     u:'https://sebasmobil.github.io/s-ogretmen/s-olcekler.html',      b:false,d:'Proje, performans ve ders içi performans notu değerlendirme ölçeği uygulaması. Öğrenci değerlendirmelerini hızlı ve standart biçimde gerçekleştirin.'},
-  splanolus:    {e:'📊',  n:'S-Plan Oluştur', u:'https://sebasmobil.github.io/s-ogretmen/s-plan-olustur.html', b:false,d:'Excel dosyasındaki ders planını satır ve sütunları birleştirerek S-Öğretmen uygulamasına uygun formata dönüştürür.'},
-  skatilim:     {e:'🎯',  n:'S-Katılım',      u:'https://sebasmobil.github.io/s-katilim/',                      b:false,d:'Sınıfta öğrencileri adil ve eğlenceli biçimde rastgele seçin. Animasyonlu arayüzü ile dersi canlandırır, sınıf listesi kaydedilebilir.'},
+  sogretmen:    {e:'👩‍🏫',n:'S-Öğretmen',    u:'http://sebasmobil.github.io/s-ogretmen/',                     b:false,locked:true,d:'Öğretmenlerin sosyal kulüp görevlerini, sınıf rehberliğini, ders programlarını, not çizelgelerini, yazılı analizlerini ve yıllık planlarını tek ekranda yönetmesini sağlayan gelişmiş bir veri girişi uygulamasıdır.'},
+  ssinav:       {e:'📝',  n:'S-Sınav',        u:'https://sebasmobil.github.io/s-sinav/',                        b:false,locked:true,d:'Öğretmenlerin fotoğraf tabanlı sorularla yazılı sınav kağıtları hazırlamasını sağlar. İnternet bağlantısı gerektirmez, görsel içeriklerle zengin sınav hazırlığına olanak tanır.'},
+  solcekler:    {e:'✅',  n:'S-Ölçekler',     u:'https://sebasmobil.github.io/s-ogretmen/s-olcekler.html',      b:false,locked:true,d:'Proje, performans ve ders içi performans notu değerlendirme ölçeği uygulaması. Öğrenci değerlendirmelerini hızlı ve standart biçimde gerçekleştirin.'},
+  splanolus:    {e:'📊',  n:'S-Plan Oluştur', u:'https://sebasmobil.github.io/s-ogretmen/s-plan-olustur.html', b:false,locked:true,d:'Excel dosyasındaki ders planını satır ve sütunları birleştirerek S-Öğretmen uygulamasına uygun formata dönüştürür.'},
+  skatilim:     {e:'🎯',  n:'S-Katılım',      u:'https://sebasmobil.github.io/s-katilim/',                      b:false,locked:true,d:'Sınıfta öğrencileri adil ve eğlenceli biçimde rastgele seçin. Animasyonlu arayüzü ile dersi canlandırır, sınıf listesi kaydedilebilir.'},
   smuzik:       {e:'🎵',  n:'S-Müzik',        u:'https://sebasmobil.github.io/s-muzik/',                        b:false,d:'Müzik keşfedin, çalma listeleri oluşturun ve müzikle eğlenin. Sezgisel arayüzü ile dinleme deneyiminizi zenginleştirir.'},
   sokey101:     {e:'🀄',  n:'S-Okey101',      u:'https://sebasmobil.github.io/oyun/okey101.html',               b:false,d:'Okey veya 101 oyunlarında oyuncu puanlarını kolayca takip etmenizi sağlayan çetele uygulamasıdır. Oyuncu ekleme, puan girişi ve skor takibi pratik bir arayüzle sunulur.'},
   sudoku:       {e:'🔢',  n:'Sudoku',          u:'https://sebasmobil.github.io/oyun/sudoku.html',                b:false,d:'Sayı mantığına dayalı klasik Sudoku bulmacası. Farklı zorluk seviyeleriyle hem başlangıç hem ileri düzey oyuncular için uygundur.'},
@@ -1025,8 +1054,10 @@ const apps = {
   diyettakip:   {e:'🥗',  n:'Diyet Takip',     u:'https://sebasmobil.github.io/diger/diyet.html',                 b:false,d:'Günlük kalori alımınızı ve öğünlerinizi takip edin. Beslenme alışkanlıklarınızı düzenlemek için pratik bir günlük tutma aracı.'},
 };
 
+let _currentApp = null;
 function openModal(id) {
   const a = apps[id]; if (!a) return;
+  _currentApp = id;
   document.getElementById('mIco').textContent  = a.e;
   document.getElementById('mName').textContent = a.n;
   document.getElementById('mDesc').textContent = a.d;
@@ -1034,9 +1065,62 @@ function openModal(id) {
   const w = document.getElementById('mWarn');
   w.style.display = a.b ? 'block' : 'none';
   if (a.b) w.textContent = '⚠ Bu uygulama geliştirme aşamasındadır. Kullanımda sorunlar yaşanabilir.';
+
+  const lockEl = document.getElementById('mLock');
+  const btnEl  = document.getElementById('mBtn');
+  const errEl  = document.getElementById('mLockErr');
+  errEl.style.display = 'none';
+  document.getElementById('mLockInput').value = '';
+
+  if (a.locked && !isUnlocked(id)) {
+    lockEl.style.display = 'block';
+    btnEl.style.display  = 'none';
+  } else {
+    lockEl.style.display = 'none';
+    btnEl.style.display  = 'flex';
+  }
+
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+
+function isUnlocked(id) {
+  try { return localStorage.getItem('unlocked_' + id) === '1'; } catch(e) { return false; }
+}
+
+async function sha256Hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function submitLockCode() {
+  const input = document.getElementById('mLockInput');
+  const errEl = document.getElementById('mLockErr');
+  const code = input.value.trim();
+  if (!code) return;
+
+  const hash = await sha256Hex(code);
+  const usedKey = 'used_code_' + hash;
+
+  let alreadyUsed = false;
+  try { alreadyUsed = localStorage.getItem(usedKey) === '1'; } catch(e) {}
+
+  if (ACCESS_HASHES.includes(hash) && !alreadyUsed) {
+    try {
+      localStorage.setItem(usedKey, '1');
+      localStorage.setItem('unlocked_' + _currentApp, '1');
+    } catch(e) {}
+    const a = apps[_currentApp];
+    document.getElementById('mLock').style.display = 'none';
+    document.getElementById('mBtn').style.display = 'flex';
+    errEl.style.display = 'none';
+    window.open(a.u, '_blank');
+  } else {
+    errEl.textContent = alreadyUsed ? 'Bu kod daha önce kullanılmış.' : 'Kod geçersiz. Lütfen kontrol edip tekrar deneyin.';
+    errEl.style.display = 'block';
+  }
+}
+
 function closeModal() {
   document.getElementById('modalBg').classList.remove('open');
   document.body.style.overflow = '';
