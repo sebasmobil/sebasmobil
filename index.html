@@ -764,7 +764,7 @@ footer {
     Ücretsiz, reklamsız, çevrimdışı çalışır.
   </p>
   <div class="hero-stats">
-    <div class="stat-chip"><strong>20+</strong> Uygulama</div>
+    <div class="stat-chip"><strong>21+</strong> Uygulama</div>
     <div class="stat-chip"><strong>0₺</strong> Ücretsiz</div>
     <div class="stat-chip"><strong>∞</strong> Süresiz</div>
     <div class="stat-chip">🔓 GNU AGPL v3.0</div>
@@ -786,7 +786,7 @@ footer {
   <div class="cat-header">
     <span class="cat-title" style="color:var(--accent2)">Eğitim</span>
     <div class="cat-rule"></div>
-    <span class="cat-count">5 uygulama</span>
+    <span class="cat-count">6 uygulama</span>
   </div>
   <div class="apps-grid">
     <div class="app-card" onclick="openModal('skatilim')">
@@ -811,6 +811,12 @@ footer {
       <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><span class="badge b-edu">Eğitim</span></div>
       <div class="card-name">S-Sınav</div>
       <div class="card-short">Fotoğraflarla yazılı sınav kağıdı hazırlama aracı</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
+    </div>
+    <div class="app-card" onclick="openModal('seyyarkutuphane')">
+      <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M12 6v6l3-2"/></svg></div><span class="badge b-edu">Eğitim</span></div>
+      <div class="card-name">Seyyar Kütüphane</div>
+      <div class="card-short">Öğrenciler kitabı okur, bir sonrakine sırayla iletir</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     </div>
     <div class="app-card" onclick="openModal('solcekler')">
@@ -993,7 +999,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.13 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.14 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
@@ -1034,6 +1040,7 @@ const ACCESS_HASHES = ["1b197b48a063eb556cd9fd0b7fcb0c0e9e6a487e78a507ecac401ecd
 const apps = {
   sogretmen:    {e:'👩‍🏫',n:'S-Öğretmen',    u:'http://sebasmobil.github.io/s-ogretmen/',                     b:false,locked:true,d:'Öğretmenlerin sosyal kulüp görevlerini, sınıf rehberliğini, ders programlarını, not çizelgelerini, yazılı analizlerini ve yıllık planlarını tek ekranda yönetmesini sağlayan gelişmiş bir veri girişi uygulamasıdır.'},
   ssinav:       {e:'📝',  n:'S-Sınav',        u:'https://sebasmobil.github.io/s-sinav/',                        b:false,locked:true,d:'Öğretmenlerin fotoğraf tabanlı sorularla yazılı sınav kağıtları hazırlamasını sağlar. İnternet bağlantısı gerektirmez, görsel içeriklerle zengin sınav hazırlığına olanak tanır.'},
+  seyyarkutuphane:{e:'📚',n:'Seyyar Kütüphane',u:'https://sebasmobil.github.io/s-ogretmen/seyyar-kutuphane.html',b:false,locked:true,d:'Sınıftaki kitap döngüsünü yönetir. Öğrenci kitabı okur, yerine koyar; sıradaki arkadaşına otomatik olarak iletilir.'},
   solcekler:    {e:'✅',  n:'S-Ölçekler',     u:'https://sebasmobil.github.io/s-ogretmen/s-olcekler.html',      b:false,locked:true,d:'Proje, performans ve ders içi performans notu değerlendirme ölçeği uygulaması. Öğrenci değerlendirmelerini hızlı ve standart biçimde gerçekleştirin.'},
   splanolus:    {e:'📊',  n:'S-Plan Oluştur', u:'https://sebasmobil.github.io/s-ogretmen/s-plan-olustur.html', b:false,locked:true,d:'Excel dosyasındaki ders planını satır ve sütunları birleştirerek S-Öğretmen uygulamasına uygun formata dönüştürür.'},
   skatilim:     {e:'🎯',  n:'S-Katılım',      u:'https://sebasmobil.github.io/s-katilim/',                      b:false,locked:true,d:'Sınıfta öğrencileri adil ve eğlenceli biçimde rastgele seçin. Animasyonlu arayüzü ile dersi canlandırır, sınıf listesi kaydedilebilir.'},
