@@ -867,13 +867,12 @@ footer {
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-eyebrow"><span class="status-dot"></span>Ücretsiz · Reklamsız · Açık Kaynak</div>
   <h1 class="hero-title">
-    Sade, güçlü
-    <span class="line2">web uygulamaları.</span>
+    Ücretsiz
+    <span class="line2">web uygulamaları</span>
   </h1>
   <p class="hero-sub">
-    Ücretsiz, reklamsız, çevrimdışı çalışır.
+    Çevrimdışı çalışır. Veri saklamaz.
   </p>
   <div class="hero-stats">
     <div class="stat-chip"><strong>21+</strong> Uygulama</div>
@@ -1111,7 +1110,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.16 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.17 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
@@ -1135,13 +1134,14 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v1.0.16</span>
+        <span class="wn-ver">v1.0.17</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
       <div class="wn-scroll" id="wnScroll">
         <ul class="wn-list">
 
+          <li>🏠 Ana sayfa yenilendi — daha sade ve temiz görünüm</li>
           <li>🔒 Eğitim uygulamaları erişim koduyla kilitlendi</li>
           <li>📚 Seyyar Kütüphane eklendi</li>
           <li>👶 Bebek Takip sağlık bölümüne eklendi</li>
@@ -1211,7 +1211,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v1.0.16';
+const WN_VERSION = 'v1.0.17';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
