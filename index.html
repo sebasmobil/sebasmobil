@@ -1122,7 +1122,7 @@ footer {
         <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.21 — Tüm haklar saklıdır</div>
+          <div class="info-val">v1.0.22 — Tüm haklar saklıdır</div>
         </div>
       </div>
     </div>
@@ -1146,7 +1146,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v1.0.21</span>
+        <span class="wn-ver">v1.0.22</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1189,7 +1189,7 @@ footer {
     <div id="mName" class="m-name"></div>
     <div id="mDesc" class="m-desc"></div>
     <div id="mWarn" class="m-warn" style="display:none"></div>
-    <a id="mBtn" class="m-btn" href="#" target="_blank" rel="noopener">Uygulamaya Git ↗</a>
+    <a id="mBtn" class="m-btn" href="#" target="_blank" rel="noopener" onclick="closeModal()">Uygulamaya Git ↗</a>
     <div id="mLock" class="m-lock" style="display:none">
       <div class="m-lock-msg">🔒 Bu uygulama genel kullanıma kapatıldı. Lütfen geliştiriciye ulaşıp uygulama kodu alınız.</div>
       <input id="mLockInput" class="m-lock-input" type="text" placeholder="Erişim kodunu girin" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -1228,7 +1228,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v1.0.21';
+const WN_VERSION = 'v1.0.22';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1312,10 +1312,9 @@ async function submitLockCode() {
       localStorage.setItem('unlocked_' + _currentApp, '1');
     } catch(e) {}
     const a = apps[_currentApp];
-    document.getElementById('mLock').style.display = 'none';
-    document.getElementById('mBtn').style.display = 'flex';
     errEl.style.display = 'none';
     window.open(a.u, '_blank');
+    closeModal();
   } else {
     errEl.textContent = alreadyUsed ? 'Bu kod daha önce kullanılmış.' : 'Kod geçersiz. Lütfen kontrol edip tekrar deneyin.';
     errEl.style.display = 'block';
