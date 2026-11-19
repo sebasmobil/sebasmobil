@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="dark">
+<html lang="tr" data-theme="dark" data-view="list">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -579,9 +579,9 @@ html[data-view="list"] .app-card:hover .card-arrow {
 }
 .stat-chip strong { font-size: 12px; }
 
-.section-header { flex-wrap: nowrap; gap: 10px; padding-bottom: 16px; }
+.section-header { flex-wrap: wrap; gap: 8px 10px; padding-bottom: 16px; }
 .filter-scroll {
-  display: flex; gap: 6px; flex: 1; min-width: 0;
+  display: flex; gap: 6px; flex: 1 1 100%; min-width: 0;
   overflow-x: auto; padding: 2px 16px 2px 0;
   scrollbar-width: none; -webkit-overflow-scrolling: touch;
   -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 16px), transparent);
@@ -593,65 +593,59 @@ html[data-view="list"] .app-card:hover .card-arrow {
 .cat-block { padding-bottom: 32px; }
 .cat-header { margin-bottom: 14px; }
 
+/* ── SORT ── */
+.view-tools { display: flex; gap: 6px; flex-shrink: 0; margin-left: auto; }
+.sort-box {
+  position: relative; width: 36px; height: 33px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: 7px;
+  background: var(--surface); color: var(--text3);
+  transition: color .2s;
+}
+.sort-box:hover { color: var(--text); }
+.sort-box svg { width: 15px; height: 15px; pointer-events: none; }
+.sort-box select {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer; font-size: 16px;
+}
+
 /* ── ABOUT ── */
 .about-section {
   position: relative; z-index: 1;
-  margin: 0 clamp(16px,4vw,60px) 48px;
+  margin: 8px clamp(16px,4vw,60px) 20px;
 }
 .about-inner {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: clamp(28px,4vw,52px);
-  display: grid; grid-template-columns: 1fr 1fr; gap: 52px;
+  border-top: 1px solid var(--border);
+  padding: 18px 0 0;
 }
-@media(max-width:640px){ .about-inner { grid-template-columns:1fr; gap:28px; } }
-
 .about-tag {
   font-family: 'DM Mono', monospace;
   font-size: 10px; letter-spacing: 2px;
   text-transform: uppercase; color: var(--text3);
-  margin-bottom: 12px;
-}
-.about-heading {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: clamp(22px,3vw,30px);
-  letter-spacing: -1px; line-height: 1.2;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .about-body {
-  font-size: 14px; line-height: 1.9;
+  font-size: 13px; line-height: 1.7;
   color: var(--text2); font-weight: 400;
+  margin-bottom: 12px;
 }
-.about-body strong { color: var(--text); font-weight: 600; }
+.about-body strong { color: var(--text); font-weight: 700; font-family: 'Syne', sans-serif; }
 
-.info-list { display: flex; flex-direction: column; }
-.info-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 0; border-bottom: 1px solid var(--border);
-}
-.info-item:last-child { border-bottom: none; padding-bottom: 0; }
-.info-icon {
-  width: 36px; height: 36px; border-radius: 9px;
-  background: var(--surface2); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
+.info-list { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+.info-item { display: flex; align-items: baseline; gap: 6px; }
 .info-lbl {
   font-family: 'DM Mono', monospace;
   font-size: 9px; letter-spacing: 1.5px;
   text-transform: uppercase; color: var(--text3);
-  margin-bottom: 3px;
 }
-.info-val { font-size: 13px; font-weight: 500; }
+.info-val { font-size: 12px; font-weight: 500; }
 .info-val a { color: var(--accent); text-decoration: none; }
 .info-val a:hover { text-decoration: underline; }
 
 /* ── FOOTER ── */
 footer {
   position: relative; z-index: 1;
-  border-top: 1px solid var(--border);
-  padding: 20px clamp(16px,4vw,60px);
+  padding: 0 clamp(16px,4vw,60px) 20px;
   display: flex; align-items: center;
   justify-content: space-between; flex-wrap: wrap; gap: 12px;
 }
@@ -1011,9 +1005,22 @@ footer {
   <button class="filter-btn f-health" onclick="fc('health',this)">🩺 Sağlık</button>
   <button class="filter-btn f-other" onclick="fc('other',this)">🔧 Diğer</button>
   </div>
+  <div class="view-tools">
+  <label class="sort-box" title="Sıralama">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
+    <select id="sortSel" onchange="setSort(this.value)" aria-label="Sıralama">
+      <option value="name">Ad (A → Z)</option>
+      <option value="nameDesc">Ad (Z → A)</option>
+      <option value="newest">Eklenme: yeniden eskiye</option>
+      <option value="oldest">Eklenme: eskiden yeniye</option>
+      <option value="mostUsed">En çok açılan</option>
+      <option value="recent">Son açılan</option>
+    </select>
+  </label>
   <div class="view-toggle" role="group" aria-label="Görünüm">
-    <button class="view-btn active" id="viewCardBtn" onclick="setView('card')" title="Kart görünümü" aria-label="Kart görünümü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
-    <button class="view-btn" id="viewListBtn" onclick="setView('list')" title="Liste görünümü" aria-label="Liste görünümü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
+    <button class="view-btn" id="viewCardBtn" onclick="setView('card')" title="Kart görünümü" aria-label="Kart görünümü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+    <button class="view-btn active" id="viewListBtn" onclick="setView('list')" title="Liste görünümü" aria-label="Liste görünümü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
+  </div>
   </div>
 </div>
 
@@ -1231,42 +1238,13 @@ footer {
 <!-- ABOUT -->
 <div class="about-section" id="hakkinda">
   <div class="about-inner">
-    <div>
-      <div class="about-tag">// hakkında</div>
-      <div class="about-heading">sebasmobil</div>
-      <p class="about-body">
-        Ücretsiz, reklamsız web uygulamaları. Çevrimdışı çalışır, veri saklamaz.
-      </p>
-    </div>
+    <div class="about-tag">// hakkında</div>
+    <p class="about-body"><strong>sebasmobil</strong> — Ücretsiz, reklamsız web uygulamaları. Çevrimdışı çalışır, veri saklamaz.</p>
     <div class="info-list">
-      <div class="info-item">
-        <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <div>
-          <div class="info-lbl">Lisans</div>
-          <div class="info-val">GNU AGPL v3.0 — <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">gnu.org</a></div>
-        </div>
-      </div>
-      <div class="info-item">
-        <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-        <div>
-          <div class="info-lbl">Instagram</div>
-          <div class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></div>
-        </div>
-      </div>
-      <div class="info-item">
-        <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-        <div>
-          <div class="info-lbl">E-posta</div>
-          <div class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></div>
-        </div>
-      </div>
-      <div class="info-item">
-        <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <div>
-          <div class="info-lbl">Sürüm</div>
-          <div class="info-val">v1.0.27 — Tüm haklar saklıdır</div>
-        </div>
-      </div>
+      <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
+      <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
+      <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v1.0.29</span></div>
     </div>
   </div>
 </div>
@@ -1274,11 +1252,6 @@ footer {
 <!-- FOOTER -->
 <footer>
   <span class="footer-copy">© sebasmobil</span>
-  <div class="footer-links">
-    <a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">Instagram</a>
-    <a href="mailto:sebasmobil@proton.me">İletişim</a>
-    <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL v3.0</a>
-  </div>
 </footer>
 
 <!-- MODAL -->
@@ -1288,13 +1261,17 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v1.0.27</span>
+        <span class="wn-ver">v1.0.29</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
       <div class="wn-scroll" id="wnScroll">
         <ul class="wn-list">
 
+          <li>↕ Sıralama ve görünüm düğmeleri kategori filtrelerinin altına alındı</li>
+          <li>↕ Sıralama seçeneği eklendi — ad, eklenme tarihi, en çok ve son açılan</li>
+          <li>☰ Varsayılan görünüm liste oldu</li>
+          <li>📄 Hakkında bölümü sadeleştirildi</li>
           <li>📱 Giriş bölümü küçültüldü, kategori filtreleri tek satıra alındı</li>
           <li>☰ Liste görünümü eklendi — filtre çubuğundaki düğmeyle kart / liste arasında geçiş yapabilirsiniz</li>
           <li>🌱 S-Tarım eklendi — ekim, gübre, verim ve satış takibi</li>
@@ -1338,7 +1315,7 @@ footer {
     <div id="mName" class="m-name"></div>
     <div id="mDesc" class="m-desc"></div>
     <div id="mWarn" class="m-warn" style="display:none"></div>
-    <a id="mBtn" class="m-btn" href="#" target="_blank" rel="noopener" onclick="closeModal()">Uygulamaya Git ↗</a>
+    <a id="mBtn" class="m-btn" href="#" target="_blank" rel="noopener" onclick="trackOpen(_currentApp);closeModal()">Uygulamaya Git ↗</a>
     <div id="mLock" class="m-lock" style="display:none">
       <div class="m-lock-msg">🔒 Bu uygulama genel kullanıma kapatıldı. Lütfen geliştiriciye ulaşıp uygulama kodu alınız.</div>
       <input id="mLockInput" class="m-lock-input" type="text" placeholder="Erişim kodunu girin" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -1380,7 +1357,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v1.0.27';
+const WN_VERSION = 'v1.0.29';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1466,6 +1443,7 @@ async function submitLockCode() {
     const a = apps[_currentApp];
     errEl.style.display = 'none';
     window.open(a.u, '_blank');
+    trackOpen(_currentApp);
     closeModal();
   } else {
     errEl.textContent = alreadyUsed ? 'Bu kod daha önce kullanılmış.' : 'Kod geçersiz. Lütfen kontrol edip tekrar deneyin.';
@@ -1499,9 +1477,77 @@ function setView(v) {
   try { localStorage.setItem('sbm_view', v); } catch(e) {}
 }
 (function () {
-  let v = 'card';
-  try { if (localStorage.getItem('sbm_view') === 'list') v = 'list'; } catch(e) {}
+  let v = 'list';
+  try { if (localStorage.getItem('sbm_view') === 'card') v = 'card'; } catch(e) {}
   _applyView(v);
+})();
+
+// ── SIRALAMA ──
+// Ekleme sırası: yeni uygulama eklenince bir sonraki numara verilir (listede olmayanlar = ilk sürümdeki uygulamalar)
+const APP_ORDER = {
+  alerjitakip: 1, diyettakip: 1,
+  sayiavcisi: 2, notlarim: 3, bebektakip: 4,
+  solcekler: 5, seyyarkutuphane: 6, soturma: 7,
+  nobetcizelgesi: 8,
+  starim: 9, hizlinotgirisi: 9, notdoldurucu: 9
+};
+const SORT_LABELS = {
+  name: 'Ad (A → Z)', nameDesc: 'Ad (Z → A)',
+  newest: 'Eklenme: yeniden eskiye', oldest: 'Eklenme: eskiden yeniye',
+  mostUsed: 'En çok açılan', recent: 'Son açılan'
+};
+function _usage() {
+  try { return JSON.parse(localStorage.getItem('sbm_usage') || '{}'); } catch(e) { return {}; }
+}
+function trackOpen(id) {
+  if (!id) return;
+  try {
+    const u = _usage();
+    const r = u[id] || { c: 0, t: 0 };
+    r.c++; r.t = Date.now(); u[id] = r;
+    localStorage.setItem('sbm_usage', JSON.stringify(u));
+  } catch(e) {}
+  applySort();
+}
+function applySort() {
+  const sel = document.getElementById('sortSel');
+  const mode = sel ? sel.value : 'name';
+  const usage = _usage();
+  const byName = (a, b) => a.name.localeCompare(b.name, 'tr');
+  const cmps = {
+    name:     byName,
+    nameDesc: (a, b) => byName(b, a),
+    newest:   (a, b) => (b.ord - a.ord) || byName(a, b),
+    oldest:   (a, b) => (a.ord - b.ord) || byName(a, b),
+    mostUsed: (a, b) => (b.cnt - a.cnt) || byName(a, b),
+    recent:   (a, b) => (b.last - a.last) || byName(a, b)
+  };
+  document.querySelectorAll('.apps-grid').forEach(grid => {
+    const items = Array.from(grid.querySelectorAll('.app-card')).map(el => {
+      const m = /openModal\('([^']+)'\)/.exec(el.getAttribute('onclick') || '');
+      const id = m ? m[1] : '';
+      const nameEl = el.querySelector('.card-name');
+      const u = usage[id] || {};
+      return { el, id, name: nameEl ? nameEl.textContent.trim() : '', ord: APP_ORDER[id] || 0, cnt: u.c || 0, last: u.t || 0 };
+    });
+    items.sort(cmps[mode] || cmps.name);
+    items.forEach(i => grid.appendChild(i.el));
+  });
+}
+function setSort(v) {
+  if (!SORT_LABELS[v]) v = 'name';
+  const sel = document.getElementById('sortSel');
+  if (sel) sel.value = v;
+  try { localStorage.setItem('sbm_sort', v); } catch(e) {}
+  applySort();
+  if (typeof _showToast === 'function') _showToast('↕ ' + SORT_LABELS[v]);
+}
+(function () {
+  let v = 'name';
+  try { const s = localStorage.getItem('sbm_sort'); if (SORT_LABELS[s]) v = s; } catch(e) {}
+  const sel = document.getElementById('sortSel');
+  if (sel) sel.value = v;
+  applySort();
 })();
 
 const _sysDark = window.matchMedia('(prefers-color-scheme: dark)');
