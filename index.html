@@ -48,12 +48,12 @@
   --text2:     #7c85a8;
   --text3:     #3d4566;
   --accent:    #5b8eff;
-  --accent2:   #9d6eff;
-  --accent3:   #00e5a0;
+  --accent2:   #5b8eff;
+  --accent3:   #5b8eff;
   --red:       #ff6b6b;
   --amber:     #ffb83f;
   --glow1:     rgba(91,142,255,0.15);
-  --glow2:     rgba(157,110,255,0.12);
+  --glow2:     rgba(91,142,255,0.12);
   --card:      #111827;
   --card-hover:#151f32;
   --radius:    16px;
@@ -73,36 +73,36 @@
   --text2:     #5a6385;
   --text3:     #aab0cc;
   --accent:    #3a6ef5;
-  --accent2:   #7c4de8;
-  --accent3:   #00b57d;
+  --accent2:   #3a6ef5;
+  --accent3:   #3a6ef5;
   --red:       #e84040;
   --amber:     #d4900a;
   --glow1:     rgba(58,110,245,0.12);
-  --glow2:     rgba(124,77,232,0.09);
+  --glow2:     rgba(58,110,245,0.09);
   --card:      #ffffff;
   --card-hover:#f7f9ff;
   --shadow:    0 2px 20px rgba(0,0,40,0.08);
   --header-bg: rgba(226,229,245,0.95);
 }
 
-/* ── ACCENT COLOR THEMES ── */
-[data-color="blue"]  { --accent:#5b8eff; --accent2:#9d6eff; --accent3:#00e5a0; --glow1:rgba(91,142,255,0.15); --glow2:rgba(157,110,255,0.12); }
-[data-color="rose"]  { --accent:#ff6b9d; --accent2:#ff4d6d; --accent3:#ffd166; --glow1:rgba(255,107,157,0.15); --glow2:rgba(255,77,109,0.12); }
-[data-color="amber"] { --accent:#f59e0b; --accent2:#ef4444; --accent3:#84cc16; --glow1:rgba(245,158,11,0.15);  --glow2:rgba(239,68,68,0.12); }
-[data-color="green"] { --accent:#10b981; --accent2:#06b6d4; --accent3:#a3e635; --glow1:rgba(16,185,129,0.15); --glow2:rgba(6,182,212,0.12); }
-[data-color="purple"]{ --accent:#a855f7; --accent2:#ec4899; --accent3:#38bdf8; --glow1:rgba(168,85,247,0.15); --glow2:rgba(236,72,153,0.12); }
-[data-color="cyan"]  { --accent:#22d3ee; --accent2:#818cf8; --accent3:#fb7185; --glow1:rgba(34,211,238,0.15); --glow2:rgba(129,140,248,0.12); }
-[data-color="orange"]{ --accent:#fb923c; --accent2:#f43f5e; --accent3:#facc15; --glow1:rgba(251,146,60,0.15);  --glow2:rgba(244,63,94,0.12); }
-[data-color="mono"]  { --accent:#e2e8f0; --accent2:#94a3b8; --accent3:#64748b; --glow1:rgba(226,232,240,0.1);  --glow2:rgba(148,163,184,0.08); }
+/* ── ACCENT COLOR THEMES (düz renk) ── */
+[data-color="blue"] { --accent:#5b8eff; --accent2:#5b8eff; --accent3:#5b8eff; --glow1:rgba(91,142,255,0.15); --glow2:rgba(91,142,255,0.12); --on-accent:#fff; }
+[data-color="rose"] { --accent:#ff6b9d; --accent2:#ff6b9d; --accent3:#ff6b9d; --glow1:rgba(255,107,157,0.15); --glow2:rgba(255,107,157,0.12); --on-accent:#fff; }
+[data-color="amber"] { --accent:#f59e0b; --accent2:#f59e0b; --accent3:#f59e0b; --glow1:rgba(245,158,11,0.15); --glow2:rgba(245,158,11,0.12); --on-accent:#0b0e17; }
+[data-color="green"] { --accent:#10b981; --accent2:#10b981; --accent3:#10b981; --glow1:rgba(16,185,129,0.15); --glow2:rgba(16,185,129,0.12); --on-accent:#fff; }
+[data-color="purple"] { --accent:#a855f7; --accent2:#a855f7; --accent3:#a855f7; --glow1:rgba(168,85,247,0.15); --glow2:rgba(168,85,247,0.12); --on-accent:#fff; }
+[data-color="cyan"] { --accent:#22d3ee; --accent2:#22d3ee; --accent3:#22d3ee; --glow1:rgba(34,211,238,0.15); --glow2:rgba(34,211,238,0.12); --on-accent:#0b0e17; }
+[data-color="orange"] { --accent:#fb923c; --accent2:#fb923c; --accent3:#fb923c; --glow1:rgba(251,146,60,0.15); --glow2:rgba(251,146,60,0.12); --on-accent:#0b0e17; }
+[data-color="mono"] { --accent:#e2e8f0; --accent2:#e2e8f0; --accent3:#e2e8f0; --glow1:rgba(226,232,240,0.15); --glow2:rgba(226,232,240,0.12); --on-accent:#0b0e17; }
 
-[data-theme="light"][data-color="blue"]  { --accent:#3a6ef5; --accent2:#7c4de8; --accent3:#00b57d; --glow1:rgba(58,110,245,0.12); --glow2:rgba(124,77,232,0.09); }
-[data-theme="light"][data-color="rose"]  { --accent:#e11d78; --accent2:#be123c; --accent3:#ca8a04; --glow1:rgba(225,29,120,0.1);   --glow2:rgba(190,18,60,0.08); }
-[data-theme="light"][data-color="amber"] { --accent:#d97706; --accent2:#dc2626; --accent3:#65a30d; --glow1:rgba(217,119,6,0.1);    --glow2:rgba(220,38,38,0.08); }
-[data-theme="light"][data-color="green"] { --accent:#059669; --accent2:#0891b2; --accent3:#65a30d; --glow1:rgba(5,150,105,0.1);    --glow2:rgba(8,145,178,0.08); }
-[data-theme="light"][data-color="purple"]{ --accent:#9333ea; --accent2:#db2777; --accent3:#0284c7; --glow1:rgba(147,51,234,0.1);   --glow2:rgba(219,39,119,0.08); }
-[data-theme="light"][data-color="cyan"]  { --accent:#0891b2; --accent2:#4f46e5; --accent3:#e11d48; --glow1:rgba(8,145,178,0.1);    --glow2:rgba(79,70,229,0.08); }
-[data-theme="light"][data-color="orange"]{ --accent:#ea580c; --accent2:#e11d48; --accent3:#ca8a04; --glow1:rgba(234,88,12,0.1);    --glow2:rgba(225,29,72,0.08); }
-[data-theme="light"][data-color="mono"]  { --accent:#334155; --accent2:#64748b; --accent3:#94a3b8; --glow1:rgba(51,65,85,0.08);    --glow2:rgba(100,116,139,0.06); }
+[data-theme="light"][data-color="blue"] { --accent:#3a6ef5; --accent2:#3a6ef5; --accent3:#3a6ef5; --glow1:rgba(58,110,245,0.12); --glow2:rgba(58,110,245,0.09); --on-accent:#fff; }
+[data-theme="light"][data-color="rose"] { --accent:#e11d78; --accent2:#e11d78; --accent3:#e11d78; --glow1:rgba(225,29,120,0.12); --glow2:rgba(225,29,120,0.09); --on-accent:#fff; }
+[data-theme="light"][data-color="amber"] { --accent:#d97706; --accent2:#d97706; --accent3:#d97706; --glow1:rgba(217,119,6,0.12); --glow2:rgba(217,119,6,0.09); --on-accent:#fff; }
+[data-theme="light"][data-color="green"] { --accent:#059669; --accent2:#059669; --accent3:#059669; --glow1:rgba(5,150,105,0.12); --glow2:rgba(5,150,105,0.09); --on-accent:#fff; }
+[data-theme="light"][data-color="purple"] { --accent:#9333ea; --accent2:#9333ea; --accent3:#9333ea; --glow1:rgba(147,51,234,0.12); --glow2:rgba(147,51,234,0.09); --on-accent:#fff; }
+[data-theme="light"][data-color="cyan"] { --accent:#0891b2; --accent2:#0891b2; --accent3:#0891b2; --glow1:rgba(8,145,178,0.12); --glow2:rgba(8,145,178,0.09); --on-accent:#fff; }
+[data-theme="light"][data-color="orange"] { --accent:#ea580c; --accent2:#ea580c; --accent3:#ea580c; --glow1:rgba(234,88,12,0.12); --glow2:rgba(234,88,12,0.09); --on-accent:#fff; }
+[data-theme="light"][data-color="mono"] { --accent:#334155; --accent2:#334155; --accent3:#334155; --glow1:rgba(51,65,85,0.12); --glow2:rgba(51,65,85,0.09); --on-accent:#fff; }
 
 body {
   font-family: 'Space Grotesk', sans-serif;
@@ -344,10 +344,10 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 }
 .filter-btn:hover { color: var(--text); border-color: var(--border2); }
 .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
-.filter-btn.f-edu.active   { background: var(--accent2); color: #fff; border-color: var(--accent2); box-shadow: 0 4px 16px var(--glow2); }
-.filter-btn.f-ent.active   { background: var(--accent3); color: #0d1120; border-color: var(--accent3); }
-.filter-btn.f-game.active  { background: var(--accent); color: #fff; border-color: var(--accent); }
-.filter-btn.f-other.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+.filter-btn.f-edu.active   { background: var(--accent2); color: var(--on-accent, #fff); border-color: var(--accent2); box-shadow: 0 4px 16px var(--glow2); }
+.filter-btn.f-ent.active   { background: var(--accent3); color: var(--on-accent, #fff); border-color: var(--accent3); }
+.filter-btn.f-game.active  { background: var(--accent); color: var(--on-accent, #fff); border-color: var(--accent); }
+.filter-btn.f-other.active { background: var(--accent2); color: var(--on-accent, #fff); border-color: var(--accent2); }
 
 /* ── CATEGORY SECTIONS ── */
 .cat-block {
@@ -443,7 +443,7 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 .icon-ent   { background: linear-gradient(135deg,var(--glow2),var(--glow1)); }
 .icon-game  { background: linear-gradient(135deg,var(--glow1),var(--glow2)); }
 .icon-other { background: linear-gradient(135deg,var(--glow2),var(--glow1)); }
-.icon-health { background: linear-gradient(135deg,rgba(0,229,160,0.12),rgba(0,229,160,0.06)); }
+.icon-health { background: linear-gradient(135deg,var(--glow1),var(--glow2)); }
 
 .badge {
   font-family: 'DM Mono', monospace;
@@ -455,7 +455,7 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
 .b-ent   { background: var(--glow2); color: var(--accent2); border: 1px solid var(--glow2); }
 .b-game  { background: var(--glow1); color: var(--accent);  border: 1px solid var(--glow1); }
 .b-other { background: var(--glow2); color: var(--accent2); border: 1px solid var(--glow2); }
-.b-health { background: rgba(0,229,160,0.1); color: var(--accent3); border: 1px solid rgba(0,229,160,0.2); }
+.b-health { background: var(--glow2); color: var(--accent3); border: 1px solid var(--glow2); }
 .b-beta  { background: var(--glow1); color: var(--accent2); border: 1px solid var(--glow1); }
 
 .card-name {
@@ -488,7 +488,7 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
   transition: all 0.2s;
 }
 .app-card:hover .card-arrow {
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--on-accent, #fff);
   transform: rotate(-45deg) scale(1.1);
 }
 
@@ -609,6 +609,35 @@ html[data-view="list"] .app-card:hover .card-arrow {
   opacity: 0; cursor: pointer; font-size: 16px;
 }
 
+/* ── SOLID COLOR PICKER ── */
+.palette-btn-dots { display: block; width: 14px; height: 14px; }
+.palette-btn-dot { width: 100%; height: 100%; border-radius: 50%; background: var(--accent); }
+.palette-panel {
+  grid-template-columns: repeat(3, 34px);
+  gap: 10px; padding: 14px; width: max-content;
+}
+.color-swatch {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid transparent;
+  box-shadow: inset 0 0 0 1px rgba(128,128,128,.25);
+}
+.color-swatch.active { border-color: var(--text); }
+.color-swatch.active::after { color: inherit; text-shadow: none; font-size: 14px; pointer-events: none; }
+.custom-swatch {
+  display: block; overflow: hidden; cursor: pointer;
+  background: conic-gradient(#ff5b5b, #ffd23f, #5bff8a, #3fe0ff, #5b8eff, #c35bff, #ff5b5b);
+}
+.custom-swatch input[type="color"] {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer; border: 0; padding: 0;
+}
+.custom-swatch:not(.active)::before {
+  content: '+'; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 18px;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5); pointer-events: none;
+}
+
 /* ── ABOUT ── */
 .about-section {
   position: relative; z-index: 1;
@@ -719,7 +748,7 @@ footer {
   width: 100%; padding: 15px;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-  color: #fff;
+  color: var(--on-accent, #fff);
   font-family: 'Syne', sans-serif;
   font-weight: 700; font-size: 14px; letter-spacing: -0.2px;
   text-decoration: none; border: none; cursor: pointer;
@@ -817,7 +846,7 @@ footer {
   border-radius: 12px; border: none; cursor: pointer;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 15px; font-weight: 600;
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--on-accent, #fff);
   transition: opacity .15s;
 }
 .wn-dismiss:hover { opacity: .85; }
@@ -833,7 +862,7 @@ footer {
   display: flex; align-items: center; justify-content: center;
   transition: background .15s, border-color .15s;
 }
-.wn-check-box svg { width: 12px; height: 10px; stroke: #fff; opacity: 0; transition: opacity .15s; }
+.wn-check-box svg { width: 12px; height: 10px; stroke: var(--on-accent, #fff); opacity: 0; transition: opacity .15s; }
 .wn-check-label input:checked + .wn-check-box {
   background: var(--accent); border-color: var(--accent);
 }
@@ -991,7 +1020,6 @@ footer {
     <div class="stat-chip"><strong>26+</strong> Uygulama</div>
     <div class="stat-chip"><strong>0₺</strong> Ücretsiz</div>
     <div class="stat-chip"><strong>∞</strong> Süresiz</div>
-    <div class="stat-chip">🔓 GNU AGPL v3.0</div>
   </div>
 </section>
 
@@ -1244,7 +1272,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v1.0.29</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.0</span></div>
     </div>
   </div>
 </div>
@@ -1261,13 +1289,16 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v1.0.29</span>
+        <span class="wn-ver">v2.0</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
       <div class="wn-scroll" id="wnScroll">
         <ul class="wn-list">
 
+          <li>🎉 Sürüm 2.0</li>
+          <li>📱 Giriş bölümündeki lisans etiketi kaldırıldı, ekran daha kısa</li>
+          <li>🎨 Renk temaları düz renk oldu, paletten istediğin rengi seçebilirsin</li>
           <li>↕ Sıralama ve görünüm düğmeleri kategori filtrelerinin altına alındı</li>
           <li>↕ Sıralama seçeneği eklendi — ad, eklenme tarihi, en çok ve son açılan</li>
           <li>☰ Varsayılan görünüm liste oldu</li>
@@ -1357,7 +1388,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v1.0.29';
+const WN_VERSION = 'v2.0';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1556,6 +1587,7 @@ function _applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   const color = t === 'dark' ? '#080b12' : '#e2e5f5';
   document.getElementById('themeColorMeta').setAttribute('content', color);
+  try { _onThemeApplied(); } catch(e) {}
 }
 
 function _updateThemeBtn(mode) {
@@ -1605,47 +1637,165 @@ _sysDark.addEventListener('change', e => {
   }
 });
 
-/* ── PALETTE ── */
+/* ── PALETTE (düz renkler + özel renk) ── */
 const palettes = [
-  { id:'blue',   label:'Mavi',   colors:['#5b8eff','#9d6eff','#00e5a0','#3d4566'] },
-  { id:'rose',   label:'Pembe',  colors:['#ff6b9d','#ff4d6d','#ffd166','#3d4566'] },
-  { id:'amber',  label:'Sarı',   colors:['#f59e0b','#ef4444','#84cc16','#3d4566'] },
-  { id:'green',  label:'Yeşil',  colors:['#10b981','#06b6d4','#a3e635','#3d4566'] },
-  { id:'purple', label:'Mor',    colors:['#a855f7','#ec4899','#38bdf8','#3d4566'] },
-  { id:'cyan',   label:'Camgöbeği', colors:['#22d3ee','#818cf8','#fb7185','#3d4566'] },
-  { id:'orange', label:'Turuncu',colors:['#fb923c','#f43f5e','#facc15','#3d4566'] },
-  { id:'mono',   label:'Mono',   colors:['#e2e8f0','#94a3b8','#64748b','#3d4566'] },
+  { id:'blue',   label:'Mavi',      dark:'#5b8eff', light:'#3a6ef5' },
+  { id:'rose',   label:'Pembe',     dark:'#ff6b9d', light:'#e11d78' },
+  { id:'amber',  label:'Sarı',      dark:'#f59e0b', light:'#d97706' },
+  { id:'green',  label:'Yeşil',     dark:'#10b981', light:'#059669' },
+  { id:'purple', label:'Mor',       dark:'#a855f7', light:'#9333ea' },
+  { id:'cyan',   label:'Camgöbeği', dark:'#22d3ee', light:'#0891b2' },
+  { id:'orange', label:'Turuncu',   dark:'#fb923c', light:'#ea580c' },
+  { id:'mono',   label:'Mono',      dark:'#e2e8f0', light:'#334155' }
 ];
-
 let currentColor = 'blue';
+let customHex = '#5b8eff';
+
+/* color-utils */
+function _hex2rgb(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+function _rgb2hex(r, g, b) {
+  return '#' + [r, g, b].map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0')).join('');
+}
+function _lum(r, g, b) {
+  const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+function _rgb2hsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0; const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h /= 6;
+  }
+  return [h, s, l];
+}
+function _hsl2rgb(h, s, l) {
+  if (s === 0) { const v = l * 255; return [v, v, v]; }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+  const f = t => {
+    if (t < 0) t += 1; if (t > 1) t -= 1;
+    if (t < 1/6) return p + (q - p) * 6 * t;
+    if (t < 1/2) return q;
+    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    return p;
+  };
+  return [f(h + 1/3) * 255, f(h) * 255, f(h - 1/3) * 255];
+}
+// Seçilen rengi okunabilir kalacak aralığa çeker (koyu temada çok koyu, açık temada çok açık renkleri düzeltir)
+function _fitColor(hex, light) {
+  let [r, g, b] = _hex2rgb(hex);
+  const [h, s, l0] = _rgb2hsl(r, g, b);
+  let l = l0;
+  for (let i = 0; i < 80; i++) {
+    const L = _lum(r, g, b);
+    if (light && L > 0.28) l -= 0.015;
+    else if (!light && L < 0.12) l += 0.015;
+    else break;
+    l = Math.max(0, Math.min(1, l));
+    [r, g, b] = _hsl2rgb(h, s, l);
+  }
+  return _rgb2hex(r, g, b);
+}
+function _textOn(hex) { const [r, g, b] = _hex2rgb(hex); return _lum(r, g, b) > 0.4 ? '#0b0e17' : '#fff'; }
+/* /color-utils */
+
+function _isLightTheme() { return document.documentElement.getAttribute('data-theme') === 'light'; }
+
+function _paintCustom() {
+  const root = document.documentElement, light = _isLightTheme();
+  const fit = _fitColor(customHex, light);
+  const [r, g, b] = _hex2rgb(fit);
+  root.style.setProperty('--accent', fit);
+  root.style.setProperty('--accent2', fit);
+  root.style.setProperty('--accent3', fit);
+  root.style.setProperty('--glow1', `rgba(${r},${g},${b},${light ? 0.12 : 0.15})`);
+  root.style.setProperty('--glow2', `rgba(${r},${g},${b},${light ? 0.09 : 0.12})`);
+  root.style.setProperty('--on-accent', _textOn(fit));
+}
+function _clearCustom() {
+  const root = document.documentElement;
+  ['--accent', '--accent2', '--accent3', '--glow1', '--glow2', '--on-accent'].forEach(p => root.style.removeProperty(p));
+}
 
 function buildPalette() {
   const panel = document.getElementById('palettePanel');
   panel.innerHTML = '';
   palettes.forEach(p => {
     const sw = document.createElement('button');
-    sw.className = 'color-swatch' + (p.id === currentColor ? ' active' : '');
+    sw.className = 'color-swatch';
+    sw.dataset.id = p.id;
     sw.title = p.label;
-    sw.style.background = `linear-gradient(135deg, ${p.colors[0]} 0%, ${p.colors[1]} 50%, ${p.colors[2]} 100%)`;
     sw.onclick = () => applyColor(p.id);
     panel.appendChild(sw);
   });
-  updateDots();
+  const lab = document.createElement('label');
+  lab.className = 'color-swatch custom-swatch';
+  lab.dataset.id = 'custom';
+  lab.title = 'Özel renk seç';
+  const inp = document.createElement('input');
+  inp.type = 'color';
+  inp.id = 'customColorInput';
+  inp.value = customHex;
+  inp.setAttribute('aria-label', 'Özel renk');
+  inp.addEventListener('input', () => applyCustom(inp.value));
+  lab.appendChild(inp);
+  panel.appendChild(lab);
+  document.getElementById('paletteDots').innerHTML = '<div class="palette-btn-dot"></div>';
+  _syncPanel();
 }
 
-function updateDots() {
-  const p = palettes.find(x => x.id === currentColor) || palettes[0];
-  const dots = document.getElementById('paletteDots');
-  dots.innerHTML = p.colors.slice(0,4).map((c,i) =>
-    `<div class="palette-btn-dot" style="background:${c}"></div>`
-  ).join('');
+function _syncPanel() {
+  const panel = document.getElementById('palettePanel');
+  if (!panel) return;
+  const light = _isLightTheme();
+  panel.querySelectorAll('.color-swatch').forEach(sw => {
+    const id = sw.dataset.id;
+    sw.classList.toggle('active', id === currentColor);
+    if (id === 'custom') {
+      if (currentColor === 'custom') {
+        const fit = _fitColor(customHex, light);
+        sw.style.background = fit; sw.style.color = _textOn(fit);
+      } else { sw.style.background = ''; sw.style.color = '#fff'; }
+    } else {
+      const p = palettes.find(x => x.id === id);
+      const c = light ? p.light : p.dark;
+      sw.style.background = c; sw.style.color = _textOn(c);
+    }
+  });
+  const inp = document.getElementById('customColorInput');
+  if (inp && inp.value.toLowerCase() !== customHex) inp.value = customHex;
 }
 
 function applyColor(id) {
+  _clearCustom();
   currentColor = id;
   document.documentElement.setAttribute('data-color', id);
-  try { localStorage.setItem('sbm_color', id); } catch(e){}
-  buildPalette();
+  try { localStorage.setItem('sbm_color', id); } catch(e) {}
+  _syncPanel();
+}
+
+function applyCustom(hex) {
+  if (!/^#[0-9a-f]{6}$/i.test(hex)) return;
+  customHex = hex.toLowerCase();
+  currentColor = 'custom';
+  document.documentElement.setAttribute('data-color', 'custom');
+  _paintCustom();
+  try {
+    localStorage.setItem('sbm_color', 'custom');
+    localStorage.setItem('sbm_color_custom', customHex);
+  } catch(e) {}
+  _syncPanel();
+}
+
+// Tema (koyu/açık) değişince özel rengi ve paneli yeniden uyarlar
+function _onThemeApplied() {
+  if (currentColor === 'custom') _paintCustom();
+  _syncPanel();
 }
 
 function togglePalette() {
@@ -1659,18 +1809,20 @@ document.addEventListener('click', e => {
 });
 
 (function(){
+  let c = 'blue', ch = null;
+  try { c = localStorage.getItem('sbm_color') || 'blue'; ch = localStorage.getItem('sbm_color_custom'); } catch(e){}
+  if (ch && /^#[0-9a-f]{6}$/i.test(ch)) customHex = ch.toLowerCase();
+  if (c !== 'custom' && !palettes.some(p => p.id === c)) c = 'blue';
+  currentColor = c;
+  document.documentElement.setAttribute('data-color', c);
+  buildPalette();
+
   let saved;
   try { saved = localStorage.getItem('sbm_theme'); } catch(e){}
   const mode = saved || 'auto';
   const t = mode === 'auto' ? (_sysDark.matches ? 'dark' : 'light') : mode;
   _applyTheme(t);
   _updateThemeBtn(mode);
-
-  let c = 'blue';
-  try { c = localStorage.getItem('sbm_color') || 'blue'; } catch(e){}
-  currentColor = c;
-  document.documentElement.setAttribute('data-color', c);
-  buildPalette();
 })();
 
 /* ── SCROLL & ENTRANCE ANIMATIONS ── */
