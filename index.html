@@ -677,6 +677,37 @@ html[data-view="list"] .app-card:hover .card-arrow {
 .ctx-item:hover, .ctx-item:active { background: var(--card-hover); }
 .ctx-i { width: 24px; text-align: center; font-size: 17px; flex-shrink: 0; }
 
+/* ── UYGULAMA PENCERESİ ── */
+.app-frame {
+  position: fixed; inset: 0; z-index: 800;
+  background: var(--bg);
+  display: none; flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.app-frame.open { display: flex; }
+.app-frame-bar {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 10px;
+  padding: calc(env(safe-area-inset-top, 0px) + 6px) 8px 6px 14px;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.app-frame-name {
+  flex: 1; min-width: 0;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px;
+  color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.app-frame-close {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); font-size: 15px; cursor: pointer;
+}
+.app-frame-body { flex: 1 1 auto; min-height: 0; position: relative; }
+.app-frame-body iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; background: #fff;
+}
+
 /* ── ABOUT ── */
 .about-section {
   position: relative; z-index: 1;
@@ -1321,7 +1352,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.1</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.2</span></div>
     </div>
   </div>
 </div>
@@ -1332,6 +1363,14 @@ footer {
 </footer>
 
 <!-- MODAL -->
+<div class="app-frame" id="appFrame">
+  <div class="app-frame-bar">
+    <span class="app-frame-name" id="appFrameName"></span>
+    <button class="app-frame-close" type="button" onclick="closeApp()" aria-label="Kapat">✕</button>
+  </div>
+  <div class="app-frame-body" id="appFrameBody"></div>
+</div>
+
 <div class="ctx-bg" id="ctxBg" onclick="closeCtx(event)">
   <div class="ctx-sheet">
     <div class="ctx-handle"></div>
@@ -1346,7 +1385,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.1</span>
+        <span class="wn-ver">v2.2</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1354,7 +1393,8 @@ footer {
         <ul class="wn-list">
 
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
-          <li>👆 Uygulamaya uzun basınca menü açılır: favorilere ekle, hemen aç, bağlantıyı kopyala, paylaş</li>
+          <li>📲 Uygulamalar artık sayfadan çıkmadan, tam ekran pencerede açılıyor</li>
+          <li>👆 Uygulamaya uzun basınca menü açılır: favorilere ekle, hemen aç, ayrıntılar</li>
           <li>🎉 Sürüm 2.0</li>
           <li>📱 Giriş bölümündeki lisans etiketi kaldırıldı, ekran daha kısa</li>
           <li>🎨 Renk temaları düz renk oldu, paletten istediğin rengi seçebilirsin</li>
@@ -1405,7 +1445,7 @@ footer {
     <div id="mName" class="m-name"></div>
     <div id="mDesc" class="m-desc"></div>
     <div id="mWarn" class="m-warn" style="display:none"></div>
-    <a id="mBtn" class="m-btn" href="#" target="_blank" rel="noopener" onclick="trackOpen(_currentApp);closeModal()">Uygulamaya Git ↗</a>
+    <button id="mBtn" class="m-btn" type="button" onclick="closeModal();openApp(_currentApp)">Uygulamaya Git ↗</button>
     <div id="mLock" class="m-lock" style="display:none">
       <div class="m-lock-msg">🔒 Bu uygulama genel kullanıma kapatıldı. Lütfen geliştiriciye ulaşıp uygulama kodu alınız.</div>
       <input id="mLockInput" class="m-lock-input" type="text" placeholder="Erişim kodunu girin" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -1421,7 +1461,7 @@ const apps = {
   hizlinotgirisi:{e:'⚡', n:'Hızlı Not Girişi', u:'https://sebasmobil.github.io/s-ogretmen/hizli-not-girisi.html', b:false,locked:false,d:'OYSS için yazılı analiz verilerinin hızlı bir şekilde girilmesini sağlar.'},
   notdoldurucu: {e:'✏️', n:'Not Doldurucu',   u:'https://sebasmobil.github.io/s-ogretmen/not-doldurucu.html',   b:false,locked:true,d:''},
   nobetcizelgesi:{e:'📋', n:'Nöbet Çizelgesi', u:'https://sebasmobil.github.io/s-ogretmen/nobet-cizelgesi.html', b:false,locked:false,d:'Sınıf nöbet görevlerini oluşturun ve takip edin. Öğrencilere otomatik nöbet ataması yapın, çizelgeyi kolayca yönetin.'},
-  sogretmen:    {e:'👩‍🏫',n:'S-Öğretmen',    u:'http://sebasmobil.github.io/s-ogretmen/',                     b:false,locked:false,d:'Öğretmenlerin sosyal kulüp görevlerini, sınıf rehberliğini, ders programlarını, not çizelgelerini, yazılı analizlerini ve yıllık planlarını tek ekranda yönetmesini sağlayan gelişmiş bir veri girişi uygulamasıdır.'},
+  sogretmen:    {e:'👩‍🏫',n:'S-Öğretmen',    u:'https://sebasmobil.github.io/s-ogretmen/',                     b:false,locked:false,d:'Öğretmenlerin sosyal kulüp görevlerini, sınıf rehberliğini, ders programlarını, not çizelgelerini, yazılı analizlerini ve yıllık planlarını tek ekranda yönetmesini sağlayan gelişmiş bir veri girişi uygulamasıdır.'},
   ssinav:       {e:'📝',  n:'S-Sınav',        u:'https://sebasmobil.github.io/s-sinav/',                        b:false,locked:false,d:'Öğretmenlerin fotoğraf tabanlı sorularla yazılı sınav kağıtları hazırlamasını sağlar. İnternet bağlantısı gerektirmez, görsel içeriklerle zengin sınav hazırlığına olanak tanır.'},
   seyyarkutuphane:{e:'📚',n:'Seyyar Kütüphane',u:'https://sebasmobil.github.io/s-ogretmen/seyyar-kutuphane.html',b:false,locked:false,d:'Sınıftaki kitap döngüsünü yönetir. Öğrenci kitabı okur, yerine koyar; sıradaki arkadaşına otomatik olarak iletilir.'},
   solcekler:    {e:'✅',  n:'S-Ölçekler',     u:'https://sebasmobil.github.io/s-ogretmen/s-olcekler.html',      b:false,locked:false,d:'Proje, performans ve ders içi performans notu değerlendirme ölçeği uygulaması. Öğrenci değerlendirmelerini hızlı ve standart biçimde gerçekleştirin.'},
@@ -1447,7 +1487,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.1';
+const WN_VERSION = 'v2.2';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1481,7 +1521,6 @@ function openModal(id) {
   document.getElementById('mIco').textContent  = a.e;
   document.getElementById('mName').textContent = a.n;
   document.getElementById('mDesc').textContent = a.d;
-  document.getElementById('mBtn').href         = a.u;
   const w = document.getElementById('mWarn');
   w.style.display = a.b ? 'block' : 'none';
   if (a.b) w.textContent = '⚠ Bu uygulama geliştirme aşamasındadır. Kullanımda sorunlar yaşanabilir.';
@@ -1532,9 +1571,8 @@ async function submitLockCode() {
     } catch(e) {}
     const a = apps[_currentApp];
     errEl.style.display = 'none';
-    window.open(a.u, '_blank');
-    trackOpen(_currentApp);
     closeModal();
+    openApp(_currentApp);
   } else {
     errEl.textContent = alreadyUsed ? 'Bu kod daha önce kullanılmış.' : 'Kod geçersiz. Lütfen kontrol edip tekrar deneyin.';
     errEl.style.display = 'block';
@@ -1695,22 +1733,6 @@ function renderFavs() {
   applySort();
 }
 
-function _fallbackCopy(text, done) {
-  const t = document.createElement('textarea');
-  t.value = text;
-  t.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px';
-  document.body.appendChild(t);
-  t.focus(); t.select();
-  try { if (document.execCommand('copy')) done(); } catch(e) {}
-  document.body.removeChild(t);
-}
-function _copyLink(url) {
-  const done = () => _showToast('🔗 Bağlantı kopyalandı');
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(url).then(done).catch(() => _fallbackCopy(url, done));
-  } else { _fallbackCopy(url, done); }
-}
-
 function openCtx(id) {
   const a = apps[id]; if (!a) return;
   // Kilitli ve henüz açılmamış uygulamalarda bağlantıyı ele veren seçenekler gösterilmez
@@ -1720,9 +1742,7 @@ function openCtx(id) {
   document.getElementById('ctxName').textContent = a.n;
   const items = [{ i: fav ? '☆' : '⭐', t: fav ? 'Favorilerden çıkar' : 'Favorilere ekle', f: () => toggleFav(id) }];
   if (canOpen) {
-    items.push({ i: '↗', t: 'Hemen aç', f: () => { trackOpen(id); window.open(a.u, '_blank'); } });
-    items.push({ i: '🔗', t: 'Bağlantıyı kopyala', f: () => _copyLink(a.u) });
-    if (navigator.share) items.push({ i: '📤', t: 'Paylaş', f: () => navigator.share({ title: a.n, url: a.u }).catch(() => {}) });
+    items.push({ i: '↗', t: 'Hemen aç', f: () => openApp(id) });
   }
   items.push({ i: 'ℹ️', t: 'Ayrıntılar', f: () => openModal(id) });
   const list = document.getElementById('ctxList');
@@ -1749,7 +1769,42 @@ function closeCtx(e) {
   document.getElementById('ctxBg').classList.remove('open');
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCtx(); });
+// ── UYGULAMA PENCERESİ (adres çubuğunda bağlantı görünmez) ──
+let _appOpen = false, _appPushed = false;
+function openApp(id) {
+  const a = apps[id]; if (!a) return;
+  trackOpen(id);
+  document.getElementById('appFrameName').textContent = a.n;
+  const body = document.getElementById('appFrameBody');
+  body.innerHTML = '';
+  const fr = document.createElement('iframe');
+  fr.title = a.n;
+  fr.setAttribute('allow', 'fullscreen; clipboard-write');
+  fr.src = a.u.replace(/^http:\/\//, 'https://');
+  body.appendChild(fr);
+  document.getElementById('appFrame').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  _appOpen = true;
+  // Geri hareketi uygulamayı kapatsın, kataloğdan çıkarmasın
+  try { history.pushState({ sbmApp: id }, ''); _appPushed = true; } catch(e) { _appPushed = false; }
+}
+function _hideApp() {
+  _appOpen = false;
+  document.getElementById('appFrame').classList.remove('open');
+  document.getElementById('appFrameBody').innerHTML = '';  // iframe kaldırılır, içeriği ve geçmişi atılır
+  document.body.style.overflow = '';
+}
+function closeApp() {
+  if (!_appOpen) return;
+  _hideApp();
+  if (_appPushed) { _appPushed = false; try { history.back(); } catch(e) {} }
+}
+window.addEventListener('popstate', () => {
+  if (_appOpen) { _appPushed = false; _hideApp(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (_appOpen) closeApp(); else closeCtx(); }
+});
 
 // Uzun basma (dokunmatik + fare) ve sağ tık
 (function () {
