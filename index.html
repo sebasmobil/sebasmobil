@@ -638,6 +638,45 @@ html[data-view="list"] .app-card:hover .card-arrow {
   text-shadow: 0 1px 3px rgba(0,0,0,.5); pointer-events: none;
 }
 
+/* ── FAVORİLER + UZUN BASMA MENÜSÜ ── */
+.app-card { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.app-card.lp-press { transform: scale(.97) !important; }
+.app-card.is-fav .card-name::after { content: ' ★'; color: var(--amber); font-size: .85em; }
+
+.ctx-bg {
+  position: fixed; inset: 0; z-index: 700;
+  background: rgba(0,0,0,.45); backdrop-filter: blur(6px);
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.ctx-bg.open { opacity: 1; pointer-events: all; }
+.ctx-sheet {
+  width: 100%; max-width: 420px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 10px 12px calc(14px + env(safe-area-inset-bottom, 0px));
+  transform: translateY(24px); transition: transform .25s;
+}
+.ctx-bg.open .ctx-sheet { transform: translateY(0); }
+.ctx-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 12px; }
+.ctx-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 2px 8px 12px; margin-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: var(--text);
+}
+.ctx-ico { font-size: 22px; }
+.ctx-list { display: flex; flex-direction: column; gap: 2px; }
+.ctx-item {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 13px 10px;
+  border: none; background: none; border-radius: 10px;
+  color: var(--text); font-family: inherit; font-size: 15px; text-align: left;
+  cursor: pointer;
+}
+.ctx-item:hover, .ctx-item:active { background: var(--card-hover); }
+.ctx-i { width: 24px; text-align: center; font-size: 17px; flex-shrink: 0; }
+
 /* ── ABOUT ── */
 .about-section {
   position: relative; z-index: 1;
@@ -1052,6 +1091,16 @@ footer {
   </div>
 </div>
 
+<!-- FAVORİLER -->
+<div class="cat-block hidden" id="sec-fav">
+  <div class="cat-header">
+    <span class="cat-title" style="color:var(--amber)">⭐ Favori Uygulamalar</span>
+    <div class="cat-rule"></div>
+    <span class="cat-count" id="favCount">0 uygulama</span>
+  </div>
+  <div class="apps-grid" id="favGrid"></div>
+</div>
+
 <!-- EDU -->
 <div class="cat-block" id="sec-edu">
   <div class="cat-header">
@@ -1272,7 +1321,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.0</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.1</span></div>
     </div>
   </div>
 </div>
@@ -1283,19 +1332,29 @@ footer {
 </footer>
 
 <!-- MODAL -->
+<div class="ctx-bg" id="ctxBg" onclick="closeCtx(event)">
+  <div class="ctx-sheet">
+    <div class="ctx-handle"></div>
+    <div class="ctx-head"><span class="ctx-ico" id="ctxIco"></span><span id="ctxName"></span></div>
+    <div class="ctx-list" id="ctxList"></div>
+  </div>
+</div>
+
 <div id="whatsNewBg">
   <div id="whatsNewSheet">
     <div class="wn-top">
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.0</span>
+        <span class="wn-ver">v2.1</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
       <div class="wn-scroll" id="wnScroll">
         <ul class="wn-list">
 
+          <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
+          <li>👆 Uygulamaya uzun basınca menü açılır: favorilere ekle, hemen aç, bağlantıyı kopyala, paylaş</li>
           <li>🎉 Sürüm 2.0</li>
           <li>📱 Giriş bölümündeki lisans etiketi kaldırıldı, ekran daha kısa</li>
           <li>🎨 Renk temaları düz renk oldu, paletten istediğin rengi seçebilirsin</li>
@@ -1388,7 +1447,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.0';
+const WN_VERSION = 'v2.1';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1580,6 +1639,166 @@ function setSort(v) {
   if (sel) sel.value = v;
   applySort();
 })();
+
+// ── FAVORİLER + UZUN BASMA MENÜSÜ ──
+let _curCat = 'all';
+let _ctxOpenedAt = 0, _lpFired = false;
+
+function _cardId(el) {
+  const m = /openModal\('([^']+)'\)/.exec(el.getAttribute('onclick') || '');
+  return m ? m[1] : '';
+}
+function _getFavs() {
+  try {
+    const a = JSON.parse(localStorage.getItem('sbm_favs') || '[]');
+    return Array.isArray(a) ? a.filter(id => apps[id]) : [];
+  } catch(e) { return []; }
+}
+function _setFavs(list) { try { localStorage.setItem('sbm_favs', JSON.stringify(list)); } catch(e) {} }
+function isFav(id) { return _getFavs().includes(id); }
+
+function toggleFav(id) {
+  let f = _getFavs();
+  const had = f.includes(id);
+  f = had ? f.filter(x => x !== id) : f.concat(id);
+  _setFavs(f);
+  renderFavs();
+  _showToast(had ? '☆ Favorilerden çıkarıldı' : '⭐ Favorilere eklendi');
+}
+
+function _updateFavVisibility() {
+  const sec = document.getElementById('sec-fav');
+  if (!sec) return;
+  const has = _getFavs().length > 0;
+  sec.classList.toggle('hidden', !(has && _curCat === 'all'));
+  if (has) { const h = sec.querySelector('.cat-header'); if (h) h.classList.add('visible'); }
+}
+
+function renderFavs() {
+  const grid = document.getElementById('favGrid');
+  if (!grid) return;
+  const favs = _getFavs();
+  const originals = {};
+  document.querySelectorAll('.cat-block:not(#sec-fav) .app-card').forEach(el => { originals[_cardId(el)] = el; });
+  grid.innerHTML = '';
+  favs.forEach(id => {
+    const src = originals[id];
+    if (!src) return;
+    const c = src.cloneNode(true);
+    c.classList.remove('lp-press');
+    grid.appendChild(c);
+  });
+  document.querySelectorAll('.app-card').forEach(el => el.classList.toggle('is-fav', favs.includes(_cardId(el))));
+  const cnt = document.getElementById('favCount');
+  if (cnt) cnt.textContent = favs.length + ' uygulama';
+  _updateFavVisibility();
+  applySort();
+}
+
+function _fallbackCopy(text, done) {
+  const t = document.createElement('textarea');
+  t.value = text;
+  t.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px';
+  document.body.appendChild(t);
+  t.focus(); t.select();
+  try { if (document.execCommand('copy')) done(); } catch(e) {}
+  document.body.removeChild(t);
+}
+function _copyLink(url) {
+  const done = () => _showToast('🔗 Bağlantı kopyalandı');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done).catch(() => _fallbackCopy(url, done));
+  } else { _fallbackCopy(url, done); }
+}
+
+function openCtx(id) {
+  const a = apps[id]; if (!a) return;
+  // Kilitli ve henüz açılmamış uygulamalarda bağlantıyı ele veren seçenekler gösterilmez
+  const canOpen = !a.locked || isUnlocked(id);
+  const fav = isFav(id);
+  document.getElementById('ctxIco').textContent = a.e;
+  document.getElementById('ctxName').textContent = a.n;
+  const items = [{ i: fav ? '☆' : '⭐', t: fav ? 'Favorilerden çıkar' : 'Favorilere ekle', f: () => toggleFav(id) }];
+  if (canOpen) {
+    items.push({ i: '↗', t: 'Hemen aç', f: () => { trackOpen(id); window.open(a.u, '_blank'); } });
+    items.push({ i: '🔗', t: 'Bağlantıyı kopyala', f: () => _copyLink(a.u) });
+    if (navigator.share) items.push({ i: '📤', t: 'Paylaş', f: () => navigator.share({ title: a.n, url: a.u }).catch(() => {}) });
+  }
+  items.push({ i: 'ℹ️', t: 'Ayrıntılar', f: () => openModal(id) });
+  const list = document.getElementById('ctxList');
+  list.innerHTML = '';
+  items.forEach(it => {
+    const b = document.createElement('button');
+    b.className = 'ctx-item';
+    const ic = document.createElement('span'); ic.className = 'ctx-i'; ic.textContent = it.i;
+    const tx = document.createElement('span'); tx.textContent = it.t;
+    b.appendChild(ic); b.appendChild(tx);
+    b.onclick = () => { closeCtx(); it.f(); };
+    list.appendChild(b);
+  });
+  _ctxOpenedAt = Date.now();
+  document.getElementById('ctxBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (navigator.vibrate) { try { navigator.vibrate(12); } catch(e) {} }
+}
+function closeCtx(e) {
+  if (e) {
+    if (e.target !== document.getElementById('ctxBg')) return;
+    if (Date.now() - _ctxOpenedAt < 450) return;
+  }
+  document.getElementById('ctxBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCtx(); });
+
+// Uzun basma (dokunmatik + fare) ve sağ tık
+(function () {
+  let timer = null, startX = 0, startY = 0, pressed = null;
+  const clear = () => {
+    clearTimeout(timer); timer = null;
+    if (pressed) { pressed.classList.remove('lp-press'); pressed = null; }
+  };
+  document.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const card = e.target.closest && e.target.closest('.app-card');
+    if (!card) return;
+    clear();
+    startX = e.clientX; startY = e.clientY;
+    pressed = card;
+    setTimeout(() => { if (pressed === card && timer) card.classList.add('lp-press'); }, 150);
+    timer = setTimeout(() => {
+      timer = null;
+      card.classList.remove('lp-press'); pressed = null;
+      _lpFired = true;
+      openCtx(_cardId(card));
+    }, 500);
+  });
+  document.addEventListener('pointermove', e => {
+    if (!timer) return;
+    if (Math.abs(e.clientX - startX) > 10 || Math.abs(e.clientY - startY) > 10) clear();
+  });
+  ['pointerup', 'pointercancel'].forEach(ev => document.addEventListener(ev, () => {
+    clear();
+    if (_lpFired) setTimeout(() => { _lpFired = false; }, 350);
+  }));
+  document.addEventListener('contextmenu', e => {
+    const card = e.target.closest && e.target.closest('.app-card');
+    if (!card) return;
+    e.preventDefault();
+    if (Date.now() - _ctxOpenedAt > 450) {
+      _lpFired = true; openCtx(_cardId(card));
+      setTimeout(() => { _lpFired = false; }, 350);
+    }
+  });
+  // Uzun basmanın ardından gelen tıklama uygulamayı açmasın
+  document.addEventListener('click', e => {
+    if (_lpFired || Date.now() - _ctxOpenedAt < 450) {
+      e.preventDefault(); e.stopImmediatePropagation(); _lpFired = false;
+    }
+  }, true);
+})();
+
+renderFavs();
 
 const _sysDark = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -1905,6 +2124,7 @@ self.addEventListener('fetch',e=>{
 const _fc = fc;
 window.fc = function(cat, btn) {
   _fc(cat, btn);
+  _curCat = cat; _updateFavVisibility();
   // Small delay so display:none blocks are re-shown
   requestAnimationFrame(() => {
     document.querySelectorAll('.cat-block:not(.hidden) .app-card').forEach(el => {
