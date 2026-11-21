@@ -1354,7 +1354,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.3</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.4</span></div>
     </div>
   </div>
 </div>
@@ -1387,7 +1387,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.3</span>
+        <span class="wn-ver">v2.4</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1395,6 +1395,7 @@ footer {
         <ul class="wn-list">
 
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
+          <li>⭐ Favori uygulamalara dokununca uygulama doğrudan açılır</li>
           <li>✕ Uygulama penceresinde belirgin Kapat düğmesi eklendi, üst çubuk inceltildi, alttaki boşluk kaldırıldı</li>
           <li>📲 Uygulamalar artık sayfadan çıkmadan, tam ekran pencerede açılıyor</li>
           <li>👆 Uygulamaya uzun basınca menü açılır: favorilere ekle, hemen aç, ayrıntılar</li>
@@ -1490,7 +1491,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.3';
+const WN_VERSION = 'v2.4';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1655,8 +1656,7 @@ function applySort() {
   };
   document.querySelectorAll('.apps-grid').forEach(grid => {
     const items = Array.from(grid.querySelectorAll('.app-card')).map(el => {
-      const m = /openModal\('([^']+)'\)/.exec(el.getAttribute('onclick') || '');
-      const id = m ? m[1] : '';
+      const id = _cardId(el);
       const nameEl = el.querySelector('.card-name');
       const u = usage[id] || {};
       return { el, id, name: nameEl ? nameEl.textContent.trim() : '', ord: APP_ORDER[id] || 0, cnt: u.c || 0, last: u.t || 0 };
@@ -1686,7 +1686,7 @@ let _curCat = 'all';
 let _ctxOpenedAt = 0, _lpFired = false;
 
 function _cardId(el) {
-  const m = /openModal\('([^']+)'\)/.exec(el.getAttribute('onclick') || '');
+  const m = /(?:openModal|openFav)\('([^']+)'\)/.exec(el.getAttribute('onclick') || '');
   return m ? m[1] : '';
 }
 function _getFavs() {
@@ -1697,6 +1697,13 @@ function _getFavs() {
 }
 function _setFavs(list) { try { localStorage.setItem('sbm_favs', JSON.stringify(list)); } catch(e) {} }
 function isFav(id) { return _getFavs().includes(id); }
+
+// Favorilerde dokununca uygulama hemen açılır; kilitli ve kodu girilmemişse kod penceresi gelir
+function openFav(id) {
+  const a = apps[id]; if (!a) return;
+  if (!a.locked || isUnlocked(id)) openApp(id);
+  else openModal(id);
+}
 
 function toggleFav(id) {
   let f = _getFavs();
@@ -1727,6 +1734,7 @@ function renderFavs() {
     if (!src) return;
     const c = src.cloneNode(true);
     c.classList.remove('lp-press');
+    c.setAttribute('onclick', "openFav('" + id + "')");
     grid.appendChild(c);
   });
   document.querySelectorAll('.app-card').forEach(el => el.classList.toggle('is-fav', favs.includes(_cardId(el))));
