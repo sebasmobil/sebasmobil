@@ -127,22 +127,12 @@ body::before {
   mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 30%, transparent 100%);
 }
 
-/* ── GLOWS ── */
-.glow-blob {
-  position: fixed; border-radius: 50%;
-  pointer-events: none; z-index: 0;
-  filter: blur(120px);
-}
-.glow1 { width: 600px; height: 600px; top: -200px; left: -150px; background: var(--glow1); opacity: 0.7; }
-.glow2 { width: 500px; height: 500px; bottom: -180px; right: -120px; background: var(--glow2); opacity: 0.6; }
-
 /* ── HEADER ── */
 header {
   position: sticky; top: 0; z-index: 200;
   height: calc(48px + env(safe-area-inset-top));
   padding-top: env(safe-area-inset-top);
-  background: var(--header-bg);
-  backdrop-filter: blur(24px) saturate(160%);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
   padding-left: clamp(16px,4vw,60px);
@@ -645,7 +635,7 @@ html[data-view="list"] .app-card:hover .card-arrow {
 
 .ctx-bg {
   position: fixed; inset: 0; z-index: 700;
-  background: rgba(0,0,0,.45); backdrop-filter: blur(6px);
+  background: rgba(0,0,0,.55);
   display: flex; align-items: flex-end; justify-content: center;
   opacity: 0; pointer-events: none; transition: opacity .2s;
 }
@@ -701,10 +691,14 @@ html[data-view="list"] .app-card:hover .card-arrow {
   border: none; background: var(--accent);
   color: var(--on-accent, #fff);
   font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
-  box-shadow: 0 2px 10px var(--glow1);
 }
 .app-frame-close:active { opacity: .8; }
 .app-frame-body { flex: 1 1 auto; min-height: 0; position: relative; }
+.app-frame-body::before {
+  content: 'Yükleniyor…'; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3); font-size: 13px;
+}
 .app-frame-body iframe {
   position: absolute; inset: 0; width: 100%; height: 100%;
   border: 0; background: #fff;
@@ -765,8 +759,7 @@ footer {
 /* ── MODAL ── */
 .modal-bg {
   position: fixed; inset: 0; z-index: 500;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.72);
   display: flex; align-items: flex-end; justify-content: center;
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s;
@@ -832,7 +825,7 @@ footer {
 /* ── WHATS NEW MODAL ── */
 #whatsNewBg {
   position: fixed; inset: 0; z-index: 1000;
-  background: rgba(0,0,0,.55); backdrop-filter: blur(6px);
+  background: rgba(0,0,0,.6);
   display: flex; align-items: flex-end;
   opacity: 0; pointer-events: none;
   transition: opacity .25s;
@@ -1056,8 +1049,6 @@ footer {
 </head>
 <body>
 
-<div class="glow-blob glow1"></div>
-<div class="glow-blob glow2"></div>
 
 <!-- HEADER -->
 <header>
@@ -1354,7 +1345,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.4</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.6</span></div>
     </div>
   </div>
 </div>
@@ -1387,7 +1378,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.4</span>
+        <span class="wn-ver">v2.6</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1395,6 +1386,8 @@ footer {
         <ul class="wn-list">
 
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
+          <li>📲 Uygulama penceresinde üstteki gereksiz boşluk ve ortada kalan üst çubuk sorunu giderildi</li>
+          <li>🧼 Üstteki bulanık geçiş ve renkli parlamalar kaldırıldı, görünüm düz ve net oldu</li>
           <li>⭐ Favori uygulamalara dokununca uygulama doğrudan açılır</li>
           <li>✕ Uygulama penceresinde belirgin Kapat düğmesi eklendi, üst çubuk inceltildi, alttaki boşluk kaldırıldı</li>
           <li>📲 Uygulamalar artık sayfadan çıkmadan, tam ekran pencerede açılıyor</li>
@@ -1491,7 +1484,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.4';
+const WN_VERSION = 'v2.6';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1782,6 +1775,54 @@ function closeCtx(e) {
 }
 // ── UYGULAMA PENCERESİ (adres çubuğunda bağlantı görünmez) ──
 let _appOpen = false, _appPushed = false;
+// Çerçevenin içindeki sayfa, telefonun üst çentik payını (safe-area-inset-top) kendi sayfası gibi görür.
+// Pencerenin üst çubuğu bu payı zaten karşıladığı için uygulamanın kendi payı çift boşluk
+// ve ortada kalan yapışkan çubuk yapıyordu. Aynı kaynaktaki uygulamanın CSS'inde bu değer 0 yapılır.
+function _stripTopInset(css) {
+  const key = /(?:env|constant)\(\s*safe-area-inset-top/gi;
+  let out = '', last = 0, m;
+  while ((m = key.exec(css))) {
+    let depth = 1, i = m.index + m[0].indexOf('(') + 1;
+    while (i < css.length && depth > 0) {
+      const c = css[i++];
+      if (c === '(') depth++; else if (c === ')') depth--;
+    }
+    out += css.slice(last, m.index) + '0px';
+    last = i; key.lastIndex = i;
+  }
+  return out + css.slice(last);
+}
+function _neutralizeTopInset(doc) {
+  if (!doc || doc.__sbmTopFixed) return;
+  doc.__sbmTopFixed = true;
+  doc.querySelectorAll('style').forEach(s => {
+    if (s.textContent.indexOf('safe-area-inset-top') !== -1) s.textContent = _stripTopInset(s.textContent);
+  });
+  doc.querySelectorAll('[style*="safe-area-inset-top"]').forEach(el => {
+    el.setAttribute('style', _stripTopInset(el.getAttribute('style')));
+  });
+}
+function _prepFrame(fr) {
+  let n = 0;
+  const show = () => { fr.style.visibility = ''; };
+  const tick = () => {
+    if (!fr.isConnected) return;
+    try {
+      const d = fr.contentDocument;
+      if (d && d.documentElement && d.location.href !== 'about:blank' && d.readyState !== 'loading') {
+        _neutralizeTopInset(d); show(); return;
+      }
+    } catch (e) { show(); return; }
+    if (++n > 150) { show(); return; }
+    setTimeout(tick, 20);
+  };
+  fr.addEventListener('load', () => {
+    try { _neutralizeTopInset(fr.contentDocument); } catch (e) {}
+    show();
+  });
+  tick();
+}
+
 function openApp(id) {
   const a = apps[id]; if (!a) return;
   trackOpen(id);
@@ -1792,7 +1833,9 @@ function openApp(id) {
   fr.title = a.n;
   fr.setAttribute('allow', 'fullscreen; clipboard-write');
   fr.src = a.u.replace(/^http:\/\//, 'https://');
+  fr.style.visibility = 'hidden';  // üst boşluk düzeltilene kadar gizli
   body.appendChild(fr);
+  _prepFrame(fr);
   document.getElementById('appFrame').classList.add('open');
   document.body.style.overflow = 'hidden';
   _appOpen = true;
