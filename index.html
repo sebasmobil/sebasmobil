@@ -1117,7 +1117,7 @@ footer {
     Çevrimdışı çalışır. Veri saklamaz.
   </p>
   <div class="hero-stats">
-    <div class="stat-chip"><strong>26+</strong> Uygulama</div>
+    <div class="stat-chip"><strong>27+</strong> Uygulama</div>
     <div class="stat-chip"><strong>0₺</strong> Ücretsiz</div>
     <div class="stat-chip"><strong>∞</strong> Süresiz</div>
   </div>
@@ -1167,7 +1167,7 @@ footer {
   <div class="cat-header">
     <span class="cat-title" style="color:var(--accent2)">Eğitim</span>
     <div class="cat-rule"></div>
-    <span class="cat-count">10 uygulama</span>
+    <span class="cat-count">11 uygulama</span>
   </div>
   <div class="apps-grid">
     <div class="app-card" onclick="openModal('hizlinotgirisi')">
@@ -1179,6 +1179,12 @@ footer {
     <div class="app-card" onclick="openModal('notdoldurucu')">
       <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><span class="badge b-edu">Eğitim</span></div>
       <div class="card-name">Not Doldurucu</div>
+      <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
+    </div>
+    <div class="app-card" onclick="openModal('pdfduzenleyici')">
+      <div class="card-top"><div class="card-icon icon-edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div><span class="badge b-edu">Eğitim</span></div>
+      <div class="card-name">PDF Düzenleyici</div>
+      <div class="card-short">PDF boşluklarını azalt, sayfa sayısını düşür</div>
       <div class="card-foot"><span class="card-cta">Uygulamayı Aç</span><div class="card-arrow">↗</div></div>
     </div>
     <div class="app-card" onclick="openModal('nobetcizelgesi')">
@@ -1382,7 +1388,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.11</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.12</span></div>
     </div>
   </div>
 </div>
@@ -1418,7 +1424,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.11</span>
+        <span class="wn-ver">v2.12</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1426,6 +1432,7 @@ footer {
         <ul class="wn-list">
 
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
+          <li>📄 PDF Düzenleyici eklendi — PDF'deki boşlukları azaltıp sayfa sayısını düşürür</li>
           <li>🎨 Çizgili arka plan kaldırıldı, düz sade zemin: aydınlık temada kartlar tam beyaz, koyu temada kartlar arka plandan daha belirgin</li>
           <li>▾ Beşinci uygulamayı açınca eskisi hemen kapanmaz; beşinciyi küçültünce en eski uygulama kapanır</li>
           <li>🛠 Küçültüp tekrar açınca üst çubuğun çoğalması düzeltildi</li>
@@ -1534,6 +1541,7 @@ const ACCESS_HASHES = ["1b197b48a063eb556cd9fd0b7fcb0c0e9e6a487e78a507ecac401ecd
 const apps = {
   hizlinotgirisi:{e:'⚡', n:'Hızlı Not Girişi', u:'https://sebasmobil.github.io/s-ogretmen/hizli-not-girisi.html', b:false,locked:false,d:'OYSS için yazılı analiz verilerinin hızlı bir şekilde girilmesini sağlar.'},
   notdoldurucu: {e:'✏️', n:'Not Doldurucu',   u:'https://sebasmobil.github.io/s-ogretmen/not-doldurucu.html',   b:false,locked:true,d:''},
+  pdfduzenleyici:{e:'📄', n:'PDF Düzenleyici', u:'https://sebasmobil.github.io/OYSS-PDF/pdf-duzenleyici.html', b:false,locked:false,d:'PDF\'lerdeki gereksiz boşlukları azaltır, boş bölümleri kaldırır. Yazılı kağıtlarını daha derli toplu hale getirir ve sayfa sayısını düşürmeye çalışır.'},
   nobetcizelgesi:{e:'📋', n:'Nöbet Çizelgesi', u:'https://sebasmobil.github.io/s-ogretmen/nobet-cizelgesi.html', b:false,locked:false,d:'Sınıf nöbet görevlerini oluşturun ve takip edin. Öğrencilere otomatik nöbet ataması yapın, çizelgeyi kolayca yönetin.'},
   sogretmen:    {e:'👩‍🏫',n:'S-Öğretmen',    u:'https://sebasmobil.github.io/s-ogretmen/',                     b:false,locked:false,d:'Öğretmenlerin sosyal kulüp görevlerini, sınıf rehberliğini, ders programlarını, not çizelgelerini, yazılı analizlerini ve yıllık planlarını tek ekranda yönetmesini sağlayan gelişmiş bir veri girişi uygulamasıdır.'},
   ssinav:       {e:'📝',  n:'S-Sınav',        u:'https://sebasmobil.github.io/s-sinav/',                        b:false,locked:false,d:'Öğretmenlerin fotoğraf tabanlı sorularla yazılı sınav kağıtları hazırlamasını sağlar. İnternet bağlantısı gerektirmez, görsel içeriklerle zengin sınav hazırlığına olanak tanır.'},
@@ -1561,7 +1569,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.11';
+const WN_VERSION = 'v2.12';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -1692,7 +1700,8 @@ const APP_ORDER = {
   sayiavcisi: 2, notlarim: 3, bebektakip: 4,
   solcekler: 5, seyyarkutuphane: 6, soturma: 7,
   nobetcizelgesi: 8,
-  starim: 9, hizlinotgirisi: 9, notdoldurucu: 9
+  starim: 9, hizlinotgirisi: 9, notdoldurucu: 9,
+  pdfduzenleyici: 10
 };
 const SORT_LABELS = {
   name: 'Ad (A → Z)', nameDesc: 'Ad (Z → A)',
