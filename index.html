@@ -536,13 +536,22 @@ html[data-view="list"] .app-card:hover .card-arrow {
 .hero-sub { font-size: 14px; line-height: 1.6; margin: 0 auto 16px; }
 
 .section-header { flex-wrap: wrap; gap: 8px 10px; padding-bottom: 16px; }
+.filter-wrap { position: relative; flex: 1 1 100%; min-width: 0; }
 .filter-scroll {
-  display: flex; gap: 6px; flex: 1 1 100%; min-width: 0;
-  overflow-x: auto; padding: 2px 16px 2px 0;
+  display: flex; gap: 6px; width: 100%;
+  overflow-x: auto; padding: 2px 44px 2px 0;
   scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 16px), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 16px), transparent);
 }
+.filter-more {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 46px;
+  display: none; align-items: center; justify-content: flex-end;
+  padding: 0 6px 0 0; border: none; cursor: pointer;
+  background: linear-gradient(to right, transparent, var(--bg) 58%);
+  color: var(--text); font-size: 24px; font-weight: 700; line-height: 1;
+}
+.filter-more span { display: inline-block; animation: filterNudge 1.4s ease-in-out infinite; }
+@keyframes filterNudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+@media (prefers-reduced-motion: reduce) { .filter-more span { animation: none; } }
 .filter-scroll::-webkit-scrollbar { display: none; }
 .filter-btn { flex-shrink: 0; white-space: nowrap; padding: 6px 13px; }
 .view-toggle { margin-left: 0; flex-shrink: 0; }
@@ -1115,6 +1124,7 @@ footer {
 
 <!-- FILTERS -->
 <div class="section-header" id="apps">
+  <div class="filter-wrap">
   <div class="filter-scroll">
   <button class="filter-btn active"  onclick="fc('all',this)">Tümü</button>
   <button class="filter-btn f-edu"   onclick="fc('edu',this)">📚 Eğitim</button>
@@ -1122,6 +1132,8 @@ footer {
   <button class="filter-btn f-game"  onclick="fc('game',this)">🕹️ Oyunlar</button>
   <button class="filter-btn f-health" onclick="fc('health',this)">🩺 Sağlık</button>
   <button class="filter-btn f-other" onclick="fc('other',this)">🔧 Diğer</button>
+  </div>
+  <button class="filter-more" type="button" id="filterMore" onclick="filterMore()" aria-label="Diğer kategoriler"><span>›</span></button>
   </div>
   <div class="view-tools">
   <label class="sort-box" title="Sıralama">
@@ -1314,7 +1326,7 @@ footer {
 <!-- HEALTH -->
 <div class="cat-block" id="sec-health">
   <div class="cat-header">
-    <span class="cat-title" style="color:#00e5a0">Sağlık</span>
+    <span class="cat-title" style="color:var(--accent3)">Sağlık</span>
     <div class="cat-rule"></div>
     <span class="cat-count">3 uygulama</span>
   </div>
@@ -1378,7 +1390,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.14</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.15</span></div>
     </div>
   </div>
 </div>
@@ -1414,7 +1426,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.14</span>
+        <span class="wn-ver">v2.15</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1422,6 +1434,8 @@ footer {
         <ul class="wn-list">
 
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
+          <li>🩺 Sağlık başlığı artık seçtiğin renk temasını izliyor</li>
+          <li>› Kategori filtrelerinde devamı olduğunu gösteren ok eklendi, seçilen kategori görünür alana kayıyor</li>
           <li>✨ Giriş yazıları tek satırda dönüşümlü olarak değişiyor (çevrimdışı çalışır, uygulama sayısı, ücretsiz, süresiz)</li>
           <li>📄 PDF Düzenleyici eklendi — PDF'deki boşlukları azaltıp sayfa sayısını düşürür</li>
           <li>🎨 Çizgili arka plan kaldırıldı, düz sade zemin: aydınlık temada kartlar tam beyaz, koyu temada kartlar arka plandan daha belirgin</li>
@@ -1560,7 +1574,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.14';
+const WN_VERSION = 'v2.15';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -2139,6 +2153,27 @@ function _rotBuild(parts) {
   setTimeout(step, first.hold);
 })();
 
+// ── KATEGORİ FİLTRELERİ: devamı olduğunu göster ──
+function _updateFilterMore() {
+  const sc = document.querySelector('.filter-scroll'), more = document.getElementById('filterMore');
+  if (!sc || !more) return;
+  more.style.display = (sc.scrollWidth - sc.clientWidth - sc.scrollLeft > 6) ? 'flex' : 'none';
+}
+function filterMore() {
+  const sc = document.querySelector('.filter-scroll');
+  if (sc && sc.scrollBy) sc.scrollBy({ left: Math.round(sc.clientWidth * 0.7), behavior: 'smooth' });
+}
+(function () {
+  const sc = document.querySelector('.filter-scroll');
+  if (!sc) return;
+  sc.addEventListener('scroll', _updateFilterMore, { passive: true });
+  window.addEventListener('resize', _updateFilterMore);
+  window.addEventListener('load', _updateFilterMore);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(_updateFilterMore);
+  _updateFilterMore();
+  setTimeout(_updateFilterMore, 400);
+})();
+
 const _sysDark = window.matchMedia('(prefers-color-scheme: dark)');
 
 function _applyTheme(t) {
@@ -2464,6 +2499,7 @@ const _fc = fc;
 window.fc = function(cat, btn) {
   _fc(cat, btn);
   _curCat = cat; _updateFavVisibility();
+  if (btn && btn.scrollIntoView) { try { btn.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' }); } catch (e) {} }
   // Small delay so display:none blocks are re-shown
   requestAnimationFrame(() => {
     document.querySelectorAll('.cat-block:not(.hidden) .app-card').forEach(el => {
