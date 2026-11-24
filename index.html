@@ -286,20 +286,6 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
   max-width: 480px; margin: 0 auto 40px;
 }
 
-.hero-stats {
-  display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap; gap: 8px;
-}
-.stat-chip {
-  display: flex; align-items: center; gap: 7px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 9px 16px;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px; color: var(--text2);
-}
-.stat-chip strong { color: var(--accent); font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; }
 
 /* ── FILTER BAR ── */
 .section-header {
@@ -548,12 +534,6 @@ html[data-view="list"] .app-card:hover .card-arrow {
 .hero { padding: clamp(24px,5vw,56px) clamp(16px,4vw,60px) clamp(16px,3vw,32px); }
 .hero-title { font-size: clamp(24px,5.5vw,60px); letter-spacing: -0.06em; margin-bottom: 12px; }
 .hero-sub { font-size: 14px; line-height: 1.6; margin: 0 auto 16px; }
-.hero-stats { gap: 6px 16px; }
-.stat-chip {
-  background: none; border: none; border-radius: 0;
-  padding: 0; gap: 5px; font-size: 11px;
-}
-.stat-chip strong { font-size: 12px; }
 
 .section-header { flex-wrap: wrap; gap: 8px 10px; padding-bottom: 16px; }
 .filter-scroll {
@@ -739,6 +719,25 @@ body.has-dock { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
 }
 @media (hover: none) {
   html[data-view="list"] .app-card:hover { background: transparent; }
+}
+
+/* ── GİRİŞ SATIRI (dönüşümlü) ── */
+.hero-rotator {
+  max-width: none; height: 26px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; white-space: nowrap;
+  font-size: 15px; line-height: 26px; color: var(--text2);
+}
+.rot-line { display: inline-flex; }
+.rot-ch {
+  display: inline-block;
+  transition: opacity .34s ease, transform .38s cubic-bezier(.2,.8,.2,1);
+}
+.rot-ch.acc { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--accent); }
+.rot-line.out .rot-ch { opacity: 0; transform: translateY(-16px); }
+.rot-line.pre .rot-ch { opacity: 0; transform: translateY(16px); transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .rot-ch { transform: none !important; transition-delay: 0ms !important; }
 }
 
 /* ── ABOUT ── */
@@ -1034,11 +1033,9 @@ footer {
 .hero-eyebrow { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease 0.05s, transform 0.5s ease 0.05s; }
 .hero-title   { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s; }
 .hero-sub     { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease 0.28s, transform 0.5s ease 0.28s; }
-.hero-stats   { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease 0.38s, transform 0.5s ease 0.38s; }
 .hero-loaded .hero-eyebrow,
 .hero-loaded .hero-title,
-.hero-loaded .hero-sub,
-.hero-loaded .hero-stats { opacity: 1; transform: translateY(0); }
+.hero-loaded .hero-sub { opacity: 1; transform: translateY(0); }
 
 /* Card stagger via CSS var */
 .app-card {
@@ -1113,14 +1110,7 @@ footer {
     Ücretsiz
     <span class="line2">web uygulamaları</span>
   </h1>
-  <p class="hero-sub">
-    Çevrimdışı çalışır. Veri saklamaz.
-  </p>
-  <div class="hero-stats">
-    <div class="stat-chip"><strong>27+</strong> Uygulama</div>
-    <div class="stat-chip"><strong>0₺</strong> Ücretsiz</div>
-    <div class="stat-chip"><strong>∞</strong> Süresiz</div>
-  </div>
+  <div class="hero-sub hero-rotator" id="heroRot" role="text">Çevrimdışı çalışır. Veri saklamaz.</div>
 </section>
 
 <!-- FILTERS -->
@@ -1388,7 +1378,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.13</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.14</span></div>
     </div>
   </div>
 </div>
@@ -1424,7 +1414,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.13</span>
+        <span class="wn-ver">v2.14</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1432,6 +1422,7 @@ footer {
         <ul class="wn-list">
 
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
+          <li>✨ Giriş yazıları tek satırda dönüşümlü olarak değişiyor (çevrimdışı çalışır, uygulama sayısı, ücretsiz, süresiz)</li>
           <li>📄 PDF Düzenleyici eklendi — PDF'deki boşlukları azaltıp sayfa sayısını düşürür</li>
           <li>🎨 Çizgili arka plan kaldırıldı, düz sade zemin: aydınlık temada kartlar tam beyaz, koyu temada kartlar arka plandan daha belirgin</li>
           <li>▾ Beşinci uygulamayı açınca eskisi hemen kapanmaz; beşinciyi küçültünce en eski uygulama kapanır</li>
@@ -1569,7 +1560,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.13';
+const WN_VERSION = 'v2.14';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -2087,6 +2078,66 @@ document.addEventListener('keydown', e => {
 })();
 
 renderFavs();
+
+// ── GİRİŞ SATIRI: dönüşümlü, animasyonlu ──
+function _heroLines() {
+  const n = document.querySelectorAll('.cat-block:not(#sec-fav) .app-card').length;   // uygulama sayısı otomatik
+  return [
+    { parts: [{ t: 'Çevrimdışı çalışır. Veri saklamaz.' }], hold: 4200 },
+    { parts: [{ t: n + '+', cls: 'acc' }, { t: ' Uygulama' }], hold: 2400 },
+    { parts: [{ t: '0₺', cls: 'acc' }, { t: ' Ücretsiz' }], hold: 2400 },
+    { parts: [{ t: '∞', cls: 'acc' }, { t: ' Süresiz' }], hold: 2400 }
+  ];
+}
+function _rotBuild(parts) {
+  const line = document.createElement('span');
+  line.className = 'rot-line';
+  parts.forEach(p => {
+    Array.from(p.t).forEach(ch => {
+      const s = document.createElement('span');
+      s.className = 'rot-ch' + (p.cls ? ' ' + p.cls : '');
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      line.appendChild(s);
+    });
+  });
+  return line;
+}
+(function () {
+  const box = document.getElementById('heroRot');
+  if (!box) return;
+  const IN_STEP = 26;
+  let k = 0;
+  const mount = (line, parts) => {
+    box.textContent = '';
+    box.setAttribute('aria-label', parts.map(p => p.t).join(''));
+    line.setAttribute('aria-hidden', 'true');
+    box.appendChild(line);
+  };
+  const first = _heroLines()[0];
+  mount(_rotBuild(first.parts), first.parts);
+  const step = () => {
+    if (document.hidden) { setTimeout(step, 1000); return; }
+    const list = _heroLines();
+    const cur = box.firstElementChild;
+    const nextIdx = (k + 1) % list.length;
+    // 1) mevcut yazı parça parça (rastgele sırayla) yukarı kayarak kaybolur
+    cur.querySelectorAll('.rot-ch').forEach(c => { c.style.transitionDelay = Math.round(Math.random() * 320) + 'ms'; });
+    cur.classList.add('out');
+    setTimeout(() => {
+      // 2) yeni yazı soldan sağa dalga halinde alttan yukarı gelir
+      const next = _rotBuild(list[nextIdx].parts);
+      next.classList.add('pre');
+      mount(next, list[nextIdx].parts);
+      const chars = next.querySelectorAll('.rot-ch');
+      chars.forEach((c, i) => { c.style.transitionDelay = (i * IN_STEP) + 'ms'; });
+      void next.offsetWidth;                 // başlangıç durumu uygulansın
+      next.classList.remove('pre');
+      k = nextIdx;
+      setTimeout(step, list[k].hold + chars.length * IN_STEP + 450);
+    }, 740);
+  };
+  setTimeout(step, first.hold);
+})();
 
 const _sysDark = window.matchMedia('(prefers-color-scheme: dark)');
 
