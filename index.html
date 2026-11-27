@@ -132,22 +132,39 @@ header {
 }
 
 .logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: 19px;
-  letter-spacing: -0.8px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500; font-size: 17px;
+  letter-spacing: -0.4px;
   color: var(--text);
   text-decoration: none;
   display: flex; align-items: center; gap: 8px;
 }
-.logo-dot {
-  width: 8px; height: 8px;
-  background: var(--accent3);
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0 0 10px var(--accent3);
-  animation: pulse 2.5s ease-in-out infinite;
+.logo-mark {
+  width: 14px; height: 14px; flex: none;
+  border: 2px solid var(--accent3); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
 }
+.logo-mark i {
+  display: block; width: 4px; height: 4px; border-radius: 1px;
+  background: var(--accent3);
+  transition: transform 1.1s cubic-bezier(.45,0,.2,1);
+}
+.logo-mark.on i { transform: scale(2.5); }
+@media (prefers-reduced-motion: reduce) { .logo-mark i { transition: none; } }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+/* ── LOGO YAZISI: harf harf kaybolur, diğeri dalga halinde gelir ── */
+.logo-txt { display: inline-grid; align-items: center; }
+.lt-line { grid-area: 1 / 1; display: inline-flex; white-space: nowrap; }
+.lt-ch {
+  display: inline-block;
+  transition: opacity .38s ease, transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.lt-line.out .lt-ch { opacity: 0; transform: translateY(-9px); }
+.lt-line.pre .lt-ch { opacity: 0; transform: translateY(9px); transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .lt-ch { transform: none !important; }
+}
 
 .spacer { flex: 1; }
 
@@ -1096,7 +1113,7 @@ footer {
 <!-- HEADER -->
 <header>
   <a href="#" class="logo">
-    <span class="logo-dot"></span>sebasmobil
+    <span class="logo-mark" aria-hidden="true"><i></i></span><span class="logo-txt" id="logoTxt" aria-label="sebasmobil"><span class="lt-line" aria-hidden="true">sebasmobil</span><span class="lt-line pre" aria-hidden="true">ücretsiz web app</span></span>
   </a>
   <div class="spacer"></div>
   <nav>
@@ -1390,7 +1407,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.15</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.22</span></div>
     </div>
   </div>
 </div>
@@ -1426,13 +1443,17 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.15</span>
+        <span class="wn-ver">v2.22</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
       <div class="wn-scroll" id="wnScroll">
         <ul class="wn-list">
 
+          <li>🔳 Üstteki simgenin animasyonu değişti: yazı değişirken simgenin içi yavaşça dolup boşalıyor</li>
+          <li>🔤 Üstteki iki yazı artık aynı yazı tipinde ve aynı kalınlıkta</li>
+          <li>🔳 Üstteki yanıp sönen nokta kaldırıldı; yerine küçük bir kare simge geldi</li>
+          <li>✨ Üstteki sebasmobil yazısı efektle kaybolup yerine küçük harfli "ücretsiz web app" yazısı geliyor, sonra yine sebasmobil'e dönüyor</li>
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
           <li>🩺 Sağlık başlığı artık seçtiğin renk temasını izliyor</li>
           <li>› Kategori filtrelerinde devamı olduğunu gösteren ok eklendi, seçilen kategori görünür alana kayıyor</li>
@@ -1574,7 +1595,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.15';
+const WN_VERSION = 'v2.22';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -2151,6 +2172,46 @@ function _rotBuild(parts) {
     }, 740);
   };
   setTimeout(step, first.hold);
+})();
+
+// ── LOGO YAZISI: sebasmobil ⇄ Ücretsiz web app ──
+(function () {
+  const box = document.getElementById('logoTxt');
+  if (!box) return;
+  const lines = Array.from(box.querySelectorAll('.lt-line'));
+  if (lines.length < 2) return;
+  const IN_STEP = 42, HOLD = [5200, 3600];
+  lines.forEach(l => {
+    const txt = l.textContent;
+    l.textContent = '';
+    Array.from(txt).forEach(ch => {
+      const s = document.createElement('span');
+      s.className = 'lt-ch';
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      l.appendChild(s);
+    });
+  });
+  let cur = 0;
+  const mark = document.querySelector('.logo-mark');
+  const step = () => {
+    if (document.hidden) { setTimeout(step, 1000); return; }
+    if (mark) mark.classList.toggle('on', cur === 0);   // simgenin içi yazıyla birlikte dolar / boşalır
+    const out = lines[cur], nextIdx = (cur + 1) % lines.length, inn = lines[nextIdx];
+    // 1) mevcut yazı harfler rastgele sırayla yukarı süzülerek kaybolur
+    out.querySelectorAll('.lt-ch').forEach(c => { c.style.transitionDelay = Math.round(Math.random() * 340) + 'ms'; });
+    out.classList.add('out');
+    setTimeout(() => {
+      // 2) yeni yazı soldan sağa dalga halinde alttan yukarı belirir
+      inn.classList.add('pre'); inn.classList.remove('out');
+      const chars = inn.querySelectorAll('.lt-ch');
+      chars.forEach((c, i) => { c.style.transitionDelay = (i * IN_STEP) + 'ms'; });
+      void inn.offsetWidth;
+      inn.classList.remove('pre');
+      cur = nextIdx;
+      setTimeout(step, HOLD[cur] + chars.length * IN_STEP + 500);
+    }, 780);
+  };
+  setTimeout(step, HOLD[0]);
 })();
 
 // ── KATEGORİ FİLTRELERİ: devamı olduğunu göster ──
