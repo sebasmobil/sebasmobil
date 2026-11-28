@@ -173,18 +173,12 @@ header {
 }
 .lt-line.out .lt-ch { opacity: 0; transform: translateY(-9px); }
 .lt-line.pre .lt-ch { opacity: 0; transform: translateY(9px); transition: none; }
-/* kareden çıkan çizgi: ikinci yazının altında, yazının belirme hızıyla ilerler; yazı kaybolunca geri çekilir */
-.logo-line {
-  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
-  border-radius: 1px; background: var(--accent3);
-  transform: scaleX(0); transform-origin: left center;
-  transition-property: transform;
-  pointer-events: none;
-}
-.logo-line.on { transform: scaleX(1); }
+/* kareden çıkan çizgi: yazının altından sağa gider, yuvarlak köşeyle yukarı döner, üstten geri gelip kareye girer */
+.logo-loop { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.logo-loop path { fill: none; stroke: var(--accent3); stroke-width: 2; stroke-linecap: butt; }
 @media (prefers-reduced-motion: reduce) {
   .lt-ch { transform: none !important; }
-  .logo-line, .logo-mark { transition: none !important; }
+  .logo-loop path, .logo-mark { transition: none !important; }
 }
 
 .spacer { flex: 1; }
@@ -200,18 +194,6 @@ nav a {
   letter-spacing: 0.02em;
 }
 nav a:hover { color: var(--text); background: var(--surface); border-color: var(--border); }
-
-.theme-btn {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  cursor: pointer; font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-  line-height: 1;
-}
-.theme-btn:hover { border-color: var(--border2); background: var(--surface2); }
 
 /* ── COLOR PALETTE PICKER ── */
 .palette-wrap {
@@ -309,6 +291,20 @@ nav a:hover { color: var(--text); background: var(--surface); border-color: var(
   letter-spacing: -3px;
   margin-bottom: 24px;
 }
+
+/* başlıktaki dönüşümlü kelime: tüm kelimeler üst üste durur, genişlik en uzununa göre sabit kalır */
+.hero-word { display: grid; justify-items: center; }
+.hw-line { grid-area: 1 / 1; display: block; white-space: nowrap; }
+.hw-ch { display: inline-block; }
+/* Başlık animasyonu: data-anim="blur" (şimdiki, bulanıklaşarak) ya da data-anim="rise" (animasyon 21: harf harf yukarı süzülme) */
+.hero-word[data-anim="rise"] .hw-ch { transition: opacity .45s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+.hero-word[data-anim="rise"] .hw-line.out .hw-ch { opacity: 0; transform: translateY(-.28em); }
+.hero-word[data-anim="rise"] .hw-line.pre .hw-ch { opacity: 0; transform: translateY(.28em); transition: none; }
+.hero-word[data-anim="blur"] .hw-ch { transition: opacity .6s ease, filter .7s ease; }
+.hero-word[data-anim="blur"] .hw-line.out .hw-ch,
+.hero-word[data-anim="blur"] .hw-line.pre .hw-ch { opacity: 0; filter: blur(.32em); }
+.hero-word[data-anim="blur"] .hw-line.pre .hw-ch { transition: none; }
+@media (prefers-reduced-motion: reduce) { .hw-ch { transform: none !important; filter: none !important; } }
 
 .hero-title .line2 {
   display: block;
@@ -616,9 +612,20 @@ html[data-view="list"] .app-card:hover .card-arrow {
 .palette-btn-dots { display: block; width: 14px; height: 14px; }
 .palette-btn-dot { width: 100%; height: 100%; border-radius: 50%; background: var(--accent); }
 .palette-panel {
-  grid-template-columns: repeat(3, 34px);
-  gap: 10px; padding: 14px; width: max-content;
+  grid-template-columns: repeat(3, 1fr); justify-items: center;
+  gap: 10px; padding: 14px; width: 196px; box-sizing: border-box;
 }
+.mode-seg {
+  grid-column: 1 / -1; justify-self: stretch;
+  display: flex; gap: 4px; padding: 3px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+}
+.mode-seg button {
+  flex: 1; padding: 6px 0; border: 0; border-radius: 7px; background: transparent;
+  font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 500;
+  color: var(--text2); cursor: pointer; white-space: nowrap;
+}
+.mode-seg button.active { background: var(--text); color: var(--bg); }
 .color-swatch {
   width: 34px; height: 34px; border-radius: 50%;
   border: 2px solid transparent;
@@ -1115,17 +1122,16 @@ footer {
 <!-- HEADER -->
 <header>
   <a href="#" class="logo">
-    <span class="logo-mark" aria-hidden="true"><i></i></span><span class="logo-txt" id="logoTxt" role="text" aria-label="sebasmobil — çevrimdışı çalışır, veri saklamaz"><span class="lt-line" aria-hidden="true">sebasmobil</span><span class="lt-line lt-note pre" aria-hidden="true">çevrimdışı çalışır, veri saklamaz</span></span><span class="logo-line" aria-hidden="true"></span>
+    <span class="logo-mark" aria-hidden="true"><i></i></span><span class="logo-txt" id="logoTxt" role="text" aria-label="sebasmobil — çevrimdışı çalışır, veri saklamaz"><span class="lt-line" aria-hidden="true">sebasmobil</span><span class="lt-line lt-note pre" aria-hidden="true">çevrimdışı çalışır, veri saklamaz</span></span><svg class="logo-loop" aria-hidden="true"><path d=""></path></svg>
   </a>
   <div class="spacer"></div>
   <nav>
     <a href="#apps">Uygulamalar</a>
     <a href="#hakkinda">Hakkında</a>
   </nav>
-  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Tema değiştir"></button>
   <div id="themeToast" class="theme-toast"></div>
   <div class="palette-wrap">
-    <button class="palette-btn" id="paletteBtn" onclick="togglePalette()" title="Renk teması">
+    <button class="palette-btn" id="paletteBtn" onclick="togglePalette()" title="Görünüm ve renk" aria-label="Görünüm ve renk">
       <div class="palette-btn-dots" id="paletteDots"></div>
     </button>
     <div class="palette-panel" id="palettePanel"></div>
@@ -1134,9 +1140,9 @@ footer {
 
 <!-- HERO -->
 <section class="hero">
-  <h1 class="hero-title">
-    Ücretsiz
-    <span class="line2">web uygulamaları</span>
+  <h1 class="hero-title" aria-label="Ücretsiz web uygulamaları">
+    <span class="hero-word" id="heroWord" data-anim="blur"><span class="hw-line" aria-hidden="true">Ücretsiz</span><span class="hw-line pre" aria-hidden="true">Reklamsız</span><span class="hw-line pre" aria-hidden="true">Üyeliksiz</span><span class="hw-line pre" aria-hidden="true">Açık kaynak</span><span class="hw-line pre" aria-hidden="true">Kurulumsuz</span></span>
+    <span class="line2" aria-hidden="true">web uygulamaları</span>
   </h1>
 </section>
 
@@ -1408,7 +1414,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.29</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.33</span></div>
     </div>
   </div>
 </div>
@@ -1444,7 +1450,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.29</span>
+        <span class="wn-ver">v2.33</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1574,7 +1580,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.29';
+const WN_VERSION = 'v2.33';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -2119,14 +2125,15 @@ renderFavs();
   });
   let cur = 0;
   const mark = document.querySelector('.logo-mark');
-  const line = document.querySelector('.logo-line');
+  const loop = document.querySelector('.logo-loop path');
+  let loopLen = 0;
   const step = () => {
     if (document.hidden) { setTimeout(step, 1000); return; }
     if (mark) mark.classList.toggle('on', cur === 0);   // simgenin içi yazıyla birlikte dolar / boşalır
-    if (line && cur === 1) {   // ikinci yazı kaybolurken çizgi de kareye doğru geri çekilir
-      line.style.transitionDuration = '750ms'; line.style.transitionTimingFunction = 'cubic-bezier(.45,0,.2,1)'; line.style.transitionDelay = '0ms';
-      line.classList.remove('on');
-      if (mark) { mark.style.transitionDelay = '520ms'; mark.classList.remove('join'); }   // çizgi karenin içine çekilince kare yerine döner
+    if (loop && cur === 1) {   // ikinci yazı kaybolurken çizgi, kuyruğu başı kovalayarak kareye geri çekilir
+      loop.style.transition = 'stroke-dashoffset 850ms cubic-bezier(.45,0,.2,1)';
+      loop.style.strokeDashoffset = String(-loopLen);
+      if (mark) { mark.style.transitionDelay = '850ms'; mark.classList.remove('join'); }   // çizgi karenin içine ulaşınca kare yerine döner
     }
     const out = lines[cur], nextIdx = (cur + 1) % lines.length, inn = lines[nextIdx];
     // 1) mevcut yazı harfler rastgele sırayla yukarı süzülerek kaybolur
@@ -2140,19 +2147,84 @@ renderFavs();
       void inn.offsetWidth;
       inn.classList.remove('pre');
       cur = nextIdx;
-      if (line && nextIdx === 1) {   // çizgi, yazının harf harf belirme hızıyla soldan sağa ilerler
-        if (mark) {   // kare, alt kenarı çizgiyle aynı hizaya gelecek kadar iner; çizgi karenin alt kenarından çıkıyormuş gibi görünür
-          mark.style.setProperty('--drop', (line.getBoundingClientRect().bottom - mark.getBoundingClientRect().bottom) + 'px');
+      if (loop && nextIdx === 1) {   // çizgi karenin altından çıkıp yazının sonuna gider, yuvarlak köşeyle üstten karenin tepesine döner
+        const lg = loop.ownerSVGElement.parentElement, lr = lg.getBoundingClientRect();
+        const H = lr.height, r = Math.min(8, H / 2 - 1), xv = 7;   // xv: karenin ortası
+        const W = lr.width + 8;                                     // çerçeve yazının 8px ötesine uzanır, son harf kenara değmesin
+        const yb = H, yt = 0;                                      // alt ve üst çizgi hizaları (yazı kutusunun 2-3px dışında)
+        const topOfSquare = yb + 1 - 14 + 1;                        // kare inince üst kenarının ortası
+        loop.setAttribute('d',
+          'M ' + xv + ' ' + yb + ' H ' + (W - 1 - r) +
+          ' A ' + r + ' ' + r + ' 0 0 0 ' + (W - 1) + ' ' + (yb - r) +
+          ' V ' + (yt + r) +
+          ' A ' + r + ' ' + r + ' 0 0 0 ' + (W - 1 - r) + ' ' + yt +
+          ' H ' + (xv + r) +
+          ' A ' + r + ' ' + r + ' 0 0 0 ' + xv + ' ' + (yt + r) +
+          ' V ' + topOfSquare);
+        loopLen = loop.getTotalLength();
+        loop.style.strokeDasharray = loopLen + ' ' + loopLen;
+        loop.style.transition = 'none';
+        loop.style.strokeDashoffset = String(loopLen);
+        void loop.getBoundingClientRect();
+        if (mark) {   // kare, alt kenarı çizgiyle aynı hizaya gelecek kadar iner
+          mark.style.setProperty('--drop', ((lr.bottom + 1) - mark.getBoundingClientRect().bottom) + 'px');
           mark.style.transitionDelay = '0ms'; mark.classList.add('join');
         }
-        line.style.transitionDelay = '250ms';
-        line.style.transitionDuration = (chars.length * IN_STEP[1] + 250) + 'ms'; line.style.transitionTimingFunction = 'linear';
-        line.classList.add('on');
+        // baş, yazının sonuna harflerin belirme hızıyla ulaşır; kalan yol (yukarı dönüş ve geri) aynı hızla sürer
+        const dur = Math.round((chars.length * IN_STEP[1] + 250) * loopLen / Math.max(W - 1 - xv, 1));
+        loop.style.transition = 'stroke-dashoffset ' + dur + 'ms linear 250ms';
+        loop.style.strokeDashoffset = '0';
       }
       setTimeout(step, HOLD[cur] + chars.length * IN_STEP[cur] + 500);
     }, 780);
   };
   setTimeout(step, HOLD[0]);
+})();
+
+// ── BAŞLIK KELİMESİ: Ücretsiz → Reklamsız → Üyeliksiz → Açık kaynak → Kurulumsuz ──
+(function () {
+  const box = document.getElementById('heroWord');
+  if (!box) return;
+  const lines = Array.from(box.querySelectorAll('.hw-line'));
+  if (lines.length < 2) return;
+  const BLUR = box.dataset.anim === 'blur';
+  const P = BLUR ? { rand: 200, swap: 900, wave: 45 } : { rand: 360, swap: 820, wave: 55 };   // blur / rise (21)
+  const WAVE = P.wave, HOLD_FIRST = 4800, HOLD = 3200;
+  lines.forEach(l => {
+    const words = l.textContent.split(' ');
+    l.textContent = '';
+    words.forEach((w, wi) => {
+      const ws = document.createElement('span');
+      ws.style.cssText = 'display:inline-block;white-space:nowrap';
+      Array.from(w).forEach(ch => {
+        const s = document.createElement('span');
+        s.className = 'hw-ch';
+        s.textContent = ch;
+        ws.appendChild(s);
+      });
+      l.appendChild(ws);
+      if (wi < words.length - 1) l.appendChild(document.createTextNode(' '));
+    });
+  });
+  let cur = 0;
+  const step = () => {
+    if (document.hidden) { setTimeout(step, 1000); return; }
+    const out = lines[cur], nextIdx = (cur + 1) % lines.length, inn = lines[nextIdx];
+    // 1) mevcut kelimenin harfleri rastgele sırayla yukarı süzülerek kaybolur
+    out.querySelectorAll('.hw-ch').forEach(c => { c.style.transitionDelay = Math.round(Math.random() * P.rand) + 'ms'; });
+    out.classList.add('out');
+    setTimeout(() => {
+      // 2) yeni kelime soldan sağa dalga halinde alttan yukarı belirir
+      inn.classList.add('pre'); inn.classList.remove('out');
+      const chars = inn.querySelectorAll('.hw-ch');
+      chars.forEach((c, i) => { c.style.transitionDelay = (i * WAVE) + 'ms'; });
+      void inn.offsetWidth;
+      inn.classList.remove('pre');
+      cur = nextIdx;
+      setTimeout(step, HOLD + chars.length * WAVE + 600);
+    }, P.swap);
+  };
+  setTimeout(step, HOLD_FIRST);
 })();
 
 // ── KATEGORİ FİLTRELERİ: devamı olduğunu göster ──
@@ -2186,9 +2258,7 @@ function _applyTheme(t) {
 }
 
 function _updateThemeBtn(mode) {
-  const icons = { dark: '☀️', light: '🌙', auto: '🌓' };
-  document.getElementById('themeBtn').textContent = icons[mode] || '☀️';
-  document.getElementById('themeBtn').title = mode === 'auto' ? 'Tema: Otomatik' : mode === 'dark' ? 'Tema: Koyu' : 'Tema: Açık';
+  document.querySelectorAll('.mode-seg button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
 }
 
 let _toastTimer;
@@ -2201,25 +2271,13 @@ function _showToast(msg) {
   _toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-function toggleTheme() {
-  let cur;
-  try { cur = localStorage.getItem('sbm_theme') || 'auto'; } catch(e) { cur = 'auto'; }
-  // Döngü: dark → light → auto → dark
-  const next = cur === 'dark' ? 'light' : cur === 'light' ? 'auto' : 'dark';
-  if (next === 'auto') {
-    try { localStorage.removeItem('sbm_theme'); } catch(e){}
-    _applyTheme(_sysDark.matches ? 'dark' : 'light');
-    _showToast('🌓 Tema: Otomatik — sistem takip ediliyor');
-  } else if (next === 'dark') {
-    try { localStorage.setItem('sbm_theme', next); } catch(e){}
-    _applyTheme(next);
-    _showToast('🌑 Tema: Koyu');
-  } else {
-    try { localStorage.setItem('sbm_theme', next); } catch(e){}
-    _applyTheme(next);
-    _showToast('☀️ Tema: Açık');
-  }
-  _updateThemeBtn(next);
+function setThemeMode(mode) {   // 'auto' | 'light' | 'dark'
+  try {
+    if (mode === 'auto') localStorage.removeItem('sbm_theme');
+    else localStorage.setItem('sbm_theme', mode);
+  } catch(e) {}
+  _applyTheme(mode === 'auto' ? (_sysDark.matches ? 'dark' : 'light') : mode);
+  _updateThemeBtn(mode);
 }
 
 // Otomatik modda sistem teması değişince güncelle
@@ -2320,6 +2378,15 @@ function _clearCustom() {
 function buildPalette() {
   const panel = document.getElementById('palettePanel');
   panel.innerHTML = '';
+  const seg = document.createElement('div');
+  seg.className = 'mode-seg'; seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', 'Görünüm');
+  [['auto', 'Otomatik'], ['light', 'Açık'], ['dark', 'Koyu']].forEach(([m, label]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.mode = m; b.textContent = label;
+    b.onclick = () => setThemeMode(m);
+    seg.appendChild(b);
+  });
+  panel.appendChild(seg);
   palettes.forEach(p => {
     const sw = document.createElement('button');
     sw.className = 'color-swatch';
