@@ -143,7 +143,9 @@ header {
   width: 14px; height: 14px; flex: none;
   border: 2px solid var(--accent3); border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
+  transition: transform .45s cubic-bezier(.45,0,.2,1), border-radius .45s cubic-bezier(.45,0,.2,1);
 }
+.logo-mark.join { transform: translateY(var(--drop, 5px)); border-bottom-right-radius: 0; }
 .logo-mark i {
   display: block; width: 4px; height: 4px; border-radius: 1px;
   background: var(--accent3);
@@ -154,7 +156,7 @@ header {
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
 
 /* ── LOGO YAZISI: sebasmobil ⇄ çevrimdışı çalışır, veri saklamaz ── */
-.logo { min-width: 0; }
+.logo { min-width: 0; position: relative; }
 .logo-txt { display: grid; align-items: center; justify-items: start; min-width: 0; }
 .lt-line { grid-area: 1 / 1; display: block; min-width: 0; }
 .lt-word { display: inline-block; white-space: nowrap; }
@@ -171,8 +173,18 @@ header {
 }
 .lt-line.out .lt-ch { opacity: 0; transform: translateY(-9px); }
 .lt-line.pre .lt-ch { opacity: 0; transform: translateY(9px); transition: none; }
+/* kareden çıkan çizgi: ikinci yazının altında, yazının belirme hızıyla ilerler; yazı kaybolunca geri çekilir */
+.logo-line {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  border-radius: 1px; background: var(--accent3);
+  transform: scaleX(0); transform-origin: left center;
+  transition-property: transform;
+  pointer-events: none;
+}
+.logo-line.on { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) {
   .lt-ch { transform: none !important; }
+  .logo-line, .logo-mark { transition: none !important; }
 }
 
 .spacer { flex: 1; }
@@ -1103,7 +1115,7 @@ footer {
 <!-- HEADER -->
 <header>
   <a href="#" class="logo">
-    <span class="logo-mark" aria-hidden="true"><i></i></span><span class="logo-txt" id="logoTxt" role="text" aria-label="sebasmobil — çevrimdışı çalışır, veri saklamaz"><span class="lt-line" aria-hidden="true">sebasmobil</span><span class="lt-line lt-note pre" aria-hidden="true">çevrimdışı çalışır, veri saklamaz</span></span>
+    <span class="logo-mark" aria-hidden="true"><i></i></span><span class="logo-txt" id="logoTxt" role="text" aria-label="sebasmobil — çevrimdışı çalışır, veri saklamaz"><span class="lt-line" aria-hidden="true">sebasmobil</span><span class="lt-line lt-note pre" aria-hidden="true">çevrimdışı çalışır, veri saklamaz</span></span><span class="logo-line" aria-hidden="true"></span>
   </a>
   <div class="spacer"></div>
   <nav>
@@ -1396,7 +1408,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.27</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.29</span></div>
     </div>
   </div>
 </div>
@@ -1432,7 +1444,7 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.27</span>
+        <span class="wn-ver">v2.29</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
@@ -1562,7 +1574,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.27';
+const WN_VERSION = 'v2.29';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -2107,9 +2119,15 @@ renderFavs();
   });
   let cur = 0;
   const mark = document.querySelector('.logo-mark');
+  const line = document.querySelector('.logo-line');
   const step = () => {
     if (document.hidden) { setTimeout(step, 1000); return; }
     if (mark) mark.classList.toggle('on', cur === 0);   // simgenin içi yazıyla birlikte dolar / boşalır
+    if (line && cur === 1) {   // ikinci yazı kaybolurken çizgi de kareye doğru geri çekilir
+      line.style.transitionDuration = '750ms'; line.style.transitionTimingFunction = 'cubic-bezier(.45,0,.2,1)'; line.style.transitionDelay = '0ms';
+      line.classList.remove('on');
+      if (mark) { mark.style.transitionDelay = '520ms'; mark.classList.remove('join'); }   // çizgi karenin içine çekilince kare yerine döner
+    }
     const out = lines[cur], nextIdx = (cur + 1) % lines.length, inn = lines[nextIdx];
     // 1) mevcut yazı harfler rastgele sırayla yukarı süzülerek kaybolur
     out.querySelectorAll('.lt-ch').forEach(c => { c.style.transitionDelay = Math.round(Math.random() * 340) + 'ms'; });
@@ -2122,6 +2140,15 @@ renderFavs();
       void inn.offsetWidth;
       inn.classList.remove('pre');
       cur = nextIdx;
+      if (line && nextIdx === 1) {   // çizgi, yazının harf harf belirme hızıyla soldan sağa ilerler
+        if (mark) {   // kare, alt kenarı çizgiyle aynı hizaya gelecek kadar iner; çizgi karenin alt kenarından çıkıyormuş gibi görünür
+          mark.style.setProperty('--drop', (line.getBoundingClientRect().bottom - mark.getBoundingClientRect().bottom) + 'px');
+          mark.style.transitionDelay = '0ms'; mark.classList.add('join');
+        }
+        line.style.transitionDelay = '250ms';
+        line.style.transitionDuration = (chars.length * IN_STEP[1] + 250) + 'ms'; line.style.transitionTimingFunction = 'linear';
+        line.classList.add('on');
+      }
       setTimeout(step, HOLD[cur] + chars.length * IN_STEP[cur] + 500);
     }, 780);
   };
