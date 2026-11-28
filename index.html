@@ -132,9 +132,9 @@ header {
 }
 
 .logo {
-  font-family: 'DM Mono', monospace;
-  font-weight: 500; font-size: 17px;
-  letter-spacing: -0.4px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 19px;
+  letter-spacing: -0.06em;
   color: var(--text);
   text-decoration: none;
   display: flex; align-items: center; gap: 8px;
@@ -153,12 +153,21 @@ header {
 @media (prefers-reduced-motion: reduce) { .logo-mark i { transition: none; } }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
 
-/* ── LOGO YAZISI: harf harf kaybolur, diğeri dalga halinde gelir ── */
-.logo-txt { display: inline-grid; align-items: center; }
-.lt-line { grid-area: 1 / 1; display: inline-flex; white-space: nowrap; }
+/* ── LOGO YAZISI: sebasmobil ⇄ çevrimdışı çalışır, veri saklamaz ── */
+.logo { min-width: 0; }
+.logo-txt { display: grid; align-items: center; justify-items: start; min-width: 0; }
+.lt-line { grid-area: 1 / 1; display: block; min-width: 0; }
+.lt-word { display: inline-block; white-space: nowrap; }
 .lt-ch {
   display: inline-block;
   transition: opacity .38s ease, transform .5s cubic-bezier(.2,.8,.2,1);
+}
+/* ikinci yazı: normal yazı tipi, ince; küçük ekranda sıkışmasın diye küçülür ve gerekirse alt satıra iner */
+.lt-line.lt-note {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400; letter-spacing: 0;
+  font-size: clamp(12px, 3.4vw, 15px); line-height: 1.2;
+  color: var(--text);
 }
 .lt-line.out .lt-ch { opacity: 0; transform: translateY(-9px); }
 .lt-line.pre .lt-ch { opacity: 0; transform: translateY(9px); transition: none; }
@@ -552,8 +561,8 @@ html[data-view="list"] .app-card:hover .card-arrow {
 .hero-title { font-size: clamp(24px,5.5vw,60px); letter-spacing: -0.06em; margin-bottom: 12px; }
 .hero-sub { font-size: 14px; line-height: 1.6; margin: 0 auto 16px; }
 
-.section-header { flex-wrap: wrap; gap: 8px 10px; padding-bottom: 16px; }
-.filter-wrap { position: relative; flex: 1 1 100%; min-width: 0; }
+.section-header { flex-wrap: nowrap; gap: 8px 10px; padding-bottom: 16px; }
+.filter-wrap { position: relative; flex: 1 1 0; min-width: 0; }
 .filter-scroll {
   display: flex; gap: 6px; width: 100%;
   overflow-x: auto; padding: 2px 44px 2px 0;
@@ -745,25 +754,6 @@ body.has-dock { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
 }
 @media (hover: none) {
   html[data-view="list"] .app-card:hover { background: transparent; }
-}
-
-/* ── GİRİŞ SATIRI (dönüşümlü) ── */
-.hero-rotator {
-  max-width: none; height: 26px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; white-space: nowrap;
-  font-size: 15px; line-height: 26px; color: var(--text2);
-}
-.rot-line { display: inline-flex; }
-.rot-ch {
-  display: inline-block;
-  transition: opacity .34s ease, transform .38s cubic-bezier(.2,.8,.2,1);
-}
-.rot-ch.acc { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--accent); }
-.rot-line.out .rot-ch { opacity: 0; transform: translateY(-16px); }
-.rot-line.pre .rot-ch { opacity: 0; transform: translateY(16px); transition: none; }
-@media (prefers-reduced-motion: reduce) {
-  .rot-ch { transform: none !important; transition-delay: 0ms !important; }
 }
 
 /* ── ABOUT ── */
@@ -1113,7 +1103,7 @@ footer {
 <!-- HEADER -->
 <header>
   <a href="#" class="logo">
-    <span class="logo-mark" aria-hidden="true"><i></i></span><span class="logo-txt" id="logoTxt" aria-label="sebasmobil"><span class="lt-line" aria-hidden="true">sebasmobil</span><span class="lt-line pre" aria-hidden="true">ücretsiz web app</span></span>
+    <span class="logo-mark" aria-hidden="true"><i></i></span><span class="logo-txt" id="logoTxt" role="text" aria-label="sebasmobil — çevrimdışı çalışır, veri saklamaz"><span class="lt-line" aria-hidden="true">sebasmobil</span><span class="lt-line lt-note pre" aria-hidden="true">çevrimdışı çalışır, veri saklamaz</span></span>
   </a>
   <div class="spacer"></div>
   <nav>
@@ -1136,7 +1126,6 @@ footer {
     Ücretsiz
     <span class="line2">web uygulamaları</span>
   </h1>
-  <div class="hero-sub hero-rotator" id="heroRot" role="text">Çevrimdışı çalışır. Veri saklamaz.</div>
 </section>
 
 <!-- FILTERS -->
@@ -1407,7 +1396,7 @@ footer {
       <div class="info-item"><span class="info-lbl">Lisans</span><span class="info-val"><a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL v3.0</a></span></div>
       <div class="info-item"><span class="info-lbl">Instagram</span><span class="info-val"><a href="https://instagram.com/sebasmobil" target="_blank" rel="noopener">@sebasmobil</a></span></div>
       <div class="info-item"><span class="info-lbl">E-posta</span><span class="info-val"><a href="mailto:sebasmobil@proton.me">sebasmobil@proton.me</a></span></div>
-      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.22</span></div>
+      <div class="info-item"><span class="info-lbl">Sürüm</span><span class="info-val">v2.26</span></div>
     </div>
   </div>
 </div>
@@ -1443,21 +1432,20 @@ footer {
       <div class="wn-handle"></div>
       <div class="wn-header">
         <span class="wn-badge">🆕 Yenilikler</span>
-        <span class="wn-ver">v2.22</span>
+        <span class="wn-ver">v2.26</span>
       </div>
     </div>
     <div class="wn-scroll-wrap">
       <div class="wn-scroll" id="wnScroll">
         <ul class="wn-list">
 
+          <li>📱 Kategori filtreleri ile sıralama ve görünüm düğmeleri aynı satıra alındı</li>
+          <li>✨ Üstteki sebasmobil yazısı efektle kaybolup yerine "çevrimdışı çalışır, veri saklamaz" yazısı geliyor; diğer dönen bilgiler kaldırıldı</li>
           <li>🔳 Üstteki simgenin animasyonu değişti: yazı değişirken simgenin içi yavaşça dolup boşalıyor</li>
-          <li>🔤 Üstteki iki yazı artık aynı yazı tipinde ve aynı kalınlıkta</li>
           <li>🔳 Üstteki yanıp sönen nokta kaldırıldı; yerine küçük bir kare simge geldi</li>
-          <li>✨ Üstteki sebasmobil yazısı efektle kaybolup yerine küçük harfli "ücretsiz web app" yazısı geliyor, sonra yine sebasmobil'e dönüyor</li>
           <li>⭐ Favori Uygulamalar bölümü eklendi — uygulamaya uzun basıp favorilere ekleyebilirsiniz</li>
           <li>🩺 Sağlık başlığı artık seçtiğin renk temasını izliyor</li>
           <li>› Kategori filtrelerinde devamı olduğunu gösteren ok eklendi, seçilen kategori görünür alana kayıyor</li>
-          <li>✨ Giriş yazıları tek satırda dönüşümlü olarak değişiyor (çevrimdışı çalışır, uygulama sayısı, ücretsiz, süresiz)</li>
           <li>📄 PDF Düzenleyici eklendi — PDF'deki boşlukları azaltıp sayfa sayısını düşürür</li>
           <li>🎨 Çizgili arka plan kaldırıldı, düz sade zemin: aydınlık temada kartlar tam beyaz, koyu temada kartlar arka plandan daha belirgin</li>
           <li>▾ Beşinci uygulamayı açınca eskisi hemen kapanmaz; beşinciyi küçültünce en eski uygulama kapanır</li>
@@ -1595,7 +1583,7 @@ const apps = {
 };
 
 // ── WHATS NEW ──
-const WN_VERSION = 'v2.22';
+const WN_VERSION = 'v2.26';
 function showWhatsNew() {
   const neverShow = localStorage.getItem('wn_never_' + WN_VERSION) === '1';
   if (neverShow) return;
@@ -2114,81 +2102,28 @@ document.addEventListener('keydown', e => {
 
 renderFavs();
 
-// ── GİRİŞ SATIRI: dönüşümlü, animasyonlu ──
-function _heroLines() {
-  const n = document.querySelectorAll('.cat-block:not(#sec-fav) .app-card').length;   // uygulama sayısı otomatik
-  return [
-    { parts: [{ t: 'Çevrimdışı çalışır. Veri saklamaz.' }], hold: 4200 },
-    { parts: [{ t: n + '+', cls: 'acc' }, { t: ' Uygulama' }], hold: 2400 },
-    { parts: [{ t: '0₺', cls: 'acc' }, { t: ' Ücretsiz' }], hold: 2400 },
-    { parts: [{ t: '∞', cls: 'acc' }, { t: ' Süresiz' }], hold: 2400 }
-  ];
-}
-function _rotBuild(parts) {
-  const line = document.createElement('span');
-  line.className = 'rot-line';
-  parts.forEach(p => {
-    Array.from(p.t).forEach(ch => {
-      const s = document.createElement('span');
-      s.className = 'rot-ch' + (p.cls ? ' ' + p.cls : '');
-      s.textContent = ch === ' ' ? '\u00A0' : ch;
-      line.appendChild(s);
-    });
-  });
-  return line;
-}
-(function () {
-  const box = document.getElementById('heroRot');
-  if (!box) return;
-  const IN_STEP = 26;
-  let k = 0;
-  const mount = (line, parts) => {
-    box.textContent = '';
-    box.setAttribute('aria-label', parts.map(p => p.t).join(''));
-    line.setAttribute('aria-hidden', 'true');
-    box.appendChild(line);
-  };
-  const first = _heroLines()[0];
-  mount(_rotBuild(first.parts), first.parts);
-  const step = () => {
-    if (document.hidden) { setTimeout(step, 1000); return; }
-    const list = _heroLines();
-    const cur = box.firstElementChild;
-    const nextIdx = (k + 1) % list.length;
-    // 1) mevcut yazı parça parça (rastgele sırayla) yukarı kayarak kaybolur
-    cur.querySelectorAll('.rot-ch').forEach(c => { c.style.transitionDelay = Math.round(Math.random() * 320) + 'ms'; });
-    cur.classList.add('out');
-    setTimeout(() => {
-      // 2) yeni yazı soldan sağa dalga halinde alttan yukarı gelir
-      const next = _rotBuild(list[nextIdx].parts);
-      next.classList.add('pre');
-      mount(next, list[nextIdx].parts);
-      const chars = next.querySelectorAll('.rot-ch');
-      chars.forEach((c, i) => { c.style.transitionDelay = (i * IN_STEP) + 'ms'; });
-      void next.offsetWidth;                 // başlangıç durumu uygulansın
-      next.classList.remove('pre');
-      k = nextIdx;
-      setTimeout(step, list[k].hold + chars.length * IN_STEP + 450);
-    }, 740);
-  };
-  setTimeout(step, first.hold);
-})();
-
-// ── LOGO YAZISI: sebasmobil ⇄ Ücretsiz web app ──
+// ── LOGO YAZISI: sebasmobil ⇄ çevrimdışı çalışır, veri saklamaz ──
 (function () {
   const box = document.getElementById('logoTxt');
   if (!box) return;
   const lines = Array.from(box.querySelectorAll('.lt-line'));
   if (lines.length < 2) return;
-  const IN_STEP = 42, HOLD = [5200, 3600];
+  const IN_STEP = [42, 24], HOLD = [5200, 4200];
+  // her yazı kelime kelime sarılır (satır sonunda kelime ortadan bölünmesin), harfler ayrı animasyonlanır
   lines.forEach(l => {
-    const txt = l.textContent;
+    const words = l.textContent.split(' ');
     l.textContent = '';
-    Array.from(txt).forEach(ch => {
-      const s = document.createElement('span');
-      s.className = 'lt-ch';
-      s.textContent = ch === ' ' ? '\u00A0' : ch;
-      l.appendChild(s);
+    words.forEach((w, wi) => {
+      const ws = document.createElement('span');
+      ws.className = 'lt-word';
+      Array.from(w).forEach(ch => {
+        const s = document.createElement('span');
+        s.className = 'lt-ch';
+        s.textContent = ch;
+        ws.appendChild(s);
+      });
+      l.appendChild(ws);
+      if (wi < words.length - 1) l.appendChild(document.createTextNode(' '));
     });
   });
   let cur = 0;
@@ -2204,11 +2139,11 @@ function _rotBuild(parts) {
       // 2) yeni yazı soldan sağa dalga halinde alttan yukarı belirir
       inn.classList.add('pre'); inn.classList.remove('out');
       const chars = inn.querySelectorAll('.lt-ch');
-      chars.forEach((c, i) => { c.style.transitionDelay = (i * IN_STEP) + 'ms'; });
+      chars.forEach((c, i) => { c.style.transitionDelay = (i * IN_STEP[nextIdx]) + 'ms'; });
       void inn.offsetWidth;
       inn.classList.remove('pre');
       cur = nextIdx;
-      setTimeout(step, HOLD[cur] + chars.length * IN_STEP + 500);
+      setTimeout(step, HOLD[cur] + chars.length * IN_STEP[cur] + 500);
     }, 780);
   };
   setTimeout(step, HOLD[0]);
